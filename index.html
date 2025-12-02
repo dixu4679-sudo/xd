@@ -110,12 +110,39 @@ const db = firebase.database();
 
 /* ---------------- 简单食物数据库 ---------------- */
 const FOOD_DATA = {
-  "苹果": { kcal: 52, info: "富含维生素 C 和膳食纤维。" },
-  "炸鸡": { kcal: 260, info: "高脂肪高热量，适量食用。" },
-  "沙拉": { kcal: 35, info: "低热量，高纤维，有助减脂。" },
-  "拉面": { kcal: 450, info: "高盐高脂，建议加蔬菜。" },
-  "紫菜包饭": { kcal: 200, info: "碳水较高，可适量。" },
-  "牛油果": { kcal: 160, info: "优质脂肪来源。" }
+  "苹果": { kcal: 52, protein: 0.3, fat: 0.2, carbs: 14, category: "水果", info: "富含维生素C，适合作为加餐。" },
+  "香蕉": { kcal: 96, protein: 1.2, fat: 0.3, carbs: 27, category: "水果", info: "补充能量佳品，适合运动前食用。" },
+  "西瓜": { kcal: 30, protein: 0.6, fat: 0.2, carbs: 8, category: "水果", info: "水分高，补水佳品。" },
+  "草莓": { kcal: 33, protein: 0.7, fat: 0.3, carbs: 8, category: "水果", info: "富含抗氧化物质。" },
+  "葡萄": { kcal: 69, protein: 0.7, fat: 0.2, carbs: 18, category: "水果", info: "含天然糖分较高，适量即可。" },
+
+  "鸡胸肉": { kcal: 165, protein: 31, fat: 3.6, carbs: 0, category: "肉类", info: "高蛋白低脂，是健身常见食材。" },
+  "牛排": { kcal: 271, protein: 26, fat: 19, carbs: 0, category: "肉类", info: "铁含量高，但脂肪也较高。" },
+  "猪里脊": { kcal: 150, protein: 20, fat: 7, carbs: 0, category: "肉类", info: "比五花肉更健康。" },
+  "火鸡胸": { kcal: 135, protein: 29, fat: 1, carbs: 0, category: "肉类", info: "非常低脂的优质蛋白来源。" },
+
+  "米饭": { kcal: 116, protein: 2.6, fat: 0.3, carbs: 25, category: "主食", info: "主食之一，可搭配蔬菜降低升糖。" },
+  "面条": { kcal: 138, protein: 4.5, fat: 0.9, carbs: 27, category: "主食", info: "碳水补给佳品，适量食用。" },
+  "红薯": { kcal: 86, protein: 1.6, fat: 0.1, carbs: 20, category: "主食", info: "升糖比米饭低，是优质碳水。" },
+  "燕麦": { kcal: 389, protein: 17, fat: 7, carbs: 66, category: "主食", info: "富含膳食纤维，早餐好选择。" },
+
+  "沙拉": { kcal: 35, protein: 1, fat: 0.2, carbs: 7, category: "轻食", info: "低热量，适合减脂期间。" },
+  "鸡肉卷": { kcal: 250, protein: 18, fat: 9, carbs: 24, category: "轻食", info: "营养均衡，便携方便。" },
+  "酸奶": { kcal: 59, protein: 3.5, fat: 0.4, carbs: 7, category: "乳制品", info: "含益生菌，有助肠道健康。" },
+
+  "可乐": { kcal: 42, protein: 0, fat: 0, carbs: 11, category: "饮料", info: "含糖高，建议少喝。" },
+  "牛奶": { kcal: 61, protein: 3.2, fat: 3.3, carbs: 5, category: "饮料", info: "钙的良好来源。" },
+  "橙汁": { kcal: 45, protein: 0.7, fat: 0.2, carbs: 10, category: "饮料", info: "维生素C丰富，但含糖也高。" },
+
+  "炸鸡": { kcal: 260, protein: 15, fat: 12, carbs: 20, category: "高热量", info: "高油脂高热量，尽量少吃。" },
+  "薯条": { kcal: 312, protein: 3.4, fat: 15, carbs: 41, category: "高热量", info: "油炸食品，建议减少摄入。" },
+  "披萨": { kcal: 266, protein: 11, fat: 10, carbs: 33, category: "高热量", info: "美味但热量高，适量即可。" },
+
+  "泡菜": { kcal: 40, protein: 1.1, fat: 0.5, carbs: 7, category: "韩国料理", info: "开胃佳品，但含盐较高。" },
+  "紫菜包饭": { kcal: 200, protein: 6, fat: 3, carbs: 36, category: "韩国料理", info: "碳水偏高，适合作为简餐。" },
+  "辣炒年糕": { kcal: 240, protein: 3, fat: 1.2, carbs: 55, category: "韩国料理", info: "高碳水，尽量少吃。" }
+
+
 };
 
 /* ---------------- 登录功能 ---------------- */
@@ -174,3 +201,4 @@ db.ref("logs").on("value", snapshot => {
 
 </body>
 </html>
+
