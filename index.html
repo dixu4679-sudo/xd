@@ -1,909 +1,176 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>健康饮食助手 · Healthy Food Helper</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>健康饮食选择助手 · Healthy Food Helper</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- 简单但好看的内联样式 -->
   <style>
-    :root {
-      --bg: #f5f7fb;
-      --card: #ffffff;
-      --primary: #4b7bec;
-      --primary-soft: #e4edff;
-      --danger: #ff7675;
-      --text-main: #2d3436;
-      --text-sub: #636e72;
-      --border-soft: #dfe6e9;
-      --success: #00b894;
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans CJK SC", "Noto Sans KR", sans-serif;
-    }
-
     body {
       margin: 0;
       padding: 0;
-      background: radial-gradient(circle at top, #e3f2fd 0, #f5f7fb 48%, #f5f7fb 100%);
-      color: var(--text-main);
+      font-family: Arial, "Noto Sans CJK SC", "Noto Sans KR", sans-serif;
+      background: #f5f7fb;
+      color: #2d3436;
     }
-
-    .app {
-      max-width: 1100px;
-      margin: 24px auto;
-      padding: 0 16px 32px;
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
     }
-
-    header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    header .title {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
     h1 {
-      margin: 0;
-      font-size: 26px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    h1 span.emoji {
-      font-size: 30px;
-    }
-
-    .subtitle {
-      margin: 0;
-      font-size: 13px;
-      color: var(--text-sub);
-    }
-
-    .login-card {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 12px 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      min-width: 260px;
-    }
-
-    .login-card label {
-      font-size: 14px;
-      white-space: nowrap;
-    }
-
-    .login-card input {
-      flex: 1;
-      min-width: 130px;
-      border-radius: 999px;
-      border: 1px solid var(--border-soft);
-      padding: 6px 10px;
-      font-size: 14px;
-      outline: none;
-      transition: all .15s ease;
-    }
-
-    .login-card input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(75,126,236,0.18);
-    }
-
-    .btn {
-      border-radius: 999px;
-      border: none;
-      padding: 6px 14px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all .15s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(75,126,236,0.35);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--primary);
-    }
-
-    .btn-ghost:hover {
-      background: var(--primary-soft);
-    }
-
-    .current-user {
-      font-size: 13px;
-      color: var(--text-sub);
-      margin-top: 2px;
-    }
-
-    main {
-      margin-top: 16px;
-      display: grid;
-      grid-template-columns: minmax(0, 2.1fr) minmax(260px, 1fr);
-      gap: 16px;
-    }
-
-    @media (max-width: 900px) {
-      main {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 16px 18px 18px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-      border: 1px solid rgba(255,255,255,0.6);
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .card-title {
-      font-size: 16px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .card-title span.icon {
-      font-size: 18px;
-    }
-
-    .card-subtitle {
-      font-size: 12px;
-      color: var(--text-sub);
-    }
-
-    .field-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-
-    .field-row input,
-    .field-row select {
-      flex: 1;
-      min-width: 140px;
-      border-radius: 999px;
-      border: 1px solid var(--border-soft);
-      padding: 6px 10px;
-      font-size: 14px;
-      outline: none;
-      transition: all .15s ease;
-      background: #fdfefe;
-    }
-
-    .field-row input:focus,
-    .field-row select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(75,126,236,0.18);
-    }
-
-    .chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .chip {
-      border-radius: 999px;
-      border: 1px solid var(--border-soft);
-      padding: 4px 10px;
-      font-size: 11px;
-      color: var(--text-sub);
-      background: #f9fafb;
-      cursor: pointer;
-      transition: all .12s ease;
-    }
-
-    .chip:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      background: #eef3ff;
-    }
-
-    .result-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    .stat-box {
-      border-radius: 12px;
-      padding: 10px 12px;
-      background: #f7f9ff;
-      border: 1px solid #dde4ff;
-      font-size: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .stat-label {
-      color: var(--text-sub);
-      font-size: 11px;
-    }
-
-    .stat-value {
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      white-space: nowrap;
-    }
-
-    .tag-green {
-      background: rgba(0,184,148,0.12);
-      color: #00b894;
-    }
-
-    .tag-orange {
-      background: rgba(255,159,67,0.12);
-      color: #e67e22;
-    }
-
-    .tag-red {
-      background: rgba(255,118,117,0.12);
-      color: #d63031;
-    }
-
-    .recipes {
-      margin-top: 8px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .recipes h4 {
-      margin: 6px 0 4px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .recipes ul {
-      padding-left: 18px;
-      margin: 4px 0;
-    }
-
-    .recipes li {
-      margin-bottom: 3px;
-    }
-
-    .empty {
-      font-size: 13px;
-      color: var(--text-sub);
-      padding: 4px 0;
-    }
-
-    .leaderboard-list {
-      list-style: none;
-      padding: 0;
-      margin: 10px 0 0;
-      font-size: 13px;
-    }
-
-    .leaderboard-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 4px 0;
-      border-bottom: 1px dashed #ecf0f1;
-    }
-
-    .leaderboard-item span.rank {
-      font-size: 11px;
-      color: var(--text-sub);
-      width: 20px;
-    }
-
-    .leaderboard-item span.food {
-      flex: 1;
-      padding: 0 4px;
-    }
-
-    .leaderboard-item span.count {
-      font-size: 12px;
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    .badge {
-      font-size: 11px;
-      padding: 0 6px;
-      border-radius: 999px;
-      background: #f1f3f5;
-      color: var(--text-sub);
-    }
-
-    footer {
-      margin-top: 18px;
-      font-size: 11px;
       text-align: center;
-      color: var(--text-sub);
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+    .login-box, .search-box, .result-box, .rank-box {
+      background: #fff;
+      padding: 16px;
+      margin-top: 16px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+    input, button {
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #4b7bec;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      filter: brightness(1.1);
+    }
+    .food-item {
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
     }
   </style>
 </head>
 <body>
-<div class="app">
-  <header>
-    <div class="title">
-      <h1><span class="emoji">🥗</span> 健康饮食选择助手 <span style="font-size:14px;color:#636e72;">Healthy Food Helper</span></h1>
-      <p class="subtitle">输入食物名称即可查看热量与营养信息，并根据数据显示简单食谱建议与热门食物排行。</p>
-    </div>
 
-    <div class="login-card">
-      <label for="userName">👤 昵称 / 学号：</label>
-      <input id="userName" type="text" placeholder="请输入你的名字">
-      <button class="btn btn-primary" id="loginBtn">登录 / 시작하기</button>
-      <div class="current-user" id="currentUser">当前未登录</div>
-    </div>
-  </header>
+<div class="container">
 
-  <main id="mainSection" style="opacity:0.2;pointer-events:none;">
-    <!-- 左侧：食物查询 + 结果 -->
-    <section class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title"><span class="icon">🔍</span> 食物查询 / 칼로리 검색</div>
-          <div class="card-subtitle">输入常见食物名称（例如：苹果、沙拉、炸鸡、拉面等）。若未知食物，将给出提示。</div>
-        </div>
-        <button class="btn btn-ghost" id="clearResultBtn">清空结果</button>
-      </div>
+  <h1>🥗 健康饮食选择助手 Healthy Food Helper</h1>
 
-      <div class="field-row">
-        <input id="foodInput" type="text" placeholder="请输入食物，如：苹果、炸鸡、沙拉…" list="foodSuggestions">
-        <button class="btn btn-primary" id="searchBtn">查询</button>
-      </div>
+  <!-- 登录模块 -->
+  <div class="login-box">
+    <h3>登录 / 시작하기</h3>
+    <input type="text" id="userName" placeholder="请输入昵称或学号" />
+    <button id="loginBtn">登录</button>
+    <p id="currentUser" style="color:#555;margin-top:6px;">当前未登录</p>
+  </div>
 
-      <datalist id="foodSuggestions">
-        <option value="苹果">
-        <option value="香蕉">
-        <option value="沙拉">
-        <option value="炸鸡">
-        <option value="拉面">
-        <option value="泡菜汤">
-        <option value="紫菜包饭">
-        <option value="牛油果">
-        <option value="白米饭">
-        <option value="可乐">
-      </datalist>
+  <!-- 搜索模块 -->
+  <div class="search-box">
+    <h3>食物查询 / 칼로리 검색</h3>
+    <input type="text" id="foodInput" placeholder="输入食物名称…" />
+    <button id="searchBtn">查询</button>
+  </div>
 
-      <div class="chip-row">
-        <span class="chip" data-food="苹果">🍎 苹果</span>
-        <span class="chip" data-food="沙拉">🥗 沙拉</span>
-        <span class="chip" data-food="炸鸡">🍗 炸鸡</span>
-        <span class="chip" data-food="拉面">🍜 拉面</span>
-        <span class="chip" data-food="紫菜包饭">🍙 紫菜包饭</span>
-        <span class="chip" data-food="牛油果">🥑 牛油果</span>
-      </div>
+  <!-- 显示结果 -->
+  <div class="result-box">
+    <h3>查询结果</h3>
+    <div id="resultArea">暂无数据，请先查询。</div>
+  </div>
 
-      <div id="resultArea">
-        <p class="empty">👉 在上方输入食物名称并点击“查询”，或直接点击上面的推荐标签。</p>
-      </div>
-    </section>
+  <!-- 排行榜 -->
+  <div class="rank-box">
+    <h3>🔥 热门食物 TOP 10</h3>
+    <div id="rankList">加载中…</div>
+  </div>
 
-    <!-- 右侧：热门食物排行榜 -->
-    <aside class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title"><span class="icon">📈</span> 实时热门食物 TOP 10</div>
-          <div class="card-subtitle">基于 Firebase 实时数据库的搜索次数统计。</div>
-        </div>
-      </div>
-      <ul class="leaderboard-list" id="leaderboardList">
-        <li class="empty">暂无数据，请先进行几次查询。</li>
-      </ul>
-    </aside>
-  </main>
-
-  <footer>
-    © 2025 Healthy Food Helper · 统计决策 · Firebase Realtime Database Demo
-  </footer>
 </div>
 
-<!-- Firebase v9 compat（便于和砖块游戏示例同风格写法） -->
+<!-- Firebase JS SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
+<script>
+/* ---------------- Firebase 配置（你的真实配置） ---------------- */
 const firebaseConfig = {
-  apiKey: "AIzaSyAxxxxxxx",
+  apiKey: "AIzaSyBCrHD2f3beCX83FZwpCCqMf2lT7WeF8Lg",
   authDomain: "healthy-eating-and-recreation.firebaseapp.com",
   databaseURL: "https://healthy-eating-and-recreation-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "healthy-eating-and-recreation",
   storageBucket: "healthy-eating-and-recreation.appspot.com",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:abcdef123456"
+  messagingSenderId: "282757556302",
+  appId: "1:282757556302:web:df373651ffe71efca1bb1f",
+  measurementId: "G-BPG2KSLHF7"
 };
 
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-  // 初始化 Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+/* ---------------- 简单食物数据库 ---------------- */
+const FOOD_DATA = {
+  "苹果": { kcal: 52, info: "富含维生素 C 和膳食纤维。" },
+  "炸鸡": { kcal: 260, info: "高脂肪高热量，适量食用。" },
+  "沙拉": { kcal: 35, info: "低热量，高纤维，有助减脂。" },
+  "拉面": { kcal: 450, info: "高盐高脂，建议加蔬菜。" },
+  "紫菜包饭": { kcal: 200, info: "碳水较高，可适量。" },
+  "牛油果": { kcal: 160, info: "优质脂肪来源。" }
+};
 
-  // 简单的食物营养数据（示例，可以按需求扩展）
-  const FOOD_DATA = {
-    "苹果": {
-      nameCN: "苹果",
-      nameEN: "Apple",
-      kcalPer100g: 52,
-      unit: "100g",
-      carbs: 14,
-      protein: 0.3,
-      fat: 0.2,
-      fiber: 2.4,
-      category: "健康水果",
-      healthLevel: "high",
-      tips: "富含膳食纤维与维生素C，作为加餐或早餐配餐很适合。",
-      recipes: [
-        {
-          title: "酸奶水果碗",
-          steps: [
-            "原味酸奶一碗，加入切片苹果、燕麦和少量坚果。",
-            "可以少量淋一点蜂蜜增加风味。",
-            "适合作为轻食早餐或下午茶。"
-          ]
-        }
-      ]
-    },
-    "香蕉": {
-      nameCN: "香蕉",
-      nameEN: "Banana",
-      kcalPer100g: 89,
-      unit: "100g",
-      carbs: 23,
-      protein: 1.1,
-      fat: 0.3,
-      fiber: 2.6,
-      category: "能量水果",
-      healthLevel: "medium",
-      tips: "含有较多糖分和钾，运动前后补充能量不错，但减脂期要注意量。",
-      recipes: [
-        {
-          title: "香蕉花生酱吐司",
-          steps: [
-            "全麦吐司上抹一层薄薄的花生酱。",
-            "摆上香蕉片，撒少量肉桂粉。",
-            "适合作为高能量早餐。"
-          ]
-        }
-      ]
-    },
-    "沙拉": {
-      nameCN: "蔬菜沙拉",
-      nameEN: "Green Salad",
-      kcalPer100g: 35,
-      unit: "100g（不含重口味酱汁）",
-      carbs: 5,
-      protein: 1.5,
-      fat: 1,
-      fiber: 2.5,
-      category: "轻食 / 减脂",
-      healthLevel: "high",
-      tips: "注意选择橄榄油、柠檬汁等清爽酱汁，避免高糖高脂沙拉酱。",
-      recipes: [
-        {
-          title: "鸡胸肉混合蔬菜沙拉",
-          steps: [
-            "生菜、紫甘蓝、小番茄、黄瓜切块混合。",
-            "加入煎或煮熟的鸡胸肉块。",
-            "用橄榄油+柠檬汁+少量盐和黑胡椒调味。"
-          ]
-        }
-      ]
-    },
-    "炸鸡": {
-      nameCN: "炸鸡",
-      nameEN: "Fried Chicken",
-      kcalPer100g: 260,
-      unit: "100g（带皮）",
-      carbs: 8,
-      protein: 18,
-      fat: 17,
-      fiber: 0,
-      category: "高脂 / 高热量",
-      healthLevel: "low",
-      tips: "偶尔少量享用可以，但要注意总热量和油脂摄入。",
-      recipes: [
-        {
-          title: "烤箱版低油鸡块替代",
-          steps: [
-            "鸡胸肉切块，用少量橄榄油、大蒜粉、胡椒和少许盐腌制。",
-            "裹上全麦面包糠，放入烤箱烘烤而非油炸。",
-            "搭配沙拉一起吃，可降低整体负担。"
-          ]
-        }
-      ]
-    },
-    "拉面": {
-      nameCN: "方便拉面",
-      nameEN: "Instant Ramen",
-      kcalPer100g: 450,
-      unit: "一块面饼约 80g 干重",
-      carbs: 60,
-      protein: 9,
-      fat: 17,
-      fiber: 3,
-      category: "高盐 / 高脂",
-      healthLevel: "low",
-      tips: "注意汤汁钠含量高，可以只用一半调料包，并多加蔬菜和蛋。",
-      recipes: [
-        {
-          title: "升级版蔬菜鸡蛋拉面",
-          steps: [
-            "煮面时加入小白菜、胡萝卜丝、金针菇等蔬菜。",
-            "加入一个鸡蛋或豆腐块提升蛋白质。",
-            "汤料包只用一半，减少盐分摄入。"
-          ]
-        }
-      ]
-    },
-    "泡菜汤": {
-      nameCN: "泡菜汤",
-      nameEN: "Kimchi Stew",
-      kcalPer100g: 80,
-      unit: "一碗约 250–300g",
-      carbs: 6,
-      protein: 6,
-      fat: 3,
-      fiber: 1.5,
-      category: "韩式常见主食配菜",
-      healthLevel: "medium",
-      tips: "搭配适量米饭和配菜可以成为较均衡的一餐，注意盐分。",
-      recipes: [
-        {
-          title: "豆腐猪肉泡菜汤",
-          steps: [
-            "用少量猪肉炒香泡菜，加入洋葱和大葱。",
-            "加入水或高汤，小火煮开后加入豆腐块。",
-            "最后根据口味加入少量辣椒粉和酱油调味。"
-          ]
-        }
-      ]
-    },
-    "紫菜包饭": {
-      nameCN: "紫菜包饭",
-      nameEN: "Gimbap",
-      kcalPer100g: 200,
-      unit: "一卷约 250–300g",
-      carbs: 30,
-      protein: 5,
-      fat: 6,
-      fiber: 2,
-      category: "方便主食",
-      healthLevel: "medium",
-      tips: "选择蔬菜和蛋为主的内馅可以相对更健康，少用加工肉类。",
-      recipes: [
-        {
-          title: "蔬菜鸡蛋紫菜包饭",
-          steps: [
-            "用适量米饭铺在紫菜上，铺得不要太厚。",
-            "中间放入黄瓜条、胡萝卜条、鸡蛋条和少量芝麻油。",
-            "卷紧后切段，可搭配味噌汤或泡菜一起吃。"
-          ]
-        }
-      ]
-    },
-    "牛油果": {
-      nameCN: "牛油果",
-      nameEN: "Avocado",
-      kcalPer100g: 160,
-      unit: "100g",
-      carbs: 9,
-      protein: 2,
-      fat: 15,
-      fiber: 7,
-      category: "优质脂肪",
-      healthLevel: "high",
-      tips: "富含单不饱和脂肪酸和纤维，适量搭配全麦面包或沙拉非常适合。",
-      recipes: [
-        {
-          title: "牛油果鸡蛋吐司",
-          steps: [
-            "全麦吐司烤香后，抹上捣碎的牛油果。",
-            "上面放一颗水煮蛋或溏心蛋，撒少量黑胡椒和盐。",
-            "是一份营养均衡的简单早午餐。"
-          ]
-        }
-      ]
-    },
-    "白米饭": {
-      nameCN: "白米饭",
-      nameEN: "White Rice",
-      kcalPer100g: 130,
-      unit: "一碗熟饭约 150–200g",
-      carbs: 28,
-      protein: 2.4,
-      fat: 0.3,
-      fiber: 0.4,
-      category: "主食",
-      healthLevel: "medium",
-      tips: "控制份量、搭配足够蔬菜和蛋白质，白米饭也可以是健康饮食的一部分。",
-      recipes: [
-        {
-          title: "一碗均衡配饭",
-          steps: [
-            "米饭控制在一碗以内。",
-            "配一份蔬菜类小菜（凉拌或清炒）。",
-            "再配一份蛋白质，如鸡胸肉、豆腐或鱼。"
-          ]
-        }
-      ]
-    },
-    "可乐": {
-      nameCN: "可乐饮料",
-      nameEN: "Cola",
-      kcalPer100g: 42,
-      unit: "一听 330ml 约 140 kcal",
-      carbs: 11,
-      protein: 0,
-      fat: 0,
-      fiber: 0,
-      category: "含糖饮料",
-      healthLevel: "low",
-      tips: "几乎只提供糖分和热量，建议尽量减少频率，可选择无糖版本或白开水 / 气泡水替代。",
-      recipes: [
-        {
-          title: "无糖替代饮品小建议",
-          steps: [
-            "尝试无糖气泡水加柠檬片或青柠片。",
-            "或者自制冷泡茶代替含糖饮料。",
-            "减少含糖饮料摄入有助于控制体重和血糖波动。"
-          ]
-        }
-      ]
-    }
-  };
+/* ---------------- 登录功能 ---------------- */
+let currentUser = null;
+document.getElementById("loginBtn").onclick = () => {
+  const name = document.getElementById("userName").value.trim();
+  if (!name) return alert("请输入昵称或学号！");
+  currentUser = name;
+  document.getElementById("currentUser").innerText = "当前用户：" + currentUser;
+};
 
-  let currentUser = null;
+/* ---------------- 搜索功能 ---------------- */
+document.getElementById("searchBtn").onclick = () => {
+  const name = document.getElementById("foodInput").value.trim();
+  if (!name) return alert("请输入食物！");
 
-  const userNameInput = document.getElementById("userName");
-  const loginBtn = document.getElementById("loginBtn");
-  const currentUserLabel = document.getElementById("currentUser");
-  const mainSection = document.getElementById("mainSection");
-  const foodInput = document.getElementById("foodInput");
-  const searchBtn = document.getElementById("searchBtn");
-  const resultArea = document.getElementById("resultArea");
-  const leaderboardList = document.getElementById("leaderboardList");
-  const clearResultBtn = document.getElementById("clearResultBtn");
-  const chips = document.querySelectorAll(".chip");
-
-  loginBtn.addEventListener("click", () => {
-    const name = userNameInput.value.trim();
-    if (!name) {
-      alert("请先输入你的昵称或学号。");
-      userNameInput.focus();
-      return;
-    }
-    currentUser = name;
-    currentUserLabel.textContent = "当前用户：" + currentUser;
-    mainSection.style.opacity = "1";
-    mainSection.style.pointerEvents = "auto";
-  });
-
-  // 回车登录优化
-  userNameInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      loginBtn.click();
-    }
-  });
-
-  // 查询按钮
-  searchBtn.addEventListener("click", () => {
-    const name = foodInput.value.trim();
-    if (!name) {
-      alert("请输入食物名称。");
-      return;
-    }
-    handleSearch(name);
-  });
-
-  // 回车查询优化
-  foodInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      searchBtn.click();
-    }
-  });
-
-  // 快捷标签
-  chips.forEach(chip => {
-    chip.addEventListener("click", () => {
-      const foodName = chip.getAttribute("data-food");
-      foodInput.value = foodName;
-      handleSearch(foodName);
-    });
-  });
-
-  // 清空结果
-  clearResultBtn.addEventListener("click", () => {
-    resultArea.innerHTML = '<p class="empty">👉 已清空结果，请重新输入食物名称进行查询。</p>';
-  });
-
-  function handleSearch(nameRaw) {
-    // 可做简单规范化：去掉空格
-    const name = nameRaw.replace(/\s+/g, "");
-    const data = FOOD_DATA[name];
-
-    if (!data) {
-      resultArea.innerHTML = `
-        <p class="empty">暂未收录 <strong>${escapeHtml(nameRaw)}</strong> 的详细信息。你可以尝试使用更常见的食物名称（如“苹果”“沙拉”“炸鸡”“拉面”等），或在报告中说明这是一个示例系统。</p>
-      `;
-      return;
-    }
-
-    // 显示结果
-    renderFoodResult(data);
-
-    // 将查询记录写入 Firebase（用于统计热门食物）
-    try {
-      const payload = {
-        user: currentUser || "Guest",
-        foodName: data.nameCN,
-        foodKey: name,
-        timestamp: Date.now()
-      };
-      db.ref("foodSearchLogs").push(payload);
-    } catch (err) {
-      console.warn("写入 Firebase 出错：", err);
-    }
+  if (!FOOD_DATA[name]) {
+    document.getElementById("resultArea").innerHTML = "数据库中暂无该食物。";
+    return;
   }
 
-  function getHealthTag(level) {
-    if (level === "high") {
-      return '<span class="tag tag-green">健康推荐</span>';
-    } else if (level === "medium") {
-      return '<span class="tag tag-orange">适量食用</span>';
-    } else {
-      return '<span class="tag tag-red">注意控制</span>';
-    }
+  const f = FOOD_DATA[name];
+  document.getElementById("resultArea").innerHTML =
+    `<strong>${name}</strong><br>热量：${f.kcal} kcal<br>${f.info}`;
+
+  // 写入 Firebase 统计记录
+  db.ref("logs").push({
+    user: currentUser || "Guest",
+    food: name,
+    timestamp: Date.now()
+  });
+};
+
+/* ---------------- 排行榜实时更新 ---------------- */
+db.ref("logs").on("value", snapshot => {
+  const logs = snapshot.val();
+  if (!logs) {
+    document.getElementById("rankList").innerHTML = "暂无数据。";
+    return;
   }
 
-  function renderFoodResult(data) {
-    const { nameCN, nameEN, kcalPer100g, unit, carbs, protein, fat, fiber, category, healthLevel, tips, recipes } = data;
-
-    let recipeHtml = "";
-    if (recipes && recipes.length > 0) {
-      recipeHtml += '<div class="recipes"><h4>🍽 推荐食谱 / Recipe</h4>';
-      recipeHtml += '<ul>';
-      recipes.forEach(r => {
-        recipeHtml += `<li><strong>${escapeHtml(r.title)}：</strong>`;
-        if (r.steps && r.steps.length) {
-          recipeHtml += "<ul>";
-          r.steps.forEach(s => {
-            recipeHtml += `<li>${escapeHtml(s)}</li>`;
-          });
-          recipeHtml += "</ul>";
-        }
-        recipeHtml += "</li>";
-      });
-      recipeHtml += '</ul></div>';
-    }
-
-    resultArea.innerHTML = `
-      <div class="result-grid">
-        <div class="stat-box">
-          <div class="stat-label">食物名称</div>
-          <div class="stat-value">${escapeHtml(nameCN)} <span class="badge">${escapeHtml(nameEN)}</span></div>
-          <div style="margin-top:4px;">类型：${escapeHtml(category)} ${getHealthTag(healthLevel)}</div>
-        </div>
-
-        <div class="stat-box">
-          <div class="stat-label">能量 / Energy</div>
-          <div class="stat-value">${kcalPer100g} kcal</div>
-          <div style="font-size:11px;color:#636e72;">参考单位：${escapeHtml(unit)}</div>
-        </div>
-
-        <div class="stat-box">
-          <div class="stat-label">碳水 / 蛋白质 / 脂肪</div>
-          <div class="stat-value">${carbs}g / ${protein}g / ${fat}g</div>
-          <div style="font-size:11px;color:#636e72;">膳食纤维约 ${fiber}g</div>
-        </div>
-
-        <div class="stat-box">
-          <div class="stat-label">简要建议</div>
-          <div style="font-size:13px;line-height:1.5;">${escapeHtml(tips)}</div>
-        </div>
-      </div>
-      ${recipeHtml}
-    `;
-  }
-
-  // 监听 Firebase 统计热门食物
-  db.ref("foodSearchLogs").on("value", snapshot => {
-    const val = snapshot.val();
-    if (!val) {
-      leaderboardList.innerHTML = '<li class="empty">暂无数据，请先进行几次查询。</li>';
-      return;
-    }
-    const counts = {};
-    Object.keys(val).forEach(key => {
-      const log = val[key];
-      if (!log || !log.foodKey) return;
-      const fk = log.foodKey;
-      if (!counts[fk]) {
-        counts[fk] = { count: 0, name: log.foodName || fk };
-      }
-      counts[fk].count += 1;
-    });
-
-    const items = Object.keys(counts)
-      .map(k => counts[k])
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 10);
-
-    if (items.length === 0) {
-      leaderboardList.innerHTML = '<li class="empty">暂无数据，请先进行几次查询。</li>';
-      return;
-    }
-
-    leaderboardList.innerHTML = "";
-    items.forEach((item, idx) => {
-      const li = document.createElement("li");
-      li.className = "leaderboard-item";
-      li.innerHTML = `
-        <span class="rank">${idx + 1}.</span>
-        <span class="food">${escapeHtml(item.name)}</span>
-        <span class="count">${item.count} 次</span>
-      `;
-      leaderboardList.appendChild(li);
-    });
+  const count = {};
+  Object.values(logs).forEach(log => {
+    if (!count[log.food]) count[log.food] = 0;
+    count[log.food]++;
   });
 
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, function (m) {
-      switch (m) {
-        case "&": return "&amp;";
-        case "<": return "&lt;";
-        case ">": return "&gt;";
-        case '"': return "&quot;";
-        case "'": return "&#39;";
-        default: return m;
-      }
-    });
-  }
+  const items = Object.entries(count)
+    .sort((a,b) => b[1]-a[1])
+    .slice(0,10)
+    .map(([name, times]) => `<div class="food-item"><span>${name}</span><span>${times} 次</span></div>`);
+
+  document.getElementById("rankList").innerHTML = items.join("");
+});
 </script>
+
 </body>
 </html>
