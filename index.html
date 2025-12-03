@@ -992,12 +992,15 @@
 
       /* 游戏页 */
       gameLevel1: '第 1 关 · 初阶',
-      gameInfo: '点击两个相同食物即可消除 · 每关 60 秒',
+      gameLevel2: '第 2 关 · 进阶',
+      gameInfo: '点击两个相同食物即可消除 · 每关限定时间',
       gameStart: '开始游戏',
       timerPrefix: '⏱ ',
       timerSuffix: ' 秒',
       matchPrefix: '已消除：',
       matchSuffix: ' 组',
+      nextLevelToast: '恭喜通关！自动进入第 2 关，时间会更紧张一点～',
+      allClearToast: '太棒了！你已完成所有关卡，可以点击「开始游戏」再从第 1 关玩起。',
 
       /* 其他 */
       recipeTitle: '推荐搭配：',
@@ -1045,12 +1048,15 @@
 
       /* 游戏页 */
       gameLevel1: '1단계 · 기초',
-      gameInfo: '같은 음식 두 개를 클릭하면 제거됩니다 · 각 단계 60초',
+      gameLevel2: '2단계 · 응용',
+      gameInfo: '같은 음식 두 개를 클릭하면 제거됩니다 · 각 단계 제한 시간',
       gameStart: '게임 시작',
       timerPrefix: '⏱ ',
       timerSuffix: ' 초',
       matchPrefix: '제거한 쌍: ',
       matchSuffix: ' 개',
+      nextLevelToast: '1단계를 클리어했습니다! 잠시 후 2단계가 시작됩니다. 시간이 조금 더 짧아요.',
+      allClearToast: '모든 단계를 완료했습니다! 다시 1단계부터 도전해 보세요.',
 
       /* 其他 */
       recipeTitle: '추천 조합:',
@@ -1385,12 +1391,18 @@
     if (statWarningLabelEl) statWarningLabelEl.textContent = t.statWarningLabel;
     if (topFoodsTitleEl)    topFoodsTitleEl.textContent    = t.topFoodsTitle;
 
-    // 游戏页文本
-    if (gameLevelText)  gameLevelText.textContent = t.gameLevel1;
+    // 游戏页文本（关卡标题和计时器在重置时也会根据关卡再更新）
     if (gameInfoText)   gameInfoText.textContent  = t.gameInfo;
+    if (gameLevelText) {
+      gameLevelText.textContent = (currentLevel === 1) ? t.gameLevel1 : t.gameLevel2;
+    }
     if (gameStartBtn)   gameStartBtn.textContent  = t.gameStart;
-    if (timerTextEl)    timerTextEl.textContent   = t.timerPrefix + '60' + t.timerSuffix;
-    if (matchCountText) matchCountText.textContent = t.matchPrefix + '0' + t.matchSuffix;
+    if (timerTextEl) {
+      timerTextEl.textContent = t.timerPrefix + timeLeft + t.timerSuffix;
+    }
+    if (matchCountText) {
+      matchCountText.textContent = t.matchPrefix + matchedPairs + t.matchSuffix;
+    }
 
     // 其他
     if (recipeTitle)    recipeTitle.textContent   = t.recipeTitle;
@@ -1590,7 +1602,10 @@
     });
   });
 
-  /* ===================== 简化版「连连看」小游戏 ===================== */
+  /* ===================== 简化版「连连看」小游戏（两关） ===================== */
+  const MAX_LEVEL = 2;
+  let currentLevel = 1;
+
   let gameRunning = false;
   let timerId = null;
   let timeLeft = 60;
@@ -1598,43 +1613,51 @@
   let matchedPairs = 0;
   let totalPairs = 0;
 
+  function getLevelTime() {
+    // 1 关 60 秒，2 关 45 秒
+    return currentLevel === 1 ? 60 : 45;
+  }
+
   function resetGameState () {
     gameRunning = false;
     if (timerId) clearInterval(timerId);
     timerId = null;
-    timeLeft = 60;
+    timeLeft = getLevelTime();
     openedCard = null;
     matchedPairs = 0;
+
     const t = TEXTS[currentLang];
     if (matchCountText) {
       matchCountText.textContent = t.matchPrefix + '0' + t.matchSuffix;
     }
     if (timerTextEl) {
-      timerTextEl.textContent = t.timerPrefix + '60' + t.timerSuffix;
+      timerTextEl.textContent = t.timerPrefix + timeLeft + t.timerSuffix;
+    }
+    if (gameLevelText) {
+      gameLevelText.textContent = currentLevel === 1 ? t.gameLevel1 : t.gameLevel2;
     }
   }
 
-  function buildLevel1Board () {
+  function buildBoardForCurrentLevel () {
     if (!gameBoard) return;
     gameBoard.innerHTML = '';
     resetGameState();
 
-    // 使用 6 种食物，每种 4 张，共 24 张
+    // 使用 6 种食物，每种 4 张，共 24 张（两关相同棋盘，时间不同）
     const pool = ['apple', 'rice', 'milk', 'chicken', 'carrot', 'cola'];
     const ids = [];
     pool.forEach(id => {
-      ids.push(id, id, id, id);
+      ids.push(id, id, id, id); // 每种 4 张
     });
 
     const cards = ids.slice(0, 24);
+    totalPairs = cards.length / 2;
 
     // 洗牌
     for (let i = cards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [cards[i], cards[j]] = [cards[j], cards[i]];
     }
-
-    totalPairs = cards.length / 2;
 
     cards.forEach((id, index) => {
       const food = FOOD_BY_ID[id];
@@ -1666,16 +1689,23 @@
   }
 
   function startGame () {
-    buildLevel1Board();
+    buildBoardForCurrentLevel();
     gameRunning = true;
-    timeLeft = 60;
+    timeLeft = getLevelTime();
     const t = TEXTS[currentLang];
-    if (gameInfoText) gameInfoText.textContent = t.gameInfo;
+    if (gameLevelText) {
+      gameLevelText.textContent = currentLevel === 1 ? t.gameLevel1 : t.gameLevel2;
+    }
+    if (timerTextEl) {
+      timerTextEl.textContent = t.timerPrefix + timeLeft + t.timerSuffix;
+    }
     startTimer();
   }
 
   if (gameStartBtn) {
     gameStartBtn.addEventListener('click', () => {
+      // 每次手动点“开始游戏”都从第 1 关重新开始
+      currentLevel = 1;
       startGame();
     });
   }
@@ -1718,9 +1748,17 @@
         if (matchedPairs >= totalPairs) {
           gameRunning = false;
           if (timerId) clearInterval(timerId);
-          showToast(currentLang === 'zh'
-            ? '恭喜通关！你已经配对完本关所有食物 🎉'
-            : '축하합니다! 이번 단계의 모든 음식을 맞췄어요 🎉');
+          const t2 = TEXTS[currentLang];
+
+          if (currentLevel < MAX_LEVEL) {
+            showToast(t2.nextLevelToast);
+            currentLevel += 1;
+            setTimeout(() => {
+              startGame();
+            }, 1400);
+          } else {
+            showToast(t2.allClearToast);
+          }
         }
       } else {
         // 不匹配
@@ -1738,3 +1776,4 @@
 </script>
 </body>
 </html>
+
