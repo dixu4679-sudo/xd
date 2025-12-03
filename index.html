@@ -214,9 +214,6 @@
       }
     }
 
-    /* 游戏与统计相关内容的CSS */
-    /* 请参考前面给出的CSS配置，保持样式的一致性 */
-
   </style>
 </head>
 <body>
@@ -263,49 +260,30 @@
         </div>
       </div>
     </div>
-
-    <!-- 游戏说明弹窗 -->
-    <div class="game-modal-overlay" id="gameModal">
-      <div class="game-modal">
-        <h3 id="gameModalTitle">小游戏说明</h3>
-        <p id="gameModalBody">
-          <ul>
-            <li>点击「开始游戏」后，会出现 24 张随机排列的食物卡片。</li>
-            <li>选择两个相同图标，如果它们可以用<strong>不超过 3 段直线</strong>连接（最多拐弯 2 次，并且连线不能穿过其他卡片），即可消除一对。</li>
-            <li>如果选错了，会扣 <strong>3 秒</strong> 游戏时间。</li>
-            <li>第 1 关有 60 秒，第 2 关只有 45 秒，更考验速度和观察力。</li>
-          </ul>
-        </p>
-        <div class="game-modal-actions">
-          <button class="btn-ghost" id="gameModalSecondaryBtn">稍后再看</button>
-          <button class="btn-game" id="gameModalPrimaryBtn">开始第 1 关</button>
-        </div>
-      </div>
-    </div>
-
-    <script>
-      (function () {
-        'use strict';
-
-        /* ===================== 基础多语言文本 ===================== */
-        const TEXTS = {
-          zh: {
-            gameIntroTitle: '怎么玩？',
-            gameIntroBody: 
-              '<ul>' +
-              '<li>点击「开始游戏」后，会出现 24 张随机排列的食物卡片。</li>' +
-              '<li>选择两个相同图标，如果它们可以用<strong>不超过 3 段直线</strong>连接（最多拐弯 2 次，并且连线不能穿过其他卡片），即可消除一对。</li>' +
-              '<li>如果选错了，会扣 <strong>3 秒</strong> 游戏时间。</li>' +
-              '<li>第 1 关有 60 秒，第 2 关只有 45 秒，更考验速度和观察力。</li>' +
-              '</ul>',
-            nextLevelToast: '太棒！本关已完成，马上进入下一关，时间会更紧一点～',
-            allClearToast: '恭喜你通关所有关卡，可以去统计页面看看自己的表现～',
-            gameInfo: '点击两个相同食物：只要可以用≤3条直线连接（可拐弯，不能穿过其他卡片），就能消除一对；点错扣 3 秒。',
-          }
-        };
-        // 其他初始化代码...
-      })();
-    </script>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 欢迎界面的按钮事件
+      const welcomeOverlay = document.getElementById('welcomeOverlay');
+      const startBtn = document.getElementById('welcomeStartBtn');
+      const langBtnZh = document.getElementById('langBtnZh');
+      const langBtnKo = document.getElementById('langBtnKo');
+
+      // 点击进入小助手，隐藏欢迎界面
+      startBtn.addEventListener('click', function() {
+        welcomeOverlay.style.display = 'none';
+      });
+
+      // 语言切换事件
+      langBtnZh.addEventListener('click', function() {
+        alert('切换到中文');
+      });
+
+      langBtnKo.addEventListener('click', function() {
+        alert('切换到韩语');
+      });
+    });
+  </script>
 </body>
 </html>
