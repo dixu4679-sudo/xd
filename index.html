@@ -1,3 +1,6 @@
+我来逐一解决这些问题。以下是修改后的完整代码：
+
+```html
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -7,16 +10,16 @@
 
   <style>
     :root {
-      /* 背景与主色：极浅粉 + 很浅蓝 */
-      --bg: #fff4f8;
-      --bg-soft: #f7f9ff;
+      /* 背景与主色：浅黄色和浅蓝色搭配 */
+      --bg: #fffef5;
+      --bg-soft: #f8faff;
       --card: #ffffff;
 
-      --primary: #ff8fb3;      /* 主题粉 */
-      --primary-soft: #ffe5f0; /* 很淡的粉色块 */
+      --primary: #5d8aff;      /* 主题蓝 */
+      --primary-soft: #e8f0ff; /* 很淡的蓝色 */
 
-      --accent-blue: #7bb5ff;  /* 点缀蓝 */
-      --accent-blue-soft: #e3efff;
+      --accent-yellow: #ffc145;  /* 点缀黄 */
+      --accent-yellow-soft: #fff5e0;
 
       --danger: #ff7675;
       --success: #00b894;
@@ -26,7 +29,7 @@
       --text-sub: #636e72;
 
       --border-soft: #e3e7f0;
-      --shadow-soft: 0 18px 45px rgba(170, 188, 212, 0.24);
+      --shadow-soft: 0 18px 45px rgba(170, 188, 212, 0.15);
     }
 
     * {
@@ -39,7 +42,7 @@
       margin: 0;
       padding: 0;
       min-height: 100vh;
-      background: radial-gradient(circle at top, #ffeef7 0, #fff4f8 45%, #f8fbff 100%);
+      background: radial-gradient(circle at top, #fffef5 0, #f8faff 100%);
       color: var(--text-main);
     }
 
@@ -53,7 +56,7 @@
     .welcome-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top, #ffeef7 0, #fff4f8 50%, #ffffff 100%);
+      background: radial-gradient(circle at top, #fffef5 0, #f8faff 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -71,6 +74,7 @@
       flex-direction: column;
       gap: 18px;
       position: relative;
+      border: 1px solid var(--border-soft);
     }
 
     .welcome-tag {
@@ -94,11 +98,12 @@
       width: 52px;
       height: 52px;
       border-radius: 20px;
-      background: radial-gradient(circle at 30% 20%, #ffe5f0 0, #ffc7da 40%, #ff9fc6 100%);
+      background: linear-gradient(135deg, #5d8aff, #8fb7ff);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 30px;
+      color: white;
     }
 
     .welcome-title-block h1 {
@@ -111,6 +116,45 @@
       margin: 4px 0 0;
       font-size: 13px;
       color: var(--text-sub);
+    }
+
+    /* 语言选择在登录之上 */
+    .lang-section {
+      margin-bottom: 10px;
+    }
+
+    .lang-label {
+      font-size: 13px;
+      margin-bottom: 8px;
+      display: block;
+      font-weight: 500;
+    }
+
+    .lang-pill-row {
+      display: inline-flex;
+      gap: 6px;
+      padding: 4px;
+      border-radius: 999px;
+      background: #f7f8ff;
+      border: 1px solid #ecf0ff;
+    }
+
+    .lang-pill {
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      padding: 4px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--text-sub);
+      transition: all 0.2s;
+    }
+
+    .lang-pill.active {
+      background: #ffffff;
+      box-shadow: 0 0 0 1px rgba(93, 138, 255, 0.7);
+      color: var(--primary);
+      font-weight: 600;
     }
 
     .welcome-form {
@@ -133,7 +177,7 @@
 
     .welcome-input {
       width: 100%;
-      border-radius: 999px;
+      border-radius: 12px;
       border: 1px solid var(--border-soft);
       padding: 9px 14px;
       font-size: 14px;
@@ -143,34 +187,8 @@
 
     .welcome-input:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(255, 143, 179, 0.25);
+      box-shadow: 0 0 0 2px rgba(93, 138, 255, 0.25);
       background: #ffffff;
-    }
-
-    .lang-pill-row {
-      display: inline-flex;
-      gap: 6px;
-      padding: 4px;
-      border-radius: 999px;
-      background: #f7f8ff;
-      border: 1px solid #ecf0ff;
-    }
-
-    .lang-pill {
-      border-radius: 999px;
-      border: none;
-      background: transparent;
-      padding: 4px 10px;
-      font-size: 13px;
-      cursor: pointer;
-      color: var(--text-sub);
-    }
-
-    .lang-pill.active {
-      background: #ffffff;
-      box-shadow: 0 0 0 1px rgba(123, 181, 255, 0.7);
-      color: var(--accent-blue);
-      font-weight: 600;
     }
 
     .welcome-btn-row {
@@ -181,28 +199,31 @@
     }
 
     .btn-primary {
-      border-radius: 999px;
+      border-radius: 12px;
       border: none;
-      padding: 9px 20px;
+      padding: 10px 24px;
       font-size: 14px;
       cursor: pointer;
-      background: linear-gradient(135deg, #ff8fb3, #ffb0c9);
+      background: linear-gradient(135deg, #5d8aff, #7ba2ff);
       color: #fff;
-      box-shadow: 0 10px 22px rgba(255, 143, 179, 0.5);
+      box-shadow: 0 10px 22px rgba(93, 138, 255, 0.3);
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      font-weight: 600;
+      transition: all 0.2s;
     }
 
     .btn-primary:hover {
-      filter: brightness(1.03);
       transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(93, 138, 255, 0.4);
     }
 
     .welcome-tip {
       font-size: 11px;
       color: var(--text-sub);
       margin-top: 2px;
+      line-height: 1.5;
     }
 
     @media (max-width: 720px) {
@@ -213,7 +234,7 @@
 
     /* ========== 主布局：左侧导航 + 右侧内容 ========== */
     .layout {
-      margin-top: 80px; /* 避免欢迎卡片关闭前看到 */
+      margin-top: 80px;
       display: flex;
       gap: 16px;
       min-height: 520px;
@@ -223,9 +244,9 @@
       width: 230px;
       min-width: 210px;
       border-radius: 20px;
-      background: linear-gradient(160deg, rgba(255, 239, 245, 0.98), rgba(243, 249, 255, 0.98));
-      border: 1px solid rgba(255, 212, 232, 0.85);
-      box-shadow: 0 14px 40px rgba(216, 189, 211, 0.45);
+      background: linear-gradient(160deg, rgba(255, 254, 245, 0.98), rgba(248, 250, 255, 0.98));
+      border: 1px solid rgba(227, 233, 248, 0.85);
+      box-shadow: 0 14px 40px rgba(216, 220, 240, 0.25);
       padding: 16px 14px;
       display: flex;
       flex-direction: column;
@@ -258,11 +279,12 @@
       width: 36px;
       height: 36px;
       border-radius: 16px;
-      background: radial-gradient(circle at 30% 20%, #fff, #ffd5e6 60%, #ff9fc6 100%);
+      background: linear-gradient(135deg, #5d8aff, #8fb7ff);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 22px;
+      color: white;
     }
 
     .sidebar-title {
@@ -280,7 +302,7 @@
       padding: 8px 10px;
       border-radius: 14px;
       background: rgba(255, 255, 255, 0.95);
-      border: 1px dashed rgba(255, 196, 215, 0.9);
+      border: 1px dashed rgba(93, 138, 255, 0.3);
       font-size: 12px;
       display: flex;
       flex-direction: column;
@@ -295,7 +317,7 @@
 
     .sidebar-lang-indicator {
       font-size: 11px;
-      color: var(--accent-blue);
+      color: var(--primary);
     }
 
     .nav-section-label {
@@ -317,7 +339,7 @@
     }
 
     .nav-btn {
-      border-radius: 999px;
+      border-radius: 12px;
       border: none;
       padding: 7px 11px;
       font-size: 13px;
@@ -328,7 +350,8 @@
       gap: 8px;
       background: rgba(255, 255, 255, 0.9);
       color: var(--text-main);
-      border: 1px solid rgba(255, 220, 233, 0.8);
+      border: 1px solid rgba(227, 233, 248, 0.8);
+      transition: all 0.2s;
     }
 
     .nav-btn span.icon {
@@ -336,14 +359,10 @@
     }
 
     .nav-btn.active {
-      background: linear-gradient(135deg, #ff8fb3, #ffb5cc);
+      background: linear-gradient(135deg, #5d8aff, #7ba2ff);
       color: #ffffff;
       border-color: transparent;
-      box-shadow: 0 10px 22px rgba(255, 143, 179, 0.55);
-    }
-
-    .nav-btn.active .icon {
-      transform: translateY(-0.5px);
+      box-shadow: 0 10px 22px rgba(93, 138, 255, 0.25);
     }
 
     .nav-footer {
@@ -357,7 +376,7 @@
     .nav-logout {
       margin-top: 6px;
       font-size: 11px;
-      color: #ff6b81;
+      color: #5d8aff;
       cursor: pointer;
       text-decoration: underline;
     }
@@ -399,8 +418,8 @@
       font-size: 11px;
       padding: 2px 7px;
       border-radius: 999px;
-      background: var(--accent-blue-soft);
-      color: var(--accent-blue);
+      background: var(--accent-yellow-soft);
+      color: var(--accent-yellow);
     }
 
     .section {
@@ -422,7 +441,7 @@
     .search-input {
       flex: 1;
       min-width: 180px;
-      border-radius: 999px;
+      border-radius: 12px;
       border: 1px solid var(--border-soft);
       padding: 8px 12px;
       font-size: 14px;
@@ -431,24 +450,25 @@
     }
 
     .search-input:focus {
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 2px rgba(123, 181, 255, 0.25);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(93, 138, 255, 0.25);
       background: #ffffff;
     }
 
     .btn-soft {
-      border-radius: 999px;
+      border-radius: 12px;
       border: none;
-      padding: 8px 13px;
+      padding: 8px 16px;
       font-size: 13px;
       cursor: pointer;
-      background: #f4f6ff;
-      color: var(--accent-blue);
+      background: var(--primary-soft);
+      color: var(--primary);
       border: 1px solid #dfe7ff;
+      transition: all 0.2s;
     }
 
     .btn-soft:hover {
-      background: #e7ecff;
+      background: #e0e9ff;
     }
 
     .chip-row {
@@ -459,21 +479,22 @@
     }
 
     .food-chip {
-      border-radius: 999px;
+      border-radius: 12px;
       border: 1px solid var(--border-soft);
-      padding: 4px 10px;
+      padding: 4px 12px;
       font-size: 12px;
-      color: var(--text-sub);
+      color: var(--text-main);
       background: #fafbff;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      transition: all 0.2s;
     }
 
     .food-chip:hover {
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
+      border-color: var(--primary);
+      color: var(--primary);
       background: #f1f4ff;
     }
 
@@ -510,23 +531,33 @@
       padding: 1px 6px;
       border-radius: 999px;
       background: #eef1ff;
-      color: var(--accent-blue);
+      color: var(--primary);
       margin-left: 4px;
     }
 
     .tips {
       font-size: 12px;
       line-height: 1.5;
+      margin-top: 10px;
+      padding: 10px;
+      background: #f9fbff;
+      border-radius: 12px;
+      border: 1px solid #e2e8ff;
     }
 
     .recipes {
       margin-top: 8px;
       font-size: 12px;
+      padding: 10px;
+      background: #fffef5;
+      border-radius: 12px;
+      border: 1px solid #fff5e0;
     }
 
     .recipes h4 {
-      margin: 0 0 4px;
+      margin: 0 0 6px;
       font-size: 12px;
+      font-weight: 600;
     }
 
     .recipes ul {
@@ -538,6 +569,10 @@
       font-size: 13px;
       color: var(--text-sub);
       margin-top: 6px;
+      padding: 10px;
+      background: #f9fbff;
+      border-radius: 12px;
+      border: 1px solid #e2e8ff;
     }
 
     /* ========= 小游戏 区域 ========= */
@@ -556,8 +591,8 @@
       gap: 4px;
       padding: 4px 9px;
       border-radius: 999px;
-      background: var(--accent-blue-soft);
-      color: var(--accent-blue);
+      background: var(--accent-yellow-soft);
+      color: var(--accent-yellow);
       font-size: 12px;
     }
 
@@ -567,17 +602,23 @@
     }
 
     .btn-game {
-      border-radius: 999px;
+      border-radius: 12px;
       border: none;
       padding: 7px 14px;
       font-size: 13px;
       cursor: pointer;
-      background: linear-gradient(135deg, #ff8fb3, #ffb5cc);
+      background: linear-gradient(135deg, #5d8aff, #7ba2ff);
       color: #fff;
-      box-shadow: 0 10px 20px rgba(255, 143, 179, 0.45);
+      box-shadow: 0 10px 20px rgba(93, 138, 255, 0.25);
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-game:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(93, 138, 255, 0.35);
     }
 
     .game-board {
@@ -602,14 +643,14 @@
       justify-content: center;
       font-size: 22px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(193, 206, 255, 0.35);
+      box-shadow: 0 4px 10px rgba(193, 206, 255, 0.2);
       transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.08s;
     }
 
     .tile.selected {
-      border-color: var(--accent-blue);
+      border-color: var(--primary);
       transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(118, 165, 255, 0.6);
+      box-shadow: 0 6px 14px rgba(93, 138, 255, 0.3);
       background: #f1f4ff;
     }
 
@@ -635,6 +676,16 @@
       font-size: 11px;
     }
 
+    .game-complete {
+      margin-top: 10px;
+      padding: 10px;
+      background: #e8f7f0;
+      border-radius: 12px;
+      border: 1px solid #b8e6cf;
+      font-size: 12px;
+      color: #00b894;
+    }
+
     /* 弹出营养提示 */
     .toast {
       position: fixed;
@@ -642,15 +693,15 @@
       bottom: 26px;
       transform: translateX(-50%);
       background: #ffffff;
-      border-radius: 999px;
-      padding: 6px 14px;
-      box-shadow: 0 10px 30px rgba(68, 86, 119, 0.3);
+      border-radius: 12px;
+      padding: 8px 16px;
+      box-shadow: 0 10px 30px rgba(68, 86, 119, 0.2);
       font-size: 12px;
       display: none;
       align-items: center;
       gap: 8px;
       z-index: 30;
-      border: 1px solid #ffdae8;
+      border: 1px solid #e2e8ff;
     }
 
     .toast-show {
@@ -673,40 +724,35 @@
       border: 1px solid #e1e6ff;
     }
 
-    .stats-card strong {
-      display: block;
-      margin-bottom: 2px;
+    .stat-subblock {
+      margin-top: 20px;
+      padding: 12px;
+      background: #fffef5;
+      border-radius: 16px;
+      border: 1px solid #fff5e0;
     }
 
-    .leaderboard-list {
+    .sub-title {
+      font-size: 14px;
+      margin: 0 0 10px 0;
+      font-weight: 600;
+    }
+
+    .top-foods-list {
       list-style: none;
       padding: 0;
-      margin: 6px 0 0;
-      font-size: 12px;
+      margin: 0;
     }
 
-    .leaderboard-item {
+    .top-foods-list li {
       display: flex;
       justify-content: space-between;
-      padding: 3px 0;
+      padding: 6px 0;
       border-bottom: 1px dashed #ecf0f1;
     }
 
-    .leaderboard-item span.rank {
-      width: 22px;
-      font-size: 11px;
-      color: var(--text-sub);
-    }
-
-    .leaderboard-item span.user {
-      flex: 1;
-      padding-right: 4px;
-    }
-
-    .leaderboard-item span.score {
-      font-size: 12px;
-      color: var(--accent-blue);
-      font-weight: 600;
+    .top-foods-list li:last-child {
+      border-bottom: none;
     }
 
     .note {
@@ -772,6 +818,15 @@
         </div>
       </div>
 
+      <!-- 语言选择在登录之上 -->
+      <div class="lang-section">
+        <div class="lang-label" id="labelLang">语言 / Language</div>
+        <div class="lang-pill-row">
+          <button type="button" class="lang-pill active" data-lang="zh" id="langBtnZh">CN 中文</button>
+          <button type="button" class="lang-pill" data-lang="ko" id="langBtnKo">KR 한국어</button>
+        </div>
+      </div>
+
       <div class="welcome-form">
         <div>
           <div class="field-label" id="labelName">
@@ -779,14 +834,6 @@
           </div>
           <input id="welcomeNameInput" class="welcome-input"
                  placeholder="请输入你的昵称或学号" />
-        </div>
-
-        <div>
-          <div class="field-label" id="labelLang">语言 / Language</div>
-          <div class="lang-pill-row">
-            <button type="button" class="lang-pill active" data-lang="zh" id="langBtnZh">CN 中文</button>
-            <button type="button" class="lang-pill" data-lang="ko" id="langBtnKo">KR 한국어</button>
-          </div>
         </div>
 
         <div class="welcome-btn-row">
@@ -850,7 +897,6 @@
       </div>
 
       <!-- ========== Section 1: 食物查询 ========== -->
-      <!-- Section 1：食物查询 -->
       <section class="section active" id="section-search">
         <div class="search-row">
           <input id="foodInput" class="search-input" placeholder="输入食物，如：苹果 / 牛奶 / 鸡胸肉" />
@@ -863,6 +909,7 @@
           <div class="food-chip">🥛 牛奶</div>
           <div class="food-chip">🍗 鸡胸肉</div>
           <div class="food-chip">🥕 胡萝卜</div>
+          <div class="food-chip">🥤 可乐</div>
         </div>
 
         <div id="foodResultArea"></div>
@@ -920,13 +967,19 @@
         </div>
 
         <div class="game-board" id="gameBoard"></div>
+        <div id="gameCompleteMessage" style="display:none;"></div>
       </section>
+
       <!-- ========== Section 3：统计与排行榜（本次会话） ========== -->
       <section class="section" id="section-stats">
-        <h2 class="section-title" id="statsTitle">统计与排行榜</h2>
-        <p class="section-desc" id="statsDesc">
-          根据你在本次使用中的食物查询与小游戏结果，给出一些简单的统计指标，仅用于课堂展示。
-        </p>
+        <div class="content-header">
+          <div class="content-title-block">
+            <h2 id="statsTitle">统计与排行榜</h2>
+            <p id="statsDesc">
+              根据你在本次使用中的食物查询与小游戏结果，给出一些简单的统计指标，仅用于课堂展示。
+            </p>
+          </div>
+        </div>
 
         <div class="stats-grid">
           <div class="stat-card">
@@ -962,7 +1015,7 @@
 <!-- 轻量提示弹窗：用于展示营养建议 -->
 <div id="toast"
      style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(10px);
-            background:rgba(0,0,0,0.78);color:#fff;padding:8px 16px;border-radius:999px;
+            background:rgba(0,0,0,0.78);color:#fff;padding:8px 16px;border-radius:12px;
             font-size:12px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;
             z-index:50;">
 </div>
@@ -974,18 +1027,40 @@
   /* ===================== 基础多语言文本 ===================== */
   const TEXTS = {
     zh: {
+      // 首页
+      welcomeTitle: '健康饮食选择助手',
+      welcomeSubtitle: '简单记录你的食物查询，获得更健康的饮食建议，还可以通过小游戏学习一点营养知识。',
+      labelName: '昵称 / 学号',
+      labelLang: '语言 / Language',
+      btnStartText: '进入小助手',
+      welcomeTip: '提示：系统会用你填写的昵称记录查询行为和小游戏成绩，仅用于课堂展示。',
+      
+      // 侧边栏
+      sideTitle: '健康饮食助手',
+      sideSubtitle: 'Food · Stats · Game',
+      sideLangLine: '当前语言：中文',
+      navSectionLabel: '功能 / Features',
       navSearch: '食物查询',
-      navGame: '小游戏',
+      navGame: '连连看小游戏',
       navStats: '统计与排行榜',
+      navFooterText: '小小网页实验 · 仅课堂展示使用。',
+      navLogout: '重新登录 / 언어 다시 선택',
+      
+      // 内容标题
+      contentTitle: '食物查询',
+      contentSubtitle: '输入常见食物名称，查看热量与营养结构，并得到简单健康建议。',
+      
+      // 查询页
       searchPlaceholder: '输入食物，如：苹果 / 牛奶 / 鸡胸肉',
-      statsTitle: '统计与排行榜',
-      statsDesc: '根据你在本次使用中的食物查询与小游戏结果，给出一些简单的统计指标，仅用于课堂展示。',
-      statSearchLabel: '累计查询次数',
-      statAvgCalLabel: '平均热量（查询食物）',
-      statHealthyLabel: '较健康选择次数',
-      statWarningLabel: '需要注意的食物',
-      topFoodsTitle: '本次查询中出现最多的食物 TOP 3',
-      topFoodsEmpty: '还没有数据，可以先去上方的「食物查询」玩一玩。',
+      searchBtn: '搜索',
+      emptyHint: '未查询到该食物，请尝试其他关键词。',
+      calorieLabel: '热量',
+      proteinLabel: '蛋白质',
+      fatLabel: '脂肪',
+      carbLabel: '碳水化合物',
+      recipeTitle: '推荐搭配：',
+      
+      // 游戏页
       gameLevel1: '第 1 关 · 初阶',
       gameInfo: '点击两个相同食物即可消除 · 每关 60 秒',
       gameStart: '开始游戏',
@@ -993,629 +1068,3 @@
       timerSuffix: ' 秒',
       matchPrefix: '已消除：',
       matchSuffix: ' 组',
-      recipeTitle: '推荐搭配：',
-      emptyHint: '未查询到该食物，请尝试其他关键词。'
-    },
-    kr: {
-      navSearch: '식품 조회',
-      navGame: '미니 게임',
-      navStats: '통계 · 랭킹',
-      searchPlaceholder: '사과 / 우유 / 닭가슴살 등 식품을 입력하세요',
-      statsTitle: '통계와 순위',
-      statsDesc: '이번 사용 동안의 조회 기록과 게임 결과를 바탕으로 간단한 지표를 보여주는 페이지입니다.',
-      statSearchLabel: '총 조회 횟수',
-      statAvgCalLabel: '조회한 식품의 평균 칼로리',
-      statHealthyLabel: '비교적 건강한 선택 횟수',
-      statWarningLabel: '주의가 필요한 식품 수',
-      topFoodsTitle: '이번 조회에서 가장 자주 등장한 식품 TOP 3',
-      topFoodsEmpty: '아직 데이터가 없습니다. 먼저 위의 「식품 조회」를 이용해 보세요.',
-      gameLevel1: '1단계 · 기초',
-      gameInfo: '같은 음식 두 개를 클릭하면 제거됩니다 · 각 단계 60초',
-      gameStart: '게임 시작',
-      timerPrefix: '⏱ ',
-      timerSuffix: ' 초',
-      matchPrefix: '제거한 쌍: ',
-      matchSuffix: ' 개',
-      recipeTitle: '추천 조합:',
-      emptyHint: '해당 식품을 찾지 못했습니다. 다른 이름으로 시도해 보세요.'
-    }
-  };
-
-  let currentLang = 'zh';
-
-  /* ===================== DOM 引用 ===================== */
-
-  const langZhBtn = document.getElementById('langBtnZh');
-  const langKrBtn = document.getElementById('langBtnKo');
-  const startBtn  = document.getElementById('welcomeStartBtn');
-  const nameInput = document.getElementById('welcomeNameInput');
-  const welcomePanel = document.getElementById('welcomeOverlay');
-  const mainLayout   = document.getElementById('mainLayout');
-
-  const navSearch = document.getElementById('navSearchText');
-  const navGame   = document.getElementById('navGameText');
-  const navStats  = document.getElementById('navStatsText');
-
-  const sections  = document.querySelectorAll('.section');
-
-  const foodInput = document.getElementById('foodInput');
-  const searchBtn = document.getElementById('searchBtn');
-  const chips     = document.querySelectorAll('.food-chip');
-
-  const foodResultArea = document.getElementById('foodResultArea');
-  const foodDetail     = document.getElementById('foodDetail');
-  const emptyHintEl    = document.getElementById('emptyHint');
-
-  const calorieValue = document.getElementById('calorieValue');
-  const proteinValue = document.getElementById('proteinValue');
-  const fatValue     = document.getElementById('fatValue');
-  const carbValue    = document.getElementById('carbValue');
-  const healthTipEl  = document.getElementById('healthTip');
-  const recipeTitle  = document.getElementById('recipeTitle');
-  const recipeList   = document.getElementById('recipeList');
-
-  const statsTitleEl       = document.getElementById('statsTitle');
-  const statsDescEl        = document.getElementById('statsDesc');
-  const statSearchLabelEl  = document.getElementById('statSearchLabel');
-  const statAvgCalLabelEl  = document.getElementById('statAvgCalLabel');
-  const statHealthyLabelEl = document.getElementById('statHealthyLabel');
-  const statWarningLabelEl = document.getElementById('statWarningLabel');
-  const statSearchCountEl  = document.getElementById('statSearchCount');
-  const statAvgCalEl       = document.getElementById('statAvgCal');
-  const statHealthyCountEl = document.getElementById('statHealthyCount');
-  const statWarningCountEl = document.getElementById('statWarningCount');
-  const topFoodsTitleEl    = document.getElementById('topFoodsTitle');
-  const topFoodsListEl     = document.getElementById('topFoodsList');
-
-  // 游戏相关
-  const gameLevelText  = document.getElementById('gameLevelText');
-  const gameInfoText   = document.getElementById('gameInfoText');
-  const gameStartBtn   = document.getElementById('gameStartBtn');
-  const timerTextEl    = document.getElementById('timerText');
-  const matchCountText = document.getElementById('matchCountText');
-  const gameBoard      = document.getElementById('gameBoard');
-
-  const toastEl = document.getElementById('toast');
-
-  /* ===================== 轻量 Toast ===================== */
-  function showToast (text) {
-    if (!toastEl) return;
-    toastEl.textContent = text;
-    toastEl.style.opacity = '1';
-    toastEl.style.transform = 'translateX(-50%) translateY(0)';
-    setTimeout(() => {
-      toastEl.style.opacity = '0';
-      toastEl.style.transform = 'translateX(-50%) translateY(10px)';
-    }, 2200);
-  }
-
-  /* ===================== 简单食物数据库 ===================== */
-  const FOOD_ITEMS = [
-    {
-      id: 'apple',
-      icon: '🍎',
-      keywords: ['苹果', '사과', 'apple'],
-      kcal: 52,
-      protein: 0.3,
-      fat: 0.2,
-      carb: 14,
-      level: 'good',
-      zh: {
-        name: '苹果',
-        tip: '富含维生素 C 和膳食纤维，可作为加餐或早餐配餐。',
-        recipes: [
-          '苹果 + 原味酸奶 + 燕麦，做成酸奶水果碗。',
-          '切片苹果 + 一小把坚果，作为下午小点心。'
-        ],
-        gameTip: '水果替代含糖零食，可以在保证口感的同时减少添加糖摄入。'
-      },
-      kr: {
-        name: '사과',
-        tip: '비타민 C와 식이섬유가 풍부하여 간식이나 아침 곁들이기로 좋습니다.',
-        recipes: [
-          '사과 + 플레인 요거트 + 오트밀로 과일 요거트 볼 만들기.',
-          '사과 슬라이스 + 소량의 견과류를 곁들여 오후 간식으로 활용하기.'
-        ],
-        gameTip: '과일을 달콤한 과자 대신 먹으면 당 섭취를 자연스럽게 줄일 수 있습니다.'
-      }
-    },
-    {
-      id: 'rice',
-      icon: '🍚',
-      keywords: ['米饭', '白米饭', '밥', 'rice'],
-      kcal: 130,
-      protein: 2.4,
-      fat: 0.3,
-      carb: 28,
-      level: 'mid',
-      zh: {
-        name: '白米饭',
-        tip: '控制份量，并搭配足够蔬菜与蛋白质，可以成为均衡一餐。',
-        recipes: [
-          '一碗米饭 + 一份蔬菜 + 一份瘦肉或豆腐，组成简单「均衡饭碗」。',
-          '用糙米部分替代白米，可增加膳食纤维摄入。'
-        ],
-        gameTip: '白米饭本身不等于「不健康」，关键是份量和搭配是否均衡。'
-      },
-      kr: {
-        name: '밥',
-        tip: '양을 조절하고 채소와 단백질을 함께 먹으면 균형 잡힌 한 끼가 됩니다.',
-        recipes: [
-          '밥 한 공기 + 채소 반찬 + 살코기나 두부를 곁들인 심플한 한 그릇.',
-          '흰쌀 일부를 현미로 바꾸면 식이섬유 섭취를 늘릴 수 있습니다.'
-        ],
-        gameTip: '밥 자체가 나쁜 것은 아니며, 양과 반찬 구성에 따라 식사의 질이 달라집니다.'
-      }
-    },
-    {
-      id: 'milk',
-      icon: '🥛',
-      keywords: ['牛奶', '우유', 'milk'],
-      kcal: 60,
-      protein: 3.2,
-      fat: 3.3,
-      carb: 4.8,
-      level: 'good',
-      zh: {
-        name: '牛奶',
-        tip: '提供优质蛋白和钙，选择低脂或脱脂版本可以减少饱和脂肪摄入。',
-        recipes: [
-          '早餐：牛奶 + 全麦面包 + 水果。',
-          '用牛奶代替含糖奶茶，可减少不少额外糖分。'
-        ],
-        gameTip: '钙和蛋白质有助于骨骼和肌肉健康，注意选择含糖量较低的版本。'
-      },
-      kr: {
-        name: '우유',
-        tip: '양질의 단백질과 칼슘을 제공하며, 저지방/무지방 제품을 선택하면 포화지방을 줄일 수 있습니다.',
-        recipes: [
-          '아침 식사: 우유 + 통곡물 빵 + 과일.',
-          '달달한 밀크티 대신 우유를 마시면 당 섭취를 줄일 수 있습니다.'
-        ],
-        gameTip: '칼슘과 단백질은 뼈와 근육 건강에 도움을 주며, 당이 적은 제품을 고르는 것이 좋습니다.'
-      }
-    },
-    {
-      id: 'chicken',
-      icon: '🍗',
-      keywords: ['鸡胸肉', '鸡肉', '닭가슴살', 'chicken'],
-      kcal: 120,
-      protein: 22,
-      fat: 3,
-      carb: 0,
-      level: 'good',
-      zh: {
-        name: '鸡胸肉',
-        tip: '高蛋白、低脂肪，是常见的健身友好型主菜。',
-        recipes: [
-          '煎或烤鸡胸肉 + 蔬菜沙拉，作为减脂餐。',
-          '鸡胸肉切丁与蔬菜同炒，配少量米饭。'
-        ],
-        gameTip: '优先选择少油的烹饪方式，可以在保证蛋白质摄入的同时控制总热量。'
-      },
-      kr: {
-        name: '닭가슴살',
-        tip: '단백질이 높고 지방이 적어 다이어트 식단에 자주 사용됩니다.',
-        recipes: [
-          '구운 닭가슴살 + 샐러드로 가벼운 식사 구성.',
-          '닭가슴살을 잘게 썰어 채소와 함께 볶고 밥과 곁들여 먹기.'
-        ],
-        gameTip: '튀기지 않고 굽거나 삶는 방식으로 조리하면 열량을 크게 줄일 수 있습니다.'
-      }
-    },
-    {
-      id: 'carrot',
-      icon: '🥕',
-      keywords: ['胡萝卜', '당근', 'carrot'],
-      kcal: 41,
-      protein: 0.9,
-      fat: 0.2,
-      carb: 10,
-      level: 'good',
-      zh: {
-        name: '胡萝卜',
-        tip: '含有β-胡萝卜素，有助于维持正常视力和皮肤健康。',
-        recipes: [
-          '胡萝卜炒西兰花，作为配菜。',
-          '将胡萝卜切条，搭配酸奶蘸酱当小零食。'
-        ],
-        gameTip: '橙色蔬菜通常富含维生素 A 前体，有助于视力与皮肤健康。'
-      },
-      kr: {
-        name: '당근',
-        tip: '베타카로틴이 풍부하여 시력과 피부 건강에 도움이 됩니다.',
-        recipes: [
-          '당근과 브로콜리를 함께 볶아 반찬으로 활용.',
-          '당근 스틱을 요거트 딥과 함께 간식으로 먹기.'
-        ],
-        gameTip: '주황색 채소는 비타민 A 전구체가 풍부해 눈과 피부 건강에 이롭습니다.'
-      }
-    },
-    {
-      id: 'cola',
-      icon: '🥤',
-      keywords: ['可乐', '콜라', 'cola'],
-      kcal: 42,
-      protein: 0,
-      fat: 0,
-      carb: 11,
-      level: 'warn',
-      zh: {
-        name: '含糖饮料（可乐）',
-        tip: '几乎只提供糖与热量，建议减少频率或换成无糖/白水/茶饮。',
-        recipes: [
-          '尝试气泡水 + 柠檬片，作为替代。',
-          '用冷泡茶代替含糖饮料。'
-        ],
-        gameTip: '含糖饮料很容易在不知不觉中抬高一天的总热量和糖摄入。'
-      },
-      kr: {
-        name: '당분 음료(콜라)',
-        tip: '거의 당과 열량만 제공하므로, 빈도와 양을 줄이고 물/무가당 차 등으로 대체하는 것이 좋습니다.',
-        recipes: [
-          '탄산수에 레몬을 넣어 상큼한 대체 음료 만들기.',
-          '가당 음료 대신 콜드브루 티를 마셔 보기.'
-        ],
-        gameTip: '당분 음료는 금방 여러 잔을 마시게 되어 하루 총 열량과 당 섭취를 크게 올릴 수 있습니다.'
-      }
-    }
-  ];
-
-  const FOOD_BY_ID = {};
-  FOOD_ITEMS.forEach(f => { FOOD_BY_ID[f.id] = f; });
-
-  /* ===================== 语言切换 ===================== */
-  function applyLanguage () {
-    const t = TEXTS[currentLang];
-
-    if (navSearch) navSearch.textContent = t.navSearch;
-    if (navGame)   navGame.textContent   = t.navGame;
-    if (navStats)  navStats.textContent  = t.navStats;
-
-    if (foodInput) foodInput.placeholder = t.searchPlaceholder;
-
-    if (statsTitleEl)  statsTitleEl.textContent  = t.statsTitle;
-    if (statsDescEl)   statsDescEl.textContent   = t.statsDesc;
-    if (statSearchLabelEl)  statSearchLabelEl.textContent  = t.statSearchLabel;
-    if (statAvgCalLabelEl)  statAvgCalLabelEl.textContent  = t.statAvgCalLabel;
-    if (statHealthyLabelEl) statHealthyLabelEl.textContent = t.statHealthyLabel;
-    if (statWarningLabelEl) statWarningLabelEl.textContent = t.statWarningLabel;
-    if (topFoodsTitleEl)    topFoodsTitleEl.textContent    = t.topFoodsTitle;
-
-    if (gameLevelText)  gameLevelText.textContent = t.gameLevel1;
-    if (gameInfoText)   gameInfoText.textContent  = t.gameInfo;
-    if (gameStartBtn)   gameStartBtn.textContent  = t.gameStart;
-    if (timerTextEl)    timerTextEl.textContent   = t.timerPrefix + '60' + t.timerSuffix;
-    if (matchCountText) matchCountText.textContent = t.matchPrefix + '0' + t.matchSuffix;
-    if (recipeTitle)    recipeTitle.textContent   = t.recipeTitle;
-    if (emptyHintEl)    emptyHintEl.textContent   = t.emptyHint;
-  }
-
-  function setLanguage (lang) {
-    currentLang = lang === 'kr' ? 'kr' : 'zh';
-    if (langZhBtn) langZhBtn.classList.toggle('active', currentLang === 'zh');
-    if (langKrBtn) langKrBtn.classList.toggle('active', currentLang === 'kr');
-    applyLanguage();
-  }
-
-  if (langZhBtn && langKrBtn) {
-    langZhBtn.addEventListener('click', () => setLanguage('zh'));
-    langKrBtn.addEventListener('click', () => setLanguage('kr'));
-  }
-
-  /* ===================== 登录 / 进入主界面 ===================== */
-  if (startBtn && welcomePanel && mainLayout) {
-    startBtn.addEventListener('click', () => {
-      const name = nameInput ? nameInput.value.trim() : '';
-      if (!name) {
-        showToast(currentLang === 'zh' ? '请先输入一个昵称或学号~' : '닉네임 또는 학번을 먼저 입력해 주세요 :)');
-        if (nameInput) nameInput.focus();
-        return;
-      }
-      welcomePanel.style.display = 'none';
-      mainLayout.style.display = 'flex';
-      mainLayout.style.opacity = '1';
-      mainLayout.style.pointerEvents = 'auto';
-
-      // 侧边栏显示昵称
-      const sideUserLine = document.getElementById('sideUserLine');
-      if (sideUserLine) {
-        sideUserLine.innerHTML = '<strong>' + name + '</strong>';
-      }
-    });
-  }
-
-  /* ===================== 左侧导航切换 Section ===================== */
-  const navItems = document.querySelectorAll('.nav-btn');
-
-  function showSection (id) {
-    sections.forEach(sec => {
-      if (sec.id === id) {
-        sec.classList.add('active');
-      } else {
-        sec.classList.remove('active');
-      }
-    });
-  }
-
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      navItems.forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-      const target = item.getAttribute('data-target');
-      if (target) showSection(target);
-    });
-  });
-
-  /* ===================== 查询逻辑 + 统计 ===================== */
-  let searchCount = 0;
-  let sumCal = 0;
-  let healthyCount = 0;
-  let warningCount = 0;
-  const foodHitCounter = {};
-
-  function findFoodByInput (raw) {
-    const text = raw.trim().toLowerCase();
-    if (!text) return null;
-    for (const item of FOOD_ITEMS) {
-      if (item.keywords.some(k => k.toLowerCase() === text)) {
-        return item;
-      }
-    }
-    return null;
-  }
-
-  function renderFood (food) {
-    const lang = food[currentLang];
-    if (!lang) return;
-
-    if (foodResultArea) {
-      foodResultArea.innerHTML = `
-        <div class="food-summary">
-          <div class="food-main-name">${food.icon} ${lang.name}</div>
-        </div>
-      `;
-    }
-
-    if (calorieValue) calorieValue.textContent = food.kcal + ' kcal';
-    if (proteinValue) proteinValue.textContent = food.protein + ' g';
-    if (fatValue)     fatValue.textContent     = food.fat + ' g';
-    if (carbValue)    carbValue.textContent    = food.carb + ' g';
-    if (healthTipEl)  healthTipEl.textContent  = lang.tip;
-
-    if (recipeList) {
-      recipeList.innerHTML = '';
-      lang.recipes.forEach(r => {
-        const li = document.createElement('li');
-        li.textContent = r;
-        recipeList.appendChild(li);
-      });
-    }
-
-    if (foodDetail)  foodDetail.style.display = 'block';
-    if (emptyHintEl) emptyHintEl.style.display = 'none';
-  }
-
-  function updateStats (food) {
-    searchCount += 1;
-    sumCal += food.kcal;
-    if (food.level === 'good') healthyCount += 1;
-    if (food.level === 'warn') warningCount += 1;
-
-    foodHitCounter[food.id] = (foodHitCounter[food.id] || 0) + 1;
-
-    if (statSearchCountEl) statSearchCountEl.textContent = String(searchCount);
-    if (statAvgCalEl) {
-      const avg = searchCount ? (sumCal / searchCount).toFixed(1) : 0;
-      statAvgCalEl.textContent = avg + ' kcal';
-    }
-    if (statHealthyCountEl) statHealthyCountEl.textContent = String(healthyCount);
-    if (statWarningCountEl) statWarningCountEl.textContent = String(warningCount);
-
-    if (topFoodsListEl) {
-      topFoodsListEl.innerHTML = '';
-      const entries = Object.entries(foodHitCounter).sort((a, b) => b[1] - a[1]).slice(0, 3);
-      if (entries.length === 0) {
-        const li = document.createElement('li');
-        li.className = 'empty-hint';
-        li.textContent = TEXTS[currentLang].topFoodsEmpty;
-        topFoodsListEl.appendChild(li);
-      } else {
-        entries.forEach(([id, count]) => {
-          const f = FOOD_BY_ID[id];
-          if (!f) return;
-          const li = document.createElement('li');
-          li.innerHTML = `<span>${f.icon} ${f[currentLang].name}</span><span class="count">× ${count}</span>`;
-          topFoodsListEl.appendChild(li);
-        });
-      }
-    }
-  }
-
-  function handleSearch () {
-    if (!foodInput) return;
-    const val = foodInput.value;
-    const food = findFoodByInput(val);
-    if (!food) {
-      if (foodDetail)  foodDetail.style.display = 'none';
-      if (emptyHintEl) {
-        emptyHintEl.style.display = 'block';
-        emptyHintEl.textContent = TEXTS[currentLang].emptyHint;
-      }
-      return;
-    }
-    renderFood(food);
-    updateStats(food);
-  }
-
-  if (searchBtn && foodInput) {
-    searchBtn.addEventListener('click', handleSearch);
-    foodInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleSearch();
-    });
-  }
-
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      const text = chip.textContent.replace(/^[^🍎🍚🥛🍗🥕🥤]+/, '').trim();
-      // 直接用显示文字去匹配
-      const food = findFoodByInput(text);
-      if (foodInput) foodInput.value = text;
-      if (food) {
-        renderFood(food);
-        updateStats(food);
-      } else {
-        handleSearch();
-      }
-    });
-  });
-
-  /* ===================== 简化版「连连看」小游戏 ===================== */
-  let gameRunning = false;
-  let timerId = null;
-  let timeLeft = 60;
-  let openedCard = null;
-  let matchedPairs = 0;
-  let totalPairs = 0;
-
-  function resetGameState () {
-    gameRunning = false;
-    if (timerId) clearInterval(timerId);
-    timerId = null;
-    timeLeft = 60;
-    openedCard = null;
-    matchedPairs = 0;
-    if (matchCountText) {
-      const t = TEXTS[currentLang];
-      matchCountText.textContent = t.matchPrefix + '0' + t.matchSuffix;
-    }
-    if (timerTextEl) {
-      const t = TEXTS[currentLang];
-      timerTextEl.textContent = t.timerPrefix + '60' + t.timerSuffix;
-    }
-  }
-
-  function buildLevel1Board () {
-    if (!gameBoard) return;
-    gameBoard.innerHTML = '';
-    resetGameState();
-
-    // 使用 6 种食物，每种 2 张，共 12 对=24 张
-    const pool = ['apple', 'rice', 'milk', 'chicken', 'carrot', 'cola'];
-    const ids = [];
-    pool.forEach(id => {
-      ids.push(id, id);
-      ids.push(id, id); // 4 张同一图标 → 更容易配对
-    });
-
-    // 取 24 张
-    const cards = ids.slice(0, 24);
-
-    // 洗牌
-    for (let i = cards.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [cards[i], cards[j]] = [cards[j], cards[i]];
-    }
-
-    totalPairs = cards.length / 2;
-
-    cards.forEach((id, index) => {
-      const food = FOOD_BY_ID[id];
-      if (!food) return;
-      const div = document.createElement('div');
-      div.className = 'tile game-card';
-      div.dataset.foodId = id;
-      div.dataset.index = index;
-      div.textContent = food.icon;
-      gameBoard.appendChild(div);
-    });
-  }
-
-  function startTimer () {
-    if (!timerTextEl) return;
-    const tText = TEXTS[currentLang];
-    timerTextEl.textContent = tText.timerPrefix + timeLeft + tText.timerSuffix;
-    timerId = setInterval(() => {
-      timeLeft -= 1;
-      timerTextEl.textContent = tText.timerPrefix + timeLeft + tText.timerSuffix;
-      if (timeLeft <= 0) {
-        clearInterval(timerId);
-        gameRunning = false;
-        showToast(currentLang === 'zh'
-          ? '时间到啦，本关结束~ 可以点击重新开始再试一次。'
-          : '시간 종료! 이번 판이 끝났습니다. 다시 도전해 보세요 :)');
-      }
-    }, 1000);
-  }
-
-  function startGame () {
-    buildLevel1Board();
-    gameRunning = true;
-    timeLeft = 60;
-    startTimer();
-  }
-
-  if (gameStartBtn) {
-    gameStartBtn.addEventListener('click', () => {
-      startGame();
-    });
-  }
-
-  if (gameBoard) {
-    gameBoard.addEventListener('click', (e) => {
-      const card = e.target.closest('.game-card');
-      if (!card || !gameRunning) return;
-      if (card.classList.contains('matched')) return;
-
-      if (!openedCard) {
-        openedCard = card;
-        card.classList.add('selected');
-        return;
-      }
-
-      if (openedCard === card) return;
-
-      const id1 = openedCard.dataset.foodId;
-      const id2 = card.dataset.foodId;
-
-      if (id1 === id2) {
-        // 匹配成功
-        openedCard.classList.remove('selected');
-        openedCard.classList.add('matched');
-        card.classList.add('matched');
-        matchedPairs += 1;
-
-        const food = FOOD_BY_ID[id1];
-        if (food) {
-          const tip = food[currentLang].gameTip;
-          showToast(tip);
-        }
-
-        const t = TEXTS[currentLang];
-        if (matchCountText) {
-          matchCountText.textContent = t.matchPrefix + matchedPairs + t.matchSuffix;
-        }
-
-        if (matchedPairs >= totalPairs) {
-          gameRunning = false;
-          if (timerId) clearInterval(timerId);
-          showToast(currentLang === 'zh'
-            ? '恭喜通关！你已经配对完本关所有食物 🎉'
-            : '축하합니다! 이번 단계의 모든 음식을 맞췄어요 🎉');
-        }
-      } else {
-        // 不匹配
-        openedCard.classList.remove('selected');
-      }
-
-      openedCard = null;
-    });
-  }
-
-  /* ===================== 初始化 ===================== */
-  setLanguage('zh');   // 默认中文
-  showSection('section-search'); // 默认显示查询页
-})();
-</script>
-</body>
-</html>
