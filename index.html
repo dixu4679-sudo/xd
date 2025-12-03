@@ -644,6 +644,60 @@
       font-size: 11px;
     }
 
+    /* ========= 游戏说明 & 通关弹窗 ========= */
+    .game-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.18);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+    }
+
+    .game-modal {
+      width: 360px;
+      max-width: 90vw;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 18px 20px 16px;
+      box-shadow: 0 18px 40px rgba(93, 138, 255, 0.35);
+    }
+
+    .game-modal h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .game-modal p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.55;
+    }
+
+    .game-modal p ul {
+      margin: 4px 0 0;
+      padding-left: 18px;
+    }
+
+    .game-modal-actions {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      border: 1px solid #e1e6ff;
+      background: #f7f8ff;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--text-sub);
+    }
+
     /* ========= 统计页 ========= */
     .stats-grid {
       display: grid;
@@ -886,7 +940,8 @@
       <section class="section" id="section-game">
         <div class="game-top-row">
           <span class="game-pill" id="gameLevelText">第 1 关 · 初阶</span>
-          <span class="game-info" id="gameInfoText">点击两个相同食物即可消除 · 每关 60 秒</span>
+          <span class="game-info" id="gameInfoText">点击两个相同食物即可消除 · 每关限定时间</span>
+          <button class="btn-soft" id="gameHelpBtn">游戏说明</button>
           <button class="btn-game" id="gameStartBtn">开始游戏</button>
         </div>
 
@@ -936,12 +991,26 @@
   </div> <!-- /main-layout -->
 </div>   <!-- /app-wrapper -->
 
-<!-- 轻量提示弹窗：用于展示营养建议 -->
+<!-- 游戏说明 / 通关弹窗 -->
+<div class="game-modal-overlay" id="gameModal">
+  <div class="game-modal">
+    <h3 id="gameModalTitle">小游戏说明</h3>
+    <p id="gameModalBody">
+      ...
+    </p>
+    <div class="game-modal-actions">
+      <button class="btn-ghost" id="gameModalSecondaryBtn">稍后再看</button>
+      <button class="btn-game" id="gameModalPrimaryBtn">开始第 1 关</button>
+    </div>
+  </div>
+</div>
+
+<!-- 轻量提示弹窗：用于展示营养提示 / 扣时提示 -->
 <div id="toast"
-     style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(10px);
-            background:rgba(0,0,0,0.78);color:#fff;padding:8px 16px;border-radius:999px;
+     style="position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(16px);
+            background:rgba(255,255,255,0.97);color:#2d3436;padding:8px 16px;border-radius:999px;
             font-size:12px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;
-            z-index:50;">
+            z-index:50;border:1px solid #e3e7ff;box-shadow:0 10px 30px rgba(93,138,255,0.25);">
 </div>
 
 <script>
@@ -977,7 +1046,7 @@
       searchTitle: '食物查询',
       searchDesc: '输入常见食物名称，查看热量与营养结构，并得到简单健康建议。',
       gameTitle: '连连看小游戏',
-      gameDesc: '通过简单的配对小游戏，顺便记住一些基础的营养知识。',
+      gameDesc: '通过简化版连连看小游戏，顺便记住一些基础的营养知识。',
       statsTitle: '统计与排行榜',
       statsDesc: '根据你在本次使用中的食物查询与小游戏结果，给出一些简单的统计指标，仅用于课堂展示。',
 
@@ -993,18 +1062,41 @@
       /* 游戏页 */
       gameLevel1: '第 1 关 · 初阶',
       gameLevel2: '第 2 关 · 进阶',
-      gameInfo: '点击两个相同食物即可消除 · 每关限定时间',
+      gameInfo: '点击两个相同食物即可消除：同一行 / 同一列且中间无阻挡 · 点错扣 3 秒。',
       gameStart: '开始游戏',
+      gameHelp: '游戏说明',
       timerPrefix: '⏱ ',
       timerSuffix: ' 秒',
       matchPrefix: '已消除：',
       matchSuffix: ' 组',
-      nextLevelToast: '恭喜通关！自动进入第 2 关，时间会更紧张一点～',
-      allClearToast: '太棒了！你已完成所有关卡，可以点击「开始游戏」再从第 1 关玩起。',
+
+      /* 弹窗 & 机关 */
+      gameIntroTitle: '怎么玩？',
+      gameIntroBody:
+        '<ul>' +
+        '<li>点击「开始游戏」后，会出现 24 张随机排列的食物卡片。</li>' +
+        '<li>选择 <strong>同一行或同一列</strong> 的两个相同图标，并且中间没有其他卡片挡住，即可消除一对（简化版连连看）。</li>' +
+        '<li>如果选错了，会扣 <strong>3 秒</strong> 游戏时间。</li>' +
+        '<li>第 1 关有 60 秒，第 2 关只有 45 秒，更考验速度和观察力。</li>' +
+        '</ul>',
+      introPrimary: '开始第 1 关',
+      introSecondary: '先看看界面',
+
+      wrongPenalty: '配对失败，本次扣 3 秒，只能同一行或同一列且中间不能有其他卡片～',
+
+      levelClearTitle: '第 1 关完成！',
+      levelClearBody: '你已经成功配对完本关所有食物，接下来可以挑战第 2 关：时间更短，节奏更快。',
+      levelClearPrimary: '进入第 2 关',
+      levelClearSecondary: '稍后再去',
+
+      allClearTitle: '恭喜通关！',
+      allClearBody: '你已经完成所有关卡，可以在统计页面看看自己的表现，或者重新从第 1 关开始挑战。',
+      allClearPrimary: '好的',
+      allClearSecondary: '关闭',
 
       /* 其他 */
       recipeTitle: '推荐搭配：',
-      emptyHint: '未查询到该食物，请尝试其他关键词。',
+      emptyHint: '未查询到该食物，请尝试其他关键词。'
     },
     kr: {
       /* 欢迎页 */
@@ -1033,7 +1125,7 @@
       searchTitle: '식품 조회',
       searchDesc: '자주 먹는 식품 이름을 입력하고 칼로리와 영양 정보를 간단히 확인해 보세요.',
       gameTitle: '미니 매칭 게임',
-      gameDesc: '음식 아이콘을 맞추는 간단한 게임으로 영양 정보를 자연스럽게 익혀 보세요.',
+      gameDesc: '같은 음식 아이콘을 연결하는 간단한 게임으로 영양 정보를 자연스럽게 익혀 보세요.',
       statsTitle: '통계와 순위',
       statsDesc: '이번 사용 동안의 조회 기록과 게임 결과를 바탕으로 간단한 지표를 보여주는 페이지입니다.',
 
@@ -1049,18 +1141,41 @@
       /* 游戏页 */
       gameLevel1: '1단계 · 기초',
       gameLevel2: '2단계 · 응용',
-      gameInfo: '같은 음식 두 개를 클릭하면 제거됩니다 · 각 단계 제한 시간',
+      gameInfo: '같은 음식 두 개를 선택하되, 같은 행/열이고 사이에 카드가 없어야 지워집니다. 틀리면 3초 감소!',
       gameStart: '게임 시작',
+      gameHelp: '게임 설명',
       timerPrefix: '⏱ ',
       timerSuffix: ' 초',
       matchPrefix: '제거한 쌍: ',
       matchSuffix: ' 개',
-      nextLevelToast: '1단계를 클리어했습니다! 잠시 후 2단계가 시작됩니다. 시간이 조금 더 짧아요.',
-      allClearToast: '모든 단계를 완료했습니다! 다시 1단계부터 도전해 보세요.',
+
+      /* 弹窗 & 机关 */
+      gameIntroTitle: '게임 방법',
+      gameIntroBody:
+        '<ul>' +
+        '<li>「게임 시작」 버튼을 누르면 음식 카드 24장이 랜덤으로 배치됩니다.</li>' +
+        '<li>같은 행 또는 같은 열에 있는 같은 아이콘 두 개를 선택하고, 그 사이에 다른 카드가 없으면 한 쌍이 제거됩니다.</li>' +
+        '<li>틀리게 선택하면 <strong>3초</strong>의 시간이 줄어듭니다.</li>' +
+        '<li>1단계는 60초, 2단계는 45초로 시간이 더 짧아집니다.</li>' +
+        '</ul>',
+      introPrimary: '1단계 시작',
+      introSecondary: '화면만 먼저 보기',
+
+      wrongPenalty: '잘못 선택해서 3초가 줄었습니다. 같은 행/열에서 사이에 카드가 없어야 해요!',
+
+      levelClearTitle: '1단계 클리어!',
+      levelClearBody: '모든 카드를 제거했습니다. 이제 시간이 더 짧은 2단계를 도전해 볼까요?',
+      levelClearPrimary: '2단계로 이동',
+      levelClearSecondary: '나중에',
+
+      allClearTitle: '모든 단계 완료!',
+      allClearBody: '모든 단계를 클리어했습니다. 통계 페이지를 보거나 1단계부터 다시 도전해 보세요.',
+      allClearPrimary: '확인',
+      allClearSecondary: '닫기',
 
       /* 其他 */
       recipeTitle: '추천 조합:',
-      emptyHint: '해당 식품을 찾지 못했습니다. 다른 이름으로 시도해 보세요.',
+      emptyHint: '해당 식품을 찾지 못했습니다. 다른 이름으로 시도해 보세요.'
     }
   };
 
@@ -1137,10 +1252,18 @@
   // 游戏相关
   const gameLevelText  = document.getElementById('gameLevelText');
   const gameInfoText   = document.getElementById('gameInfoText');
+  const gameHelpBtn    = document.getElementById('gameHelpBtn');
   const gameStartBtn   = document.getElementById('gameStartBtn');
   const timerTextEl    = document.getElementById('timerText');
   const matchCountText = document.getElementById('matchCountText');
   const gameBoard      = document.getElementById('gameBoard');
+
+  // 游戏弹窗
+  const gameModal            = document.getElementById('gameModal');
+  const gameModalTitle       = document.getElementById('gameModalTitle');
+  const gameModalBody        = document.getElementById('gameModalBody');
+  const gameModalPrimaryBtn  = document.getElementById('gameModalPrimaryBtn');
+  const gameModalSecondaryBtn= document.getElementById('gameModalSecondaryBtn');
 
   const toastEl = document.getElementById('toast');
 
@@ -1152,7 +1275,7 @@
     toastEl.style.transform = 'translateX(-50%) translateY(0)';
     setTimeout(() => {
       toastEl.style.opacity = '0';
-      toastEl.style.transform = 'translateX(-50%) translateY(10px)';
+      toastEl.style.transform = 'translateX(-50%) translateY(16px)';
     }, 2200);
   }
 
@@ -1351,6 +1474,47 @@
     }
   }
 
+  /* ===================== 游戏弹窗 ===================== */
+  let modalState = null; // intro | levelClear | allClear
+  let introShown = false;
+
+  function setModalContent(type) {
+    const t = TEXTS[currentLang];
+    if (!gameModalTitle || !gameModalBody || !gameModalPrimaryBtn || !gameModalSecondaryBtn) return;
+
+    if (type === 'intro') {
+      gameModalTitle.textContent = t.gameIntroTitle;
+      gameModalBody.innerHTML    = t.gameIntroBody;
+      gameModalPrimaryBtn.textContent   = t.introPrimary;
+      gameModalSecondaryBtn.textContent = t.introSecondary;
+    } else if (type === 'levelClear') {
+      gameModalTitle.textContent = t.levelClearTitle;
+      gameModalBody.innerHTML    = '<p>' + t.levelClearBody + '</p>';
+      gameModalPrimaryBtn.textContent   = t.levelClearPrimary;
+      gameModalSecondaryBtn.textContent = t.levelClearSecondary;
+    } else if (type === 'allClear') {
+      gameModalTitle.textContent = t.allClearTitle;
+      gameModalBody.innerHTML    = '<p>' + t.allClearBody + '</p>';
+      gameModalPrimaryBtn.textContent   = t.allClearPrimary;
+      gameModalSecondaryBtn.textContent = t.allClearSecondary;
+    }
+  }
+
+  function openModal(type) {
+    modalState = type;
+    setModalContent(type);
+    if (gameModal) {
+      gameModal.style.display = 'flex';
+    }
+  }
+
+  function closeModal() {
+    modalState = null;
+    if (gameModal) {
+      gameModal.style.display = 'none';
+    }
+  }
+
   /* ===================== 语言切换 ===================== */
   function applyLanguage () {
     const t = TEXTS[currentLang];
@@ -1391,17 +1555,23 @@
     if (statWarningLabelEl) statWarningLabelEl.textContent = t.statWarningLabel;
     if (topFoodsTitleEl)    topFoodsTitleEl.textContent    = t.topFoodsTitle;
 
-    // 游戏页文本（关卡标题和计时器在重置时也会根据关卡再更新）
+    // 游戏页文本
     if (gameInfoText)   gameInfoText.textContent  = t.gameInfo;
     if (gameLevelText) {
       gameLevelText.textContent = (currentLevel === 1) ? t.gameLevel1 : t.gameLevel2;
     }
     if (gameStartBtn)   gameStartBtn.textContent  = t.gameStart;
+    if (gameHelpBtn)    gameHelpBtn.textContent   = t.gameHelp;
     if (timerTextEl) {
       timerTextEl.textContent = t.timerPrefix + timeLeft + t.timerSuffix;
     }
     if (matchCountText) {
       matchCountText.textContent = t.matchPrefix + matchedPairs + t.matchSuffix;
+    }
+
+    // 弹窗内容（如果此时是打开状态）
+    if (modalState && gameModal && gameModal.style.display !== 'none') {
+      setModalContent(modalState);
     }
 
     // 其他
@@ -1467,6 +1637,12 @@
     });
     currentSection = id;
     updateContentHeader(id);
+
+    // 第一次进入小游戏时自动弹出说明
+    if (id === 'section-game' && !introShown) {
+      openModal('intro');
+      introShown = true;
+    }
   }
 
   navItems.forEach(item => {
@@ -1602,14 +1778,18 @@
     });
   });
 
-  /* ===================== 简化版「连连看」小游戏（两关） ===================== */
+  /* ===================== 简化版「连连看」小游戏（两关 + 行/列规则） ===================== */
   const MAX_LEVEL = 2;
   let currentLevel = 1;
+
+  const ROWS = 4;
+  const COLS = 6;
+  let grid = []; // 二维数组存每个位置的 {id, el}
 
   let gameRunning = false;
   let timerId = null;
   let timeLeft = 60;
-  let openedCard = null;
+  let openedCard = null; // {el,row,col}
   let matchedPairs = 0;
   let totalPairs = 0;
 
@@ -1643,14 +1823,14 @@
     gameBoard.innerHTML = '';
     resetGameState();
 
-    // 使用 6 种食物，每种 4 张，共 24 张（两关相同棋盘，时间不同）
+    // 使用 6 种食物，每种 4 张，共 24 张
     const pool = ['apple', 'rice', 'milk', 'chicken', 'carrot', 'cola'];
     const ids = [];
     pool.forEach(id => {
       ids.push(id, id, id, id); // 每种 4 张
     });
 
-    const cards = ids.slice(0, 24);
+    const cards = ids.slice(0, ROWS * COLS);
     totalPairs = cards.length / 2;
 
     // 洗牌
@@ -1659,16 +1839,45 @@
       [cards[i], cards[j]] = [cards[j], cards[i]];
     }
 
+    grid = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+
     cards.forEach((id, index) => {
       const food = FOOD_BY_ID[id];
       if (!food) return;
+      const r = Math.floor(index / COLS);
+      const c = index % COLS;
       const div = document.createElement('div');
       div.className = 'tile game-card';
       div.dataset.foodId = id;
-      div.dataset.index = index;
+      div.dataset.row = String(r);
+      div.dataset.col = String(c);
       div.textContent = food.icon;
       gameBoard.appendChild(div);
+      grid[r][c] = { id, el: div };
     });
+  }
+
+  function canLink(r1, c1, r2, c2) {
+    // 同一行：检查中间是否有卡片
+    if (r1 === r2) {
+      const minC = Math.min(c1, c2) + 1;
+      const maxC = Math.max(c1, c2);
+      for (let c = minC; c < maxC; c++) {
+        if (grid[r1][c] !== null) return false;
+      }
+      return true;
+    }
+    // 同一列：检查中间是否有卡片
+    if (c1 === c2) {
+      const minR = Math.min(r1, r2) + 1;
+      const maxR = Math.max(r1, r2);
+      for (let r = minR; r < maxR; r++) {
+        if (grid[r][c1] !== null) return false;
+      }
+      return true;
+    }
+    // 既不是同一行也不是同一列，不允许
+    return false;
   }
 
   function startTimer () {
@@ -1677,13 +1886,14 @@
     timerTextEl.textContent = tText.timerPrefix + timeLeft + tText.timerSuffix;
     timerId = setInterval(() => {
       timeLeft -= 1;
+      if (timeLeft < 0) timeLeft = 0;
       timerTextEl.textContent = tText.timerPrefix + timeLeft + tText.timerSuffix;
       if (timeLeft <= 0) {
         clearInterval(timerId);
         gameRunning = false;
         showToast(currentLang === 'zh'
-          ? '时间到啦，本关结束~ 可以点击重新开始再试一次。'
-          : '시간 종료! 이번 판이 끝났습니다. 다시 도전해 보세요 :)');
+          ? '时间到啦，本关结束~ 可以点击「开始游戏」重新挑战。'
+          : '시간 종료! 이번 판이 끝났습니다. 「게임 시작」을 눌러 다시 도전해 보세요 :)');
       }
     }, 1000);
   }
@@ -1704,9 +1914,37 @@
 
   if (gameStartBtn) {
     gameStartBtn.addEventListener('click', () => {
-      // 每次手动点“开始游戏”都从第 1 关重新开始
+      // 手动点“开始游戏”从第 1 关开始
       currentLevel = 1;
       startGame();
+    });
+  }
+
+  if (gameHelpBtn) {
+    gameHelpBtn.addEventListener('click', () => {
+      openModal('intro');
+    });
+  }
+
+  if (gameModalPrimaryBtn) {
+    gameModalPrimaryBtn.addEventListener('click', () => {
+      if (modalState === 'intro') {
+        closeModal();
+        currentLevel = 1;
+        startGame();
+      } else if (modalState === 'levelClear') {
+        closeModal();
+        currentLevel += 1;
+        startGame();
+      } else if (modalState === 'allClear') {
+        closeModal();
+      }
+    });
+  }
+
+  if (gameModalSecondaryBtn) {
+    gameModalSecondaryBtn.addEventListener('click', () => {
+      closeModal();
     });
   }
 
@@ -1716,22 +1954,36 @@
       if (!card || !gameRunning) return;
       if (card.classList.contains('matched')) return;
 
+      const row = Number(card.dataset.row);
+      const col = Number(card.dataset.col);
+
       if (!openedCard) {
-        openedCard = card;
+        openedCard = { el: card, row, col };
         card.classList.add('selected');
         return;
       }
 
-      if (openedCard === card) return;
+      if (openedCard.el === card) return;
 
-      const id1 = openedCard.dataset.foodId;
+      const id1 = openedCard.el.dataset.foodId;
       const id2 = card.dataset.foodId;
 
-      if (id1 === id2) {
+      const r1 = openedCard.row;
+      const c1 = openedCard.col;
+      const r2 = row;
+      const c2 = col;
+
+      const t = TEXTS[currentLang];
+
+      if (id1 === id2 && canLink(r1, c1, r2, c2)) {
         // 匹配成功
-        openedCard.classList.remove('selected');
-        openedCard.classList.add('matched');
+        openedCard.el.classList.remove('selected');
+        openedCard.el.classList.add('matched');
         card.classList.add('matched');
+        // 从网格中清除
+        grid[r1][c1] = null;
+        grid[r2][c2] = null;
+
         matchedPairs += 1;
 
         const food = FOOD_BY_ID[id1];
@@ -1740,7 +1992,6 @@
           showToast(tip);
         }
 
-        const t = TEXTS[currentLang];
         if (matchCountText) {
           matchCountText.textContent = t.matchPrefix + matchedPairs + t.matchSuffix;
         }
@@ -1748,21 +1999,27 @@
         if (matchedPairs >= totalPairs) {
           gameRunning = false;
           if (timerId) clearInterval(timerId);
-          const t2 = TEXTS[currentLang];
 
+          // 通关弹窗
           if (currentLevel < MAX_LEVEL) {
-            showToast(t2.nextLevelToast);
-            currentLevel += 1;
-            setTimeout(() => {
-              startGame();
-            }, 1400);
+            openModal('levelClear');
           } else {
-            showToast(t2.allClearToast);
+            openModal('allClear');
           }
         }
       } else {
-        // 不匹配
-        openedCard.classList.remove('selected');
+        // 不匹配：扣 3 秒
+        openedCard.el.classList.remove('selected');
+        timeLeft = Math.max(0, timeLeft - 3);
+        if (timerTextEl) {
+          timerTextEl.textContent = t.timerPrefix + timeLeft + t.timerSuffix;
+        }
+        showToast(t.wrongPenalty);
+        if (timeLeft <= 0) {
+          // 提前结束
+          if (timerId) clearInterval(timerId);
+          gameRunning = false;
+        }
       }
 
       openedCard = null;
@@ -1776,4 +2033,3 @@
 </script>
 </body>
 </html>
-
