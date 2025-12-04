@@ -7,27 +7,35 @@
 
   <style>
     :root {
+      /* 恢复原来的颜色方案 */
       --bg: #fffef5;
       --bg-soft: #f8faff;
       --card: #ffffff;
+
       --primary: #5d8aff;
       --primary-soft: #e8f0ff;
+
       --accent-yellow: #ffc145;
       --accent-yellow-soft: #fff5e0;
+
       --accent-blue: #5d8aff;
       --accent-blue-soft: #e8f0ff;
+
       --danger: #ff7675;
       --success: #00b894;
       --warning: #f6a44c;
+
       --text-main: #2d3436;
       --text-sub: #636e72;
+
       --border-soft: #e3e7f0;
       --shadow-soft: 0 18px 45px rgba(170, 188, 212, 0.24);
     }
 
     * {
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans CJK SC", "Noto Sans KR", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+        Arial, "Noto Sans CJK SC", "Noto Sans KR", sans-serif;
     }
 
     body {
@@ -44,6 +52,7 @@
       padding: 16px 12px 32px;
     }
 
+    /* ========== 欢迎弹窗（第一页） ========== */
     .welcome-overlay {
       position: fixed;
       inset: 0;
@@ -119,12 +128,6 @@
       margin-bottom: 4px;
     }
 
-    .field-label span {
-      font-size: 12px;
-      color: var(--text-sub);
-      margin-left: 3px;
-    }
-
     .welcome-input {
       width: 100%;
       border-radius: 999px;
@@ -139,32 +142,6 @@
       border-color: var(--primary);
       box-shadow: 0 0 0 2px rgba(93, 138, 255, 0.25);
       background: #ffffff;
-    }
-
-    .lang-pill-row {
-      display: inline-flex;
-      gap: 6px;
-      padding: 4px;
-      border-radius: 999px;
-      background: #f7f8ff;
-      border: 1px solid #ecf0ff;
-    }
-
-    .lang-pill {
-      border-radius: 999px;
-      border: none;
-      background: transparent;
-      padding: 4px 10px;
-      font-size: 13px;
-      cursor: pointer;
-      color: var(--text-sub);
-    }
-
-    .lang-pill.active {
-      background: #ffffff;
-      box-shadow: 0 0 0 1px rgba(93, 138, 255, 0.7);
-      color: var(--accent-blue);
-      font-weight: 600;
     }
 
     .welcome-btn-row {
@@ -199,6 +176,12 @@
       margin-top: 2px;
     }
 
+    @media (max-width: 720px) {
+      .welcome-card {
+        padding: 22px 18px 20px;
+      }
+    }
+
     /* ========== 主布局：左侧导航 + 右侧内容 ========== */
     .layout {
       margin-top: 80px;
@@ -222,10 +205,24 @@
       overflow: hidden;
     }
 
+    .sidebar::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0, rgba(255, 255, 255, 0) 70%);
+      top: -40px;
+      right: -30px;
+      opacity: 0.7;
+    }
+
     .sidebar-header {
       display: flex;
       align-items: center;
       gap: 8px;
+      position: relative;
+      z-index: 1;
     }
 
     .sidebar-logo {
@@ -259,6 +256,21 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sidebar-user strong {
+      font-size: 13px;
+    }
+
+    .nav-section-label {
+      margin-top: 4px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-sub);
+      opacity: 0.9;
     }
 
     .nav-btns {
@@ -266,6 +278,8 @@
       flex-direction: column;
       gap: 6px;
       margin-top: 4px;
+      position: relative;
+      z-index: 1;
     }
 
     .nav-btn {
@@ -283,6 +297,10 @@
       border: 1px solid rgba(255, 230, 184, 0.8);
     }
 
+    .nav-btn span.icon {
+      font-size: 16px;
+    }
+
     .nav-btn.active {
       background: linear-gradient(135deg, var(--primary), #7da2ff);
       color: #ffffff;
@@ -290,11 +308,16 @@
       box-shadow: 0 10px 22px rgba(93, 138, 255, 0.55);
     }
 
+    .nav-btn.active .icon {
+      transform: translateY(-0.5px);
+    }
+
     .nav-footer {
       margin-top: auto;
       font-size: 11px;
       color: var(--text-sub);
       opacity: 0.9;
+      z-index: 1;
     }
 
     .nav-logout {
@@ -332,6 +355,20 @@
       gap: 6px;
     }
 
+    .content-title-block p {
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .chip-soft {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--accent-blue-soft);
+      color: var(--accent-blue);
+    }
+
     .section {
       display: none;
     }
@@ -340,7 +377,7 @@
       display: block;
     }
 
-    /* 搜索页样式 */
+    /* ========= 查询页样式 ========= */
     .search-row {
       display: flex;
       gap: 8px;
@@ -376,6 +413,17 @@
       border: 1px solid #dfe7ff;
     }
 
+    .btn-soft:hover {
+      background: #e7ecff;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
     .food-chip {
       border-radius: 999px;
       border: 1px solid var(--border-soft);
@@ -384,165 +432,1563 @@
       color: var(--text-sub);
       background: #fafbff;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .food-chip:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+      background: #f1f4ff;
+    }
+
+    .food-summary {
+      font-size: 14px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .stat-box {
+      border-radius: 16px;
+      padding: 10px 12px;
+      background: #f9fbff;
+      border: 1px solid #e2e8ff;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-label {
+      color: var(--text-sub);
+      font-size: 11px;
+    }
+
+    .stat-value {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .small-badge {
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: #eef1ff;
+      color: var(--accent-blue);
+      margin-left: 4px;
+    }
+
+    .tips {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .recipes {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .recipes h4 {
+      margin: 0 0 4px;
+      font-size: 12px;
+    }
+
+    .recipes ul {
+      margin: 2px 0 0;
+      padding-left: 18px;
+    }
+
+    .empty-hint {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 6px;
+    }
+
+    /* ========= 小游戏 区域 ========= */
+    .game-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .game-instructions {
+      background: var(--accent-yellow-soft);
+      border: 1px solid rgba(255, 193, 69, 0.3);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .game-instructions h4 {
+      margin: 0 0 6px 0;
+      color: var(--accent-yellow);
+      font-size: 13px;
+    }
+
+    .game-instructions ul {
+      margin: 4px 0 0;
+      padding-left: 18px;
+    }
+
+    .game-instructions li {
+      margin-bottom: 2px;
+    }
+
+    .game-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .game-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--accent-blue-soft);
+      color: var(--accent-blue);
+      font-size: 12px;
+    }
+
+    .game-info {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .btn-game {
+      border-radius: 999px;
+      border: none;
+      padding: 7px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), #7da2ff);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(93, 138, 255, 0.45);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .game-board {
+      margin-top: 10px;
+      background: #fafbff;
+      border-radius: 18px;
+      border: 1px solid #e1e6ff;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 6px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .tile {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 2px solid #e0e5ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(193, 206, 255, 0.25);
+      transition: all 0.15s ease;
+    }
+
+    .tile:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(118, 165, 255, 0.3);
+    }
+
+    .tile.selected {
+      border-color: var(--accent-blue);
+      background: var(--accent-blue-soft);
+      transform: scale(1.08);
+      box-shadow: 0 8px 16px rgba(93, 138, 255, 0.4);
+    }
+
+    .tile.matched {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .game-status-row {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-sub);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .badge-soft {
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #f4f7ff;
+      border: 1px solid #dde4ff;
+      font-size: 11px;
+    }
+
+    /* ========= 统计页 ========= */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 8px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .stat-card {
+      border-radius: 16px;
+      padding: 9px 11px;
+      background: #f9fbff;
+      border: 1px solid #e1e6ff;
+    }
+
+    .stat-card .stat-label {
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+
+    .stat-card .stat-value {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .top-foods-list {
+      list-style: none;
+      padding: 0;
+      margin: 6px 0 0;
+      font-size: 12px;
+    }
+
+    .top-foods-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 3px 0;
+      border-bottom: 1px dashed #ecf0f1;
+    }
+
+    .top-foods-list li span.count {
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    /* ========= 排行榜页 ========= */
+    .leaderboard-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .leaderboard-card {
+      background: #f9fbff;
+      border-radius: 16px;
+      border: 1px solid #e1e6ff;
+      overflow: hidden;
+    }
+
+    .leaderboard-header {
+      background: var(--accent-blue-soft);
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-blue);
+      border-bottom: 1px solid #e1e6ff;
+    }
+
+    .leaderboard-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .leaderboard-item {
+      padding: 10px 16px;
+      border-bottom: 1px dashed #ecf0f1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .leaderboard-item:last-child {
+      border-bottom: none;
+    }
+
+    .rank-number {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-blue-soft);
+      color: var(--accent-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .rank-number.top-1 { background: gold; color: #333; }
+    .rank-number.top-2 { background: silver; color: #333; }
+    .rank-number.top-3 { background: #cd7f32; color: white; }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .item-details {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    /* 食物知识提示 */
+    .food-tip-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 32px;
+      transform: translateX(-50%) translateY(16px);
+      background: rgba(255, 255, 255, 0.97);
+      color: var(--text-main);
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 50;
+      border: 1px solid #e3e7ff;
+      box-shadow: 0 12px 32px rgba(93, 138, 255, 0.3);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .food-tip-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .food-tip-toast .food-icon {
+      font-size: 20px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .food-tip-toast .tip-content {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    footer {
+      margin-top: 16px;
+      font-size: 11px;
+      text-align: center;
+      color: var(--text-sub);
+    }
+
+    @media (max-width: 860px) {
+      .layout {
+        flex-direction: column;
+      }
+      .sidebar {
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        min-height: 84px;
+        border-radius: 18px;
+      }
+      .sidebar-header {
+        flex: 1;
+      }
+      .sidebar-user,
+      .nav-section-label,
+      .nav-footer {
+        display: none;
+      }
+      .nav-btns {
+        flex-direction: row;
+        flex: 1;
+        justify-content: flex-end;
+      }
+      .nav-btn {
+        font-size: 12px;
+        padding-inline: 10px;
+      }
+      .content {
+        margin-top: 4px;
+      }
+      .game-board {
+        grid-template-columns: repeat(6, 1fr);
+        max-width: 450px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .game-board {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 300px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <!-- 欢迎页 -->
-    <div class="welcome-overlay" id="welcomeOverlay">
-      <div class="welcome-card">
-        <div class="welcome-tag">mini web</div>
-        <div class="welcome-header">
-          <div class="welcome-icon">🥗</div>
-          <div class="welcome-title-block">
-            <h1 id="welcomeTitle">健康饮食选择助手</h1>
-            <p class="welcome-subtitle" id="welcomeSubtitle">简单记录你的食物查询，获得更健康的饮食建议，还可以通过小游戏学习一点营养知识。</p>
-          </div>
-        </div>
-
-        <div class="welcome-form">
-          <div>
-            <div class="field-label" id="labelLang">语言 / Language</div>
-            <div class="lang-pill-row">
-              <button type="button" class="lang-pill active" data-lang="zh" id="langBtnZh">CN 中文</button>
-              <button type="button" class="lang-pill" data-lang="kr" id="langBtnKo">KR 한국어</button>
-            </div>
-          </div>
-
-          <div>
-            <div class="field-label" id="labelName">昵称 / 学号 <span id="labelNameHint">例如：小番茄同学、2025xxx</span></div>
-            <input id="welcomeNameInput" class="welcome-input" placeholder="请输入你的昵称或学号" />
-          </div>
-
-          <div class="welcome-btn-row">
-            <button class="btn-primary" id="welcomeStartBtn"><span>✨</span><span id="btnStartText">进入小助手</span></button>
-          </div>
-
-          <div class="welcome-tip" id="welcomeTip">
-            提示：系统会用你填写的昵称记录查询行为和小游戏成绩，仅用于课堂展示。
-          </div>
+<div class="app">
+  <!-- ===== 欢迎页 ===== -->
+  <div class="welcome-overlay" id="welcomeOverlay">
+    <div class="welcome-card">
+      <div class="welcome-tag">健康助手</div>
+      <div class="welcome-header">
+        <div class="welcome-icon">🥗</div>
+        <div class="welcome-title-block">
+          <h1>健康饮食选择助手</h1>
+          <p class="welcome-subtitle">
+            简单记录你的食物查询，获得更健康的饮食建议，还可以通过小游戏学习营养知识。
+          </p>
         </div>
       </div>
-    </div>
 
-    <!-- 主布局 -->
-    <div class="layout" id="mainLayout" style="opacity:0.25;pointer-events:none;">
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <div class="sidebar-logo">🥗</div>
-          <div>
-            <div class="sidebar-title" id="sideTitle">健康饮食助手</div>
-            <div class="sidebar-sub">轻松选择健康食物，获得个性化建议</div>
-          </div>
+      <div class="welcome-form">
+        <div>
+          <div class="field-label">昵称 / 学号</div>
+          <input id="welcomeNameInput" class="welcome-input"
+                 placeholder="例如：小番茄同学、2025xxx" />
         </div>
 
-        <div class="sidebar-user">
-          <strong id="sidebarUserName">欢迎，小番茄同学</strong>
-          <div class="sidebar-lang-indicator" id="sidebarLang">语言: 中文</div>
+        <div class="welcome-btn-row">
+          <button class="btn-primary" id="welcomeStartBtn">
+            <span>✨</span><span>进入小助手</span>
+          </button>
         </div>
 
-        <div class="nav-section-label">导航</div>
-        <div class="nav-btns">
-          <button class="nav-btn active" id="btnHome"><span class="icon">🏠</span>主页</button>
-          <button class="nav-btn" id="btnSearch"><span class="icon">🔍</span>查询食物</button>
-          <button class="nav-btn" id="btnGame"><span class="icon">🎮</span>小游戏</button>
-        </div>
-
-        <div class="nav-footer">
-          <div>© 2025 健康饮食助手</div>
-          <div class="nav-logout" id="logoutBtn">注销</div>
-        </div>
-      </aside>
-
-      <div class="content">
-        <div class="content-header">
-          <div class="content-title-block">
-            <h2>健康饮食建议</h2>
-            <p>为你推荐更适合的饮食计划</p>
-          </div>
-          <div class="chip-soft">健康饮食</div>
-        </div>
-
-        <div class="section active" id="homeSection">
-          <p>欢迎来到健康饮食助手！我们将帮助你选择健康的食物，跟踪饮食习惯并提供科学的饮食建议。</p>
-        </div>
-
-        <div class="section" id="searchSection">
-          <div class="search-row">
-            <input type="text" id="foodSearchInput" class="search-input" placeholder="搜索食物...">
-            <button class="btn-soft" id="searchBtn">搜索</button>
-          </div>
-          <div class="chip-row" id="searchResults">
-            <!-- 动态显示搜索结果 -->
-          </div>
-        </div>
-
-        <div class="section" id="gameSection">
-          <p>小游戏内容：健康饮食知识挑战</p>
-          <button class="btn-primary" id="startGameBtn">开始挑战</button>
+        <div class="welcome-tip">
+          提示：系统会用你填写的昵称记录查询行为和小游戏成绩，仅用于课堂展示。
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-    // 简单的交互逻辑
-    document.getElementById("btnHome").addEventListener("click", () => {
-      document.getElementById("homeSection").classList.add("active");
-      document.getElementById("searchSection").classList.remove("active");
-      document.getElementById("gameSection").classList.remove("active");
-    });
+  <!-- ===== 主布局：左侧导航 + 右侧内容 ===== -->
+  <div class="layout" id="mainLayout" style="opacity:0.25;pointer-events:none;">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">🥗</div>
+        <div>
+          <div class="sidebar-title">健康饮食助手</div>
+          <div class="sidebar-sub">Food · Stats · Game</div>
+        </div>
+      </div>
 
-    document.getElementById("btnSearch").addEventListener("click", () => {
-      document.getElementById("searchSection").classList.add("active");
-      document.getElementById("homeSection").classList.remove("active");
-      document.getElementById("gameSection").classList.remove("active");
-    });
+      <div class="sidebar-user">
+        <div id="sideUserLine"><strong>访客</strong></div>
+      </div>
 
-    document.getElementById("btnGame").addEventListener("click", () => {
-      document.getElementById("gameSection").classList.add("active");
-      document.getElementById("homeSection").classList.remove("active");
-      document.getElementById("searchSection").classList.remove("active");
-    });
+      <div class="nav-section-label">功能 / Features</div>
+      <div class="nav-btns">
+        <button class="nav-btn active" data-target="section-search">
+          <span class="icon">🔍</span><span>食物查询</span>
+        </button>
+        <button class="nav-btn" data-target="section-stats">
+          <span class="icon">📊</span><span>数据统计</span>
+        </button>
+        <button class="nav-btn" data-target="section-leaderboard">
+          <span class="icon">🏆</span><span>排行榜</span>
+        </button>
+        <button class="nav-btn" data-target="section-game">
+          <span class="icon">🎮</span><span>连连看游戏</span>
+        </button>
+      </div>
 
-    // 搜索功能
-    document.getElementById("searchBtn").addEventListener("click", () => {
-      let query = document.getElementById("foodSearchInput").value;
-      let results = ["苹果", "香蕉", "胡萝卜", "西红柿", "菠菜"]; // 假设搜索结果
-      let filteredResults = results.filter(food => food.includes(query));
-      let resultsContainer = document.getElementById("searchResults");
-      resultsContainer.innerHTML = "";
-      filteredResults.forEach(food => {
-        let chip = document.createElement("div");
-               chip.classList.add("food-chip");
-        chip.textContent = food;
-        resultsContainer.appendChild(chip);
+      <div class="nav-footer">
+        <div>小小网页实验 · 仅课堂展示使用。</div>
+        <div class="nav-logout" id="navLogout">重新登录</div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <!-- 顶部标题 -->
+      <div class="content-header">
+        <div class="content-title-block">
+          <h2 id="contentTitle"><span>🔍</span><span id="contentTitleText">食物查询</span></h2>
+          <p id="contentSubtitle">
+            输入常见食物名称，查看热量与营养结构，并得到简单健康建议。
+          </p>
+        </div>
+        <div class="chip-soft">健康饮食 mini demo</div>
+      </div>
+
+      <!-- ========== Section 1：食物查询 ========== -->
+      <section class="section active" id="section-search">
+        <div class="search-row">
+          <input id="foodInput" class="search-input" placeholder="输入食物，如：苹果、牛奶、鸡胸肉" />
+          <button class="btn-soft" id="searchBtn">搜索</button>
+        </div>
+
+        <div class="chip-row">
+          <div class="food-chip" data-key="苹果">🍎 苹果</div>
+          <div class="food-chip" data-key="米饭">🍚 米饭</div>
+          <div class="food-chip" data-key="牛奶">🥛 牛奶</div>
+          <div class="food-chip" data-key="鸡胸肉">🍗 鸡胸肉</div>
+          <div class="food-chip" data-key="胡萝卜">🥕 胡萝卜</div>
+          <div class="food-chip" data-key="可乐">🥤 可乐</div>
+          <div class="food-chip" data-key="鸡蛋">🥚 鸡蛋</div>
+          <div class="food-chip" data-key="西兰花">🥦 西兰花</div>
+        </div>
+
+        <div id="foodResultArea"></div>
+
+        <div id="foodDetail" style="display:none;">
+          <div class="result-grid">
+            <div class="stat-box">
+              <span class="stat-label">热量</span>
+              <span class="stat-value" id="calorieValue">120 kcal</span>
+            </div>
+
+            <div class="stat-box">
+              <span class="stat-label">蛋白质</span>
+              <span class="stat-value" id="proteinValue">6 g</span>
+            </div>
+
+            <div class="stat-box">
+              <span class="stat-label">脂肪</span>
+              <span class="stat-value" id="fatValue">1.3 g</span>
+            </div>
+
+            <div class="stat-box">
+              <span class="stat-label">碳水化合物</span>
+              <span class="stat-value" id="carbValue">20 g</span>
+            </div>
+          </div>
+
+          <div class="tips" id="healthTip" style="margin-top:10px;">
+            👍 建议：水果富含维生素，可作为加餐，但要避免一次吃太多。
+          </div>
+
+          <div class="recipes">
+            <h4>推荐搭配：</h4>
+            <ul id="recipeList">
+              <li>🍎 苹果 + 🥛 牛奶（增强饱腹感）</li>
+              <li>🍎 苹果 + 🥜 坚果（维生素 + 健康脂肪）</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="empty-hint" id="emptyHint" style="display:none;">未查询到该食物，请尝试其他关键词。</div>
+      </section>
+
+      <!-- ========== Section 2：数据统计 ========== -->
+      <section class="section" id="section-stats">
+        <div class="content-header">
+          <h2 class="content-title">数据统计</h2>
+          <p class="content-subtitle">根据你在本次使用中的食物查询结果，给出一些简单的统计指标</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">累计查询次数</div>
+            <div class="stat-value" id="statSearchCount">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">平均热量（查询食物）</div>
+            <div class="stat-value" id="statAvgCal">0 kcal</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">较健康选择次数</div>
+            <div class="stat-value" id="statHealthyCount">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">需要注意的食物</div>
+            <div class="stat-value" id="statWarningCount">0</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>本次查询中出现最多的食物 TOP 3</h3>
+          <ul class="top-foods-list" id="topFoodsList">
+            <li class="empty-hint">还没有数据，可以先去上方的「食物查询」玩一玩。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ========== Section 3：排行榜 ========== -->
+      <section class="section" id="section-leaderboard">
+        <div class="content-header">
+          <h2 class="content-title">排行榜</h2>
+          <p class="content-subtitle">查看食物查询和游戏成绩的排名</p>
+        </div>
+
+        <div class="leaderboard-container">
+          <div class="leaderboard-card">
+            <div class="leaderboard-header">🔍 食物查询排行榜</div>
+            <div class="leaderboard-list" id="foodLeaderboard">
+              <div class="leaderboard-item">
+                <div class="item-info">
+                  <div class="item-name">暂无数据</div>
+                  <div class="item-details">快去查询一些食物吧</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="leaderboard-card">
+            <div class="leaderboard-header">🏆 游戏记录排行榜</div>
+            <div class="leaderboard-list" id="gameLeaderboard">
+              <div class="leaderboard-item">
+                <div class="item-info">
+                  <div class="item-name">暂无数据</div>
+                  <div class="item-details">快去玩连连看游戏吧</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== Section 4：连连看游戏 ========== -->
+      <section class="section" id="section-game">
+        <div class="game-container">
+          <!-- 游戏说明（一直显示，不是弹窗） -->
+          <div class="game-instructions">
+            <h4>🎮 连连看游戏说明</h4>
+            <p><strong>游戏目标：</strong>在限定时间内，消除所有成对的相同食物图案。</p>
+            <p><strong>连线规则：</strong>选中的两个相同图案需用≤3条直线连接（可以转弯，但不能穿过其他图案）。</p>
+            <p><strong>游戏特色：</strong>消除一对食物时，会弹出该食物的营养知识小提示！</p>
+            <p><strong>操作方式：</strong>点击一个图案，再点击另一个相同图案，符合连线规则即消除。</p>
+          </div>
+
+          <div class="game-top-row">
+            <span class="game-pill" id="gameLevelText">第 1 关 · 初阶</span>
+            <span class="game-info">点击两个相同食物即可消除 · 每关限定时间</span>
+            <button class="btn-game" id="gameStartBtn">开始游戏</button>
+            <button class="btn-soft" id="gameRestartBtn">重新开始</button>
+          </div>
+
+          <div class="game-status-row">
+            <span class="badge-soft" id="timerText">⏱ 60 秒</span>
+            <span class="badge-soft" id="matchCountText">已消除：0 组</span>
+            <span class="badge-soft" id="scoreText">得分：0</span>
+          </div>
+
+          <div class="game-board" id="gameBoard">
+            <!-- 游戏棋盘将通过JS生成 -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div> <!-- /main-layout -->
+</div>   <!-- /app-wrapper -->
+
+<!-- 食物知识提示 -->
+<div class="food-tip-toast" id="foodTipToast">
+  <span class="food-icon" id="tipFoodIcon">🍎</span>
+  <span class="tip-content" id="tipContent">苹果富含维生素C和膳食纤维</span>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ===================== DOM 引用 ===================== */
+  const welcomeOverlay = document.getElementById('welcomeOverlay');
+  const mainLayout = document.getElementById('mainLayout');
+  const startBtn = document.getElementById('welcomeStartBtn');
+  const nameInput = document.getElementById('welcomeNameInput');
+  const navLogout = document.getElementById('navLogout');
+  const sideUserLine = document.getElementById('sideUserLine');
+  
+  // 食物查询相关
+  const foodInput = document.getElementById('foodInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const foodChips = document.querySelectorAll('.food-chip');
+  const foodResultArea = document.getElementById('foodResultArea');
+  const foodDetail = document.getElementById('foodDetail');
+  const emptyHint = document.getElementById('emptyHint');
+  
+  // 统计相关
+  const statSearchCount = document.getElementById('statSearchCount');
+  const statAvgCal = document.getElementById('statAvgCal');
+  const statHealthyCount = document.getElementById('statHealthyCount');
+  const statWarningCount = document.getElementById('statWarningCount');
+  const topFoodsList = document.getElementById('topFoodsList');
+  
+  // 排行榜相关
+  const foodLeaderboard = document.getElementById('foodLeaderboard');
+  const gameLeaderboard = document.getElementById('gameLeaderboard');
+  
+  // 游戏相关
+  const gameStartBtn = document.getElementById('gameStartBtn');
+  const gameRestartBtn = document.getElementById('gameRestartBtn');
+  const gameLevelText = document.getElementById('gameLevelText');
+  const timerText = document.getElementById('timerText');
+  const matchCountText = document.getElementById('matchCountText');
+  const scoreText = document.getElementById('scoreText');
+  const gameBoard = document.getElementById('gameBoard');
+  
+  // 食物提示
+  const foodTipToast = document.getElementById('foodTipToast');
+  const tipFoodIcon = document.getElementById('tipFoodIcon');
+  const tipContent = document.getElementById('tipContent');
+  
+  // 导航相关
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const sections = document.querySelectorAll('.section');
+  const contentTitle = document.getElementById('contentTitle');
+  const contentTitleText = document.getElementById('contentTitleText');
+  const contentSubtitle = document.getElementById('contentSubtitle');
+  
+  /* ===================== 用户数据 ===================== */
+  let user = {
+    name: '',
+    searches: [], // 食物查询记录
+    gameRecords: [] // 游戏记录
+  };
+  
+  /* ===================== 食物数据库 ===================== */
+  const FOOD_DATABASE = {
+    '苹果': {
+      icon: '🍎',
+      name: '苹果',
+      calories: 52,
+      protein: 0.3,
+      fat: 0.2,
+      carbs: 14,
+      level: 'healthy',
+      tip: '富含维生素C和膳食纤维，可作为加餐或早餐配餐。',
+      gameTip: '水果替代含糖零食，可以在保证口感的同时减少添加糖摄入。',
+      recipes: [
+        '苹果 + 原味酸奶 + 燕麦，做成酸奶水果碗。',
+        '切片苹果 + 一小把坚果，作为下午小点心。'
+      ]
+    },
+    '米饭': {
+      icon: '🍚',
+      name: '白米饭',
+      calories: 130,
+      protein: 2.4,
+      fat: 0.3,
+      carbs: 28,
+      level: 'moderate',
+      tip: '控制份量，并搭配足够蔬菜与蛋白质，可以成为均衡一餐。',
+      gameTip: '白米饭本身不等于「不健康」，关键是份量和搭配是否均衡。',
+      recipes: [
+        '一碗米饭 + 一份蔬菜 + 一份瘦肉或豆腐，组成简单「均衡饭碗」。',
+        '用糙米部分替代白米，可增加膳食纤维摄入。'
+      ]
+    },
+    '牛奶': {
+      icon: '🥛',
+      name: '牛奶',
+      calories: 60,
+      protein: 3.2,
+      fat: 3.3,
+      carbs: 4.8,
+      level: 'healthy',
+      tip: '提供优质蛋白和钙，选择低脂或脱脂版本可以减少饱和脂肪摄入。',
+      gameTip: '钙和蛋白质有助于骨骼和肌肉健康，注意选择含糖量较低的版本。',
+      recipes: [
+        '早餐：牛奶 + 全麦面包 + 水果。',
+        '用牛奶代替含糖奶茶，可减少不少额外糖分。'
+      ]
+    },
+    '鸡胸肉': {
+      icon: '🍗',
+      name: '鸡胸肉',
+      calories: 120,
+      protein: 22,
+      fat: 3,
+      carbs: 0,
+      level: 'healthy',
+      tip: '高蛋白、低脂肪，是常见的健身友好型主菜。',
+      gameTip: '优先选择少油的烹饪方式，可以在保证蛋白质摄入的同时控制总热量。',
+      recipes: [
+        '煎或烤鸡胸肉 + 蔬菜沙拉，作为减脂餐。',
+        '鸡胸肉切丁与蔬菜同炒，配少量米饭。'
+      ]
+    },
+    '胡萝卜': {
+      icon: '🥕',
+      name: '胡萝卜',
+      calories: 41,
+      protein: 0.9,
+      fat: 0.2,
+      carbs: 10,
+      level: 'healthy',
+      tip: '含有β-胡萝卜素，有助于维持正常视力和皮肤健康。',
+      gameTip: '橙色蔬菜通常富含维生素 A 前体，有助于视力与皮肤健康。',
+      recipes: [
+        '胡萝卜炒西兰花，作为配菜。',
+        '将胡萝卜切条，搭配酸奶蘸酱当小零食。'
+      ]
+    },
+    '可乐': {
+      icon: '🥤',
+      name: '含糖饮料（可乐）',
+      calories: 42,
+      protein: 0,
+      fat: 0,
+      carbs: 11,
+      level: 'warning',
+      tip: '几乎只提供糖与热量，建议减少频率或换成无糖/白水/茶饮。',
+      gameTip: '含糖饮料很容易在不知不觉中抬高一天的总热量和糖摄入。',
+      recipes: [
+        '尝试气泡水 + 柠檬片，作为替代。',
+        '用冷泡茶代替含糖饮料。'
+      ]
+    },
+    '鸡蛋': {
+      icon: '🥚',
+      name: '鸡蛋',
+      calories: 155,
+      protein: 13,
+      fat: 11,
+      carbs: 1.1,
+      level: 'healthy',
+      tip: '优质蛋白质来源，含有多种维生素和矿物质。',
+      gameTip: '鸡蛋是性价比极高的蛋白质来源，建议每天吃1-2个。',
+      recipes: [
+        '水煮蛋是最健康的吃法。',
+        '蒸蛋羹口感嫩滑，适合老人小孩。'
+      ]
+    },
+    '西兰花': {
+      icon: '🥦',
+      name: '西兰花',
+      calories: 34,
+      protein: 2.8,
+      fat: 0.4,
+      carbs: 7,
+      level: 'healthy',
+      tip: '富含维生素C、K和膳食纤维，是超级蔬菜之一。',
+      gameTip: '深绿色蔬菜营养价值高，建议每天都要吃一些。',
+      recipes: [
+        '清炒西兰花，保留最多营养。',
+        '西兰花炒虾仁，高蛋白低脂。'
+      ]
+    },
+    '香蕉': {
+      icon: '🍌',
+      name: '香蕉',
+      calories: 89,
+      protein: 1.1,
+      fat: 0.3,
+      carbs: 23,
+      level: 'healthy',
+      tip: '富含钾元素，有助于维持血压稳定。',
+      gameTip: '香蕉是很好的运动后补充能量的食物。',
+      recipes: [
+        '香蕉牛奶，简单营养。',
+        '香蕉燕麦饼干，健康零食。'
+      ]
+    },
+    '面包': {
+      icon: '🍞',
+      name: '全麦面包',
+      calories: 247,
+      protein: 13,
+      fat: 3.4,
+      carbs: 41,
+      level: 'moderate',
+      tip: '选择全麦面包比白面包更有营养。',
+      gameTip: '全麦面包的升糖指数较低，饱腹感更强。',
+      recipes: [
+        '全麦面包夹鸡蛋和蔬菜。',
+        '全麦面包配牛油果。'
+      ]
+    }
+  };
+  
+  /* ===================== 数据持久化 ===================== */
+  function saveUserData() {
+    localStorage.setItem('healthFoodHelper_user', JSON.stringify(user));
+  }
+  
+  function loadUserData() {
+    const saved = localStorage.getItem('healthFoodHelper_user');
+    if (saved) {
+      user = JSON.parse(saved);
+      if (user.name && sideUserLine) {
+        sideUserLine.innerHTML = `<strong>${user.name}</strong>`;
+      }
+    }
+  }
+  
+  /* ===================== 欢迎页逻辑 ===================== */
+  if (startBtn && welcomeOverlay && mainLayout) {
+    startBtn.addEventListener('click', () => {
+      const name = nameInput.value.trim();
+      if (!name) {
+        showFoodTip('请先输入一个昵称或学号~', '⚠️');
+        if (nameInput) nameInput.focus();
+        return;
+      }
+      user.name = name;
+      if (sideUserLine) {
+        sideUserLine.innerHTML = `<strong>${name}</strong>`;
+      }
+      welcomeOverlay.style.display = 'none';
+      mainLayout.style.opacity = '1';
+      mainLayout.style.pointerEvents = 'auto';
+      saveUserData();
+    });
+  }
+  
+  if (navLogout && welcomeOverlay && mainLayout) {
+    navLogout.addEventListener('click', () => {
+      welcomeOverlay.style.display = 'flex';
+      mainLayout.style.opacity = '0.25';
+      mainLayout.style.pointerEvents = 'none';
+    });
+  }
+  
+  /* ===================== 导航切换 ===================== */
+  function showSection(sectionId) {
+    // 更新导航按钮状态
+    navBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.target === sectionId);
+    });
+    
+    // 显示对应的section
+    sections.forEach(section => {
+      section.classList.toggle('active', section.id === sectionId);
+    });
+    
+    // 更新标题
+    updateContentHeader(sectionId);
+    
+    // 如果是排行榜页面，更新排行榜数据
+    if (sectionId === 'section-leaderboard') {
+      updateLeaderboards();
+    }
+    
+    // 如果是统计页面，更新统计数据
+    if (sectionId === 'section-stats') {
+      updateStats();
+    }
+  }
+  
+  function updateContentHeader(sectionId) {
+    if (!contentTitle || !contentTitleText || !contentSubtitle) return;
+    
+    const icon = contentTitle.querySelector('span');
+    if (!icon) return;
+    
+    if (sectionId === 'section-search') {
+      icon.textContent = '🔍';
+      contentTitleText.textContent = '食物查询';
+      contentSubtitle.textContent = '输入常见食物名称，查看热量与营养结构，并得到简单健康建议。';
+    } else if (sectionId === 'section-stats') {
+      icon.textContent = '📊';
+      contentTitleText.textContent = '数据统计';
+      contentSubtitle.textContent = '根据你在本次使用中的食物查询结果，给出一些简单的统计指标';
+    } else if (sectionId === 'section-leaderboard') {
+      icon.textContent = '🏆';
+      contentTitleText.textContent = '排行榜';
+      contentSubtitle.textContent = '查看食物查询和游戏成绩的排名';
+    } else if (sectionId === 'section-game') {
+      icon.textContent = '🎮';
+      contentTitleText.textContent = '连连看游戏';
+      contentSubtitle.textContent = '消除相同食物图案，学习营养知识';
+    }
+  }
+  
+  // 为导航按钮添加点击事件
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      showSection(btn.dataset.target);
+    });
+  });
+  
+  /* ===================== 食物查询功能 ===================== */
+  function searchFood(foodName) {
+    const food = FOOD_DATABASE[foodName];
+    
+    if (!food) {
+      foodDetail.style.display = 'none';
+      emptyHint.style.display = 'block';
+      return;
+    }
+    
+    // 记录查询
+    user.searches.push({
+      food: foodName,
+      time: new Date().toLocaleString(),
+      calories: food.calories,
+      level: food.level
+    });
+    
+    // 保存数据
+    saveUserData();
+    
+    // 显示结果
+    foodResultArea.innerHTML = `
+      <div class="food-summary">
+        ${food.icon} ${food.name}
+      </div>
+    `;
+    
+    document.getElementById('calorieValue').textContent = food.calories + ' kcal';
+    document.getElementById('proteinValue').textContent = food.protein + ' g';
+    document.getElementById('fatValue').textContent = food.fat + ' g';
+    document.getElementById('carbValue').textContent = food.carbs + ' g';
+    document.getElementById('healthTip').textContent = '👍 建议：' + food.tip;
+    
+    const recipeList = document.getElementById('recipeList');
+    recipeList.innerHTML = '';
+    food.recipes.forEach(recipe => {
+      const li = document.createElement('li');
+      li.textContent = recipe;
+      recipeList.appendChild(li);
+    });
+    
+    foodDetail.style.display = 'block';
+    emptyHint.style.display = 'none';
+    
+    // 更新统计
+    updateStats();
+  }
+  
+  // 搜索按钮事件
+  if (searchBtn && foodInput) {
+    searchBtn.addEventListener('click', () => {
+      const val = foodInput.value.trim();
+      if (val) searchFood(val);
+    });
+    
+    foodInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const val = foodInput.value.trim();
+        if (val) searchFood(val);
+      }
+    });
+  }
+  
+  // 快速标签事件
+  foodChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const foodName = chip.dataset.key;
+      foodInput.value = foodName;
+      searchFood(foodName);
+    });
+  });
+  
+  /* ===================== 统计功能 ===================== */
+  function updateStats() {
+    if (!user.searches.length) return;
+    
+    const total = user.searches.length;
+    const healthy = user.searches.filter(s => s.level === 'healthy').length;
+    const warning = user.searches.filter(s => s.level === 'warning').length;
+    const avgCal = Math.round(user.searches.reduce((sum, s) => sum + s.calories, 0) / total);
+    
+    if (statSearchCount) statSearchCount.textContent = total;
+    if (statAvgCal) statAvgCal.textContent = avgCal + ' kcal';
+    if (statHealthyCount) statHealthyCount.textContent = healthy;
+    if (statWarningCount) statWarningCount.textContent = warning;
+    
+    // 更新食物频率排行榜
+    const foodCounts = {};
+    user.searches.forEach(search => {
+      foodCounts[search.food] = (foodCounts[search.food] || 0) + 1;
+    });
+    
+    const sortedFoods = Object.entries(foodCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3);
+    
+    if (topFoodsList) {
+      topFoodsList.innerHTML = '';
+      if (sortedFoods.length === 0) {
+        const li = document.createElement('li');
+        li.className = 'empty-hint';
+        li.textContent = '还没有数据，可以先去上方的「食物查询」玩一玩。';
+        topFoodsList.appendChild(li);
+      } else {
+        sortedFoods.forEach(([foodName, count]) => {
+          const food = FOOD_DATABASE[foodName];
+          const li = document.createElement('li');
+          li.innerHTML = `<span>${food ? food.icon : ''} ${foodName}</span><span class="count">${count}次</span>`;
+          topFoodsList.appendChild(li);
+        });
+      }
+    }
+  }
+  
+  /* ===================== 排行榜功能 ===================== */
+  function updateLeaderboards() {
+    // 食物查询排行榜
+    const foodCounts = {};
+    user.searches.forEach(search => {
+      foodCounts[search.food] = (foodCounts[search.food] || 0) + 1;
+    });
+    
+    const sortedFoods = Object.entries(foodCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10);
+    
+    if (foodLeaderboard) {
+      foodLeaderboard.innerHTML = '';
+      if (sortedFoods.length === 0) {
+        const item = document.createElement('div');
+        item.className = 'leaderboard-item';
+        item.innerHTML = `
+          <div class="item-info">
+            <div class="item-name">暂无数据</div>
+            <div class="item-details">快去查询一些食物吧</div>
+          </div>
+        `;
+        foodLeaderboard.appendChild(item);
+      } else {
+        sortedFoods.forEach(([foodName, count], index) => {
+          const food = FOOD_DATABASE[foodName];
+          const item = document.createElement('div');
+          item.className = 'leaderboard-item';
+          item.innerHTML = `
+            <div class="rank-number ${index < 3 ? 'top-' + (index + 1) : ''}">${index + 1}</div>
+            <div class="item-info">
+              <div class="item-name">${food ? food.icon : ''} ${foodName}</div>
+              <div class="item-details">查询次数: ${count}次</div>
+            </div>
+          `;
+          foodLeaderboard.appendChild(item);
+        });
+      }
+    }
+    
+    // 游戏记录排行榜
+    const sortedGames = user.gameRecords
+      .sort((a, b) => (a.time || 999) - (b.time || 999))
+      .slice(0, 10);
+    
+    if (gameLeaderboard) {
+      gameLeaderboard.innerHTML = '';
+      if (sortedGames.length === 0) {
+        const item = document.createElement('div');
+        item.className = 'leaderboard-item';
+        item.innerHTML = `
+          <div class="item-info">
+            <div class="item-name">暂无数据</div>
+            <div class="item-details">快去玩连连看游戏吧</div>
+          </div>
+        `;
+        gameLeaderboard.appendChild(item);
+      } else {
+        sortedGames.forEach((record, index) => {
+          const item = document.createElement('div');
+          item.className = 'leaderboard-item';
+          item.innerHTML = `
+            <div class="rank-number ${index < 3 ? 'top-' + (index + 1) : ''}">${index + 1}</div>
+            <div class="item-info">
+              <div class="item-name">第${record.level}关 · ${record.score}分</div>
+              <div class="item-details">用时: ${record.time}秒 · ${record.date}</div>
+            </div>
+          `;
+          gameLeaderboard.appendChild(item);
+        });
+      }
+    }
+  }
+  
+  /* ===================== 连连看游戏 ===================== */
+  class MatchingGame {
+    constructor() {
+      this.boardSize = 8; // 8x8 棋盘
+      this.levels = [
+        { time: 60, pairs: 10 },  // 第1关
+        { time: 45, pairs: 15 },  // 第2关
+        { time: 30, pairs: 20 }   // 第3关
+      ];
+      this.currentLevel = 0;
+      this.timeLeft = 60;
+      this.score = 0;
+      this.selectedTiles = [];
+      this.matchedPairs = 0;
+      this.totalPairs = 10;
+      this.gameActive = false;
+      this.timer = null;
+      this.board = [];
+      
+      // 游戏食物图标（每种4个）
+      this.foodIcons = ['🍎', '🥛', '🍚', '🍗', '🥕', '🥤', '🥚', '🥦', '🍌', '🍞'];
+      this.foodMap = {
+        '🍎': '苹果',
+        '🥛': '牛奶',
+        '🍚': '米饭',
+        '🍗': '鸡胸肉',
+        '🥕': '胡萝卜',
+        '🥤': '可乐',
+        '🥚': '鸡蛋',
+        '🥦': '西兰花',
+        '🍌': '香蕉',
+        '🍞': '面包'
+      };
+    }
+    
+    // 初始化游戏
+    initGame(level = 0) {
+      this.currentLevel = level;
+      this.timeLeft = this.levels[level].time;
+      this.score = 0;
+      this.matchedPairs = 0;
+      this.totalPairs = this.levels[level].pairs;
+      this.selectedTiles = [];
+      this.gameActive = true;
+      
+      this.createBoard();
+      this.updateDisplay();
+      this.startTimer();
+    }
+    
+    // 创建游戏棋盘
+    createBoard() {
+      this.board = [];
+      const icons = [];
+      
+      // 从食物图标中随机选择需要的种类
+      const selectedIcons = [...this.foodIcons].sort(() => Math.random() - 0.5)
+        .slice(0, this.totalPairs);
+      
+      // 每种图标需要4个（2对）
+      selectedIcons.forEach(icon => {
+        icons.push(icon, icon, icon, icon);
       });
-    });
-
-    // 搜索输入框的动态查询功能
-    document.getElementById("foodSearchInput").addEventListener("input", () => {
-      let query = document.getElementById("foodSearchInput").value;
-      let results = ["苹果", "香蕉", "胡萝卜", "西红柿", "菠菜"]; // 假设搜索结果
-      let filteredResults = results.filter(food => food.includes(query));
-      let resultsContainer = document.getElementById("searchResults");
-      resultsContainer.innerHTML = "";
-      filteredResults.forEach(food => {
-        let chip = document.createElement("div");
-        chip.classList.add("food-chip");
-        chip.textContent = food;
-        resultsContainer.appendChild(chip);
+      
+      // 随机排列
+      for (let i = icons.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [icons[i], icons[j]] = [icons[j], icons[i]];
+      }
+      
+      // 填充8x8棋盘
+      for (let i = 0; i < this.boardSize * this.boardSize; i++) {
+        this.board.push(i < icons.length ? icons[i] : null);
+      }
+      
+      // 渲染棋盘
+      this.renderBoard();
+    }
+    
+    // 渲染棋盘到DOM
+    renderBoard() {
+      if (!gameBoard) return;
+      
+      gameBoard.innerHTML = '';
+      gameBoard.style.gridTemplateColumns = `repeat(${this.boardSize}, 1fr)`;
+      
+      this.board.forEach((icon, index) => {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.dataset.index = index;
+        
+        if (icon) {
+          tile.textContent = icon;
+          tile.addEventListener('click', () => this.selectTile(index));
+        } else {
+          tile.style.visibility = 'hidden';
+        }
+        
+        gameBoard.appendChild(tile);
       });
+    }
+    
+    // 选择方块
+    selectTile(index) {
+      if (!this.gameActive || !this.board[index]) return;
+      
+      const tile = document.querySelector(`.tile[data-index="${index}"]`);
+      if (!tile || tile.classList.contains('matched')) return;
+      
+      // 防止重复选择
+      if (this.selectedTiles.some(t => t.index === index)) return;
+      
+      // 添加到选中列表
+      this.selectedTiles.push({ index, icon: this.board[index] });
+      tile.classList.add('selected');
+      
+      // 如果选中了两个方块
+      if (this.selectedTiles.length === 2) {
+        this.checkMatch();
+      }
+    }
+    
+    // 检查是否可以连接
+    canConnect(index1, index2) {
+      const pos1 = this.getPosition(index1);
+      const pos2 = this.getPosition(index2);
+      
+      // 检查直线连接（无转弯）
+      if (this.checkStraightLine(pos1, pos2)) return true;
+      
+      // 检查一个转弯的连接
+      if (this.checkOneTurn(pos1, pos2)) return true;
+      
+      // 检查两个转弯的连接
+      if (this.checkTwoTurns(pos1, pos2)) return true;
+      
+      return false;
+    }
+    
+    getPosition(index) {
+      return {
+        row: Math.floor(index / this.boardSize),
+        col: index % this.boardSize
+      };
+    }
+    
+    checkStraightLine(pos1, pos2) {
+      if (pos1.row === pos2.row) {
+        const minCol = Math.min(pos1.col, pos2.col);
+        const maxCol = Math.max(pos1.col, pos2.col);
+        for (let col = minCol + 1; col < maxCol; col++) {
+          const idx = pos1.row * this.boardSize + col;
+          if (this.board[idx] !== null) return false;
+        }
+        return true;
+      }
+      
+      if (pos1.col === pos2.col) {
+        const minRow = Math.min(pos1.row, pos2.row);
+        const maxRow = Math.max(pos1.row, pos2.row);
+        for (let row = minRow + 1; row < maxRow; row++) {
+          const idx = row * this.boardSize + pos1.col;
+          if (this.board[idx] !== null) return false;
+        }
+        return true;
+      }
+      
+      return false;
+    }
+    
+    checkOneTurn(pos1, pos2) {
+      const turnPoints = [
+        { row: pos1.row, col: pos2.col },
+        { row: pos2.row, col: pos1.col }
+      ];
+      
+      for (const turn of turnPoints) {
+        const idx1 = pos1.row * this.boardSize + turn.col;
+        const idx2 = turn.row * this.boardSize + pos2.col;
+        
+        if (this.board[idx1] === null && this.board[idx2] === null) {
+          const firstLeg = this.checkStraightLine(pos1, turn);
+          const secondLeg = this.checkStraightLine(turn, pos2);
+          if (firstLeg && secondLeg) return true;
+        }
+      }
+      
+      return false;
+    }
+    
+    checkTwoTurns(pos1, pos2) {
+      for (let row = 0; row < this.boardSize; row++) {
+        for (let col = 0; col < this.boardSize; col++) {
+          const turn1 = { row, col };
+          const turn2 = { row: pos2.row, col };
+          
+          const idx1 = turn1.row * this.boardSize + turn1.col;
+          const idx2 = turn2.row * this.boardSize + turn2.col;
+          
+          if (this.board[idx1] === null && this.board[idx2] === null) {
+            const path1 = this.checkStraightLine(pos1, turn1);
+            const path2 = this.checkStraightLine(turn1, turn2);
+            const path3 = this.checkStraightLine(turn2, pos2);
+            
+            if (path1 && path2 && path3) return true;
+          }
+        }
+      }
+      
+      return false;
+    }
+    
+    // 检查是否匹配
+    checkMatch() {
+      const [tile1, tile2] = this.selectedTiles;
+      
+      if (tile1.icon === tile2.icon && this.canConnect(tile1.index, tile2.index)) {
+        // 匹配成功
+        this.matchedPairs++;
+        this.score += 10 * (this.currentLevel + 1);
+        
+        // 标记为已匹配
+        document.querySelectorAll('.tile.selected').forEach(tile => {
+          tile.classList.remove('selected');
+          tile.classList.add('matched');
+        });
+        
+        // 清空棋盘数据
+        this.board[tile1.index] = null;
+        this.board[tile2.index] = null;
+        
+        // 显示食物营养知识
+        const foodName = this.foodMap[tile1.icon];
+        if (foodName && FOOD_DATABASE[foodName]) {
+          const food = FOOD_DATABASE[foodName];
+          showFoodTip(food.gameTip, food.icon);
+        }
+        
+        // 检查是否过关
+        if (this.matchedPairs >= this.totalPairs) {
+          this.levelComplete();
+        }
+      } else {
+        // 匹配失败
+        setTimeout(() => {
+          document.querySelectorAll('.tile.selected').forEach(tile => {
+            tile.classList.remove('selected');
+          });
+        }, 500);
+        showFoodTip('这两个不能连在一起哦~', '❌');
+      }
+      
+      // 清空选中列表
+      this.selectedTiles = [];
+      this.updateDisplay();
+    }
+    
+    // 开始计时器
+    startTimer() {
+      if (this.timer) clearInterval(this.timer);
+      
+      this.timer = setInterval(() => {
+        this.timeLeft--;
+        this.updateDisplay();
+        
+        if (this.timeLeft <= 0) {
+          this.gameOver();
+        }
+      }, 1000);
+    }
+    
+    // 更新显示
+    updateDisplay() {
+      if (gameLevelText) {
+        gameLevelText.textContent = `第 ${this.currentLevel + 1} 关 · ${this.currentLevel === 0 ? '初阶' : this.currentLevel === 1 ? '进阶' : '高阶'}`;
+      }
+      if (timerText) timerText.textContent = `⏱ ${this.timeLeft} 秒`;
+      if (matchCountText) matchCountText.textContent = `已消除：${this.matchedPairs} 组`;
+      if (scoreText) scoreText.textContent = `得分：${this.score}`;
+    }
+    
+    // 关卡完成
+    levelComplete() {
+      clearInterval(this.timer);
+      this.gameActive = false;
+      
+      // 保存游戏记录
+      user.gameRecords.push({
+        level: this.currentLevel + 1,
+        time: this.levels[this.currentLevel].time - this.timeLeft,
+        score: this.score,
+        date: new Date().toLocaleDateString()
+      });
+      
+      // 保存到localStorage
+      saveUserData();
+      
+      // 更新排行榜
+      updateLeaderboards();
+      
+      // 显示完成提示
+      showFoodTip(`恭喜完成第${this.currentLevel + 1}关！用时${this.levels[this.currentLevel].time - this.timeLeft}秒，得分${this.score}`, '🎉');
+      
+      // 如果有下一关，自动进入
+      if (this.currentLevel < this.levels.length - 1) {
+        setTimeout(() => {
+          this.currentLevel++;
+          this.initGame(this.currentLevel);
+          showFoodTip(`进入第${this.currentLevel + 1}关，时间更短，难度更高！`, '🚀');
+        }, 2000);
+      } else {
+        showFoodTip('恭喜通关所有关卡！你是健康饮食达人！', '🏆');
+      }
+    }
+    
+    // 游戏结束
+    gameOver() {
+      clearInterval(this.timer);
+      this.gameActive = false;
+      showFoodTip('时间到！游戏结束，再试一次吧~', '⏰');
+    }
+  }
+  
+  /* ===================== 食物知识提示 ===================== */
+  function showFoodTip(text, icon) {
+    if (!foodTipToast || !tipFoodIcon || !tipContent) return;
+    
+    tipFoodIcon.textContent = icon || '💡';
+    tipContent.textContent = text;
+    
+    // 显示提示
+    foodTipToast.classList.add('show');
+    
+    // 3秒后自动隐藏
+    setTimeout(() => {
+      foodTipToast.classList.remove('show');
+    }, 3000);
+  }
+  
+  /* ===================== 初始化 ===================== */
+  // 创建游戏实例
+  const game = new MatchingGame();
+  
+  // 游戏控制按钮
+  if (gameStartBtn) {
+    gameStartBtn.addEventListener('click', () => {
+      game.initGame(0);
+      showFoodTip('游戏开始！点击两个相同的食物图标消除它们~', '🎮');
     });
-
-    // 注销功能
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      alert("您已注销！");
-      // 这里可以处理注销的后续操作，比如清除本地存储、重定向等
+  }
+  
+  if (gameRestartBtn) {
+    gameRestartBtn.addEventListener('click', () => {
+      game.initGame(game.currentLevel);
+      showFoodTip('游戏重新开始！', '🔄');
     });
-  </script>
-
+  }
+  
+  // 加载用户数据
+  loadUserData();
+  
+  // 如果已有用户数据，直接进入主界面
+  if (user.name) {
+    welcomeOverlay.style.display = 'none';
+    mainLayout.style.opacity = '1';
+    mainLayout.style.pointerEvents = 'auto';
+    if (sideUserLine) {
+      sideUserLine.innerHTML = `<strong>${user.name}</strong>`;
+    }
+  }
+  
+  // 初始化统计和排行榜
+  updateStats();
+  updateLeaderboards();
+  
+  // 默认显示食物查询页
+  showSection('section-search');
+})();
+</script>
 </body>
 </html>
-
