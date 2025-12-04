@@ -2,397 +2,247 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>健康饮食选择助手 · Healthy Food Helper</title>
+  <title>健康饮食选择助手</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     :root {
-      --bg: #fffef5;
-      --bg-soft: #f8faff;
-      --card: #ffffff;
-      --primary: #5d8aff;
-      --primary-soft: #e8f0ff;
-      --accent-yellow: #ffc145;
-      --accent-yellow-soft: #fff5e0;
-      --accent-blue: #5d8aff;
-      --accent-blue-soft: #e8f0ff;
-      --danger: #ff7675;
-      --success: #00b894;
-      --warning: #f6a44c;
+      /* 主色调：健康绿色系 */
+      --primary: #00b894;
+      --primary-light: #55efc4;
+      --primary-dark: #00a085;
+      --secondary: #6c5ce7;
+      --secondary-light: #a29bfe;
+      
+      --bg: #f8f9fa;
+      --bg-card: #ffffff;
       --text-main: #2d3436;
-      --text-sub: #636e72;
-      --border-soft: #e3e7f0;
-      --shadow-soft: 0 18px 45px rgba(170, 188, 212, 0.24);
+      --text-secondary: #636e72;
+      --text-light: #b2bec3;
+      
+      --success: #00b894;
+      --warning: #fdcb6e;
+      --danger: #ff7675;
+      --info: #74b9ff;
+      
+      --border: #dfe6e9;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      --radius: 16px;
+      --radius-sm: 8px;
     }
 
     * {
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans CJK SC", "Noto Sans KR", sans-serif;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", 
+                   "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     }
 
     body {
-      margin: 0;
-      padding: 0;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
       min-height: 100vh;
-      background: radial-gradient(circle at top, #fff8e5 0, #fffef5 45%, #f4f7ff 100%);
+      padding: 20px;
       color: var(--text-main);
     }
 
-    .app {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 16px 12px 32px;
-    }
-
+    /* ========== 欢迎页 ========== */
     .welcome-overlay {
       position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at top, #fff8e5 0, #fffef5 50%, #ffffff 100%);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 20;
+      z-index: 1000;
     }
 
     .welcome-card {
-      width: 640px;
-      max-width: 92vw;
-      background: #ffffff;
-      border-radius: 26px;
-      box-shadow: var(--shadow-soft);
-      padding: 26px 32px 26px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      position: relative;
-    }
-
-    .welcome-tag {
-      position: absolute;
-      top: 18px;
-      right: 22px;
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: var(--accent-yellow-soft);
-      color: var(--accent-yellow);
-    }
-
-    .welcome-header {
-      display: flex;
-      gap: 14px;
-      align-items: center;
+      background: white;
+      border-radius: var(--radius);
+      padding: 40px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: var(--shadow);
+      text-align: center;
     }
 
     .welcome-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 20px;
-      background: radial-gradient(circle at 30% 20%, #fff9e6 0, #ffe7a8 40%, #c5d8ff 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 30px;
+      font-size: 64px;
+      margin-bottom: 20px;
     }
 
-    .welcome-title-block h1 {
-      margin: 0;
-      font-size: 22px;
+    .welcome-title {
+      font-size: 28px;
       font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
     }
 
     .welcome-subtitle {
-      margin: 4px 0 0;
-      font-size: 13px;
-      color: var(--text-sub);
-    }
-
-    .welcome-form {
-      margin-top: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .field-label {
-      font-size: 13px;
-      margin-bottom: 4px;
-    }
-
-    .field-label span {
-      font-size: 12px;
-      color: var(--text-sub);
-      margin-left: 3px;
+      color: var(--text-secondary);
+      margin-bottom: 30px;
+      line-height: 1.6;
     }
 
     .welcome-input {
       width: 100%;
-      border-radius: 999px;
-      border: 1px solid var(--border-soft);
-      padding: 9px 14px;
-      font-size: 14px;
-      outline: none;
-      background: #fbfcff;
+      padding: 15px 20px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 16px;
+      margin-bottom: 20px;
+      transition: all 0.3s;
     }
 
     .welcome-input:focus {
+      outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(93, 138, 255, 0.25);
-      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.1);
     }
 
-    .lang-pill-row {
-      display: inline-flex;
-      gap: 6px;
-      padding: 4px;
-      border-radius: 999px;
-      background: #f7f8ff;
-      border: 1px solid #ecf0ff;
-    }
-
-    .lang-pill {
-      border-radius: 999px;
+    .welcome-btn {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
       border: none;
-      background: transparent;
-      padding: 4px 10px;
-      font-size: 13px;
-      cursor: pointer;
-      color: var(--text-sub);
-    }
-
-    .lang-pill.active {
-      background: #ffffff;
-      box-shadow: 0 0 0 1px rgba(93, 138, 255, 0.7);
-      color: var(--accent-blue);
+      padding: 15px 40px;
+      border-radius: var(--radius-sm);
+      font-size: 16px;
       font-weight: 600;
-    }
-
-    .welcome-btn-row {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-top: 4px;
-    }
-
-    .btn-primary {
-      border-radius: 999px;
-      border: none;
-      padding: 9px 20px;
-      font-size: 14px;
       cursor: pointer;
-      background: linear-gradient(135deg, var(--primary), #7da2ff);
-      color: #fff;
-      box-shadow: 0 10px 22px rgba(93, 138, 255, 0.45);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      transition: all 0.3s;
+      width: 100%;
     }
 
-    .btn-primary:hover {
-      filter: brightness(1.03);
-      transform: translateY(-1px);
+    .welcome-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 184, 148, 0.2);
     }
 
-    .welcome-tip {
-      font-size: 11px;
-      color: var(--text-sub);
-      margin-top: 2px;
+    /* ========== 主布局 ========== */
+    .app {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: none;
     }
 
-    @media (max-width: 720px) {
-      .welcome-card {
-        padding: 22px 18px 20px;
-      }
+    .app.show {
+      display: block;
     }
 
     .layout {
-      margin-top: 80px;
       display: flex;
-      gap: 16px;
-      min-height: 520px;
+      gap: 24px;
+      margin-top: 20px;
     }
 
+    /* 侧边栏 */
     .sidebar {
-      width: 230px;
-      min-width: 210px;
-      border-radius: 20px;
-      background: linear-gradient(160deg, rgba(255, 248, 227, 0.98), rgba(240, 246, 255, 0.98));
-      border: 1px solid rgba(255, 230, 184, 0.85);
-      box-shadow: 0 14px 40px rgba(216, 189, 211, 0.45);
-      padding: 16px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      position: relative;
-      overflow: hidden;
+      width: 240px;
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      height: fit-content;
     }
 
-    .sidebar::before {
-      content: "";
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0, rgba(255, 255, 255, 0) 70%);
-      top: -40px;
-      right: -30px;
-      opacity: 0.7;
-    }
-
-    .sidebar-header {
+    .user-info {
       display: flex;
       align-items: center;
-      gap: 8px;
-      position: relative;
-      z-index: 1;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .sidebar-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 16px;
-      background: radial-gradient(circle at 30% 20%, #fff, #ffe9b3 60%, #c5d8ff 100%);
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 24px;
+      color: white;
     }
 
-    .sidebar-title {
-      font-size: 15px;
-      font-weight: 700;
+    .user-name {
+      font-weight: 600;
+      color: var(--text-main);
     }
 
-    .sidebar-sub {
-      font-size: 11px;
-      color: var(--text-sub);
-    }
-
-    .sidebar-user {
-      margin-top: 6px;
-      padding: 8px 10px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px dashed rgba(255, 212, 168, 0.9);
-      font-size: 12px;
+    .nav-menu {
       display: flex;
       flex-direction: column;
-      gap: 2px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .sidebar-user strong {
-      font-size: 13px;
-    }
-
-    .sidebar-lang-indicator {
-      font-size: 11px;
-      color: var(--accent-blue);
-    }
-
-    .nav-section-label {
-      margin-top: 4px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-sub);
-      opacity: 0.9;
-    }
-
-    .nav-btns {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-top: 4px;
-      position: relative;
-      z-index: 1;
+      gap: 8px;
     }
 
     .nav-btn {
-      border-radius: 999px;
+      padding: 12px 16px;
       border: none;
-      padding: 7px 11px;
-      font-size: 13px;
+      background: none;
       text-align: left;
+      border-radius: var(--radius-sm);
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--text-main);
-      border: 1px solid rgba(255, 230, 184, 0.8);
+      gap: 10px;
+      font-size: 15px;
+      color: var(--text-secondary);
+      transition: all 0.3s;
     }
 
-    .nav-btn span.icon {
-      font-size: 16px;
+    .nav-btn:hover {
+      background: var(--primary-light);
+      color: var(--primary-dark);
     }
 
     .nav-btn.active {
-      background: linear-gradient(135deg, var(--primary), #7da2ff);
-      color: #ffffff;
-      border-color: transparent;
-      box-shadow: 0 10px 22px rgba(93, 138, 255, 0.55);
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
     }
 
-    .nav-btn.active .icon {
-      transform: translateY(-0.5px);
+    .nav-btn i {
+      font-size: 18px;
     }
 
-    .nav-footer {
-      margin-top: auto;
-      font-size: 11px;
-      color: var(--text-sub);
-      opacity: 0.9;
-      z-index: 1;
-    }
-
-    .nav-logout {
-      margin-top: 6px;
-      font-size: 11px;
-      color: #ff6b81;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    .content {
+    /* 主要内容区 */
+    .main-content {
       flex: 1;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.96);
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(227, 233, 248, 0.8);
-      padding: 16px 18px 18px;
-      min-width: 0;
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
     }
 
     .content-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 32px;
     }
 
-    .content-title-block h2 {
-      margin: 0;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    .content-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
     }
 
-    .content-title-block p {
-      margin: 3px 0 0;
-      font-size: 12px;
-      color: var(--text-sub);
+    .content-subtitle {
+      color: var(--text-secondary);
+      font-size: 15px;
     }
 
-    .chip-soft {
-      font-size: 11px;
-      padding: 2px 7px;
-      border-radius: 999px;
-      background: var(--accent-blue-soft);
-      color: var(--accent-blue);
+    /* 通用卡片样式 */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      margin-bottom: 24px;
     }
 
     .section {
@@ -401,296 +251,1271 @@
 
     .section.active {
       display: block;
+      animation: fadeIn 0.5s ease;
     }
 
-    /* ========= 查询页样式 ========= */
-    .search-row {
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========== 食物查询页 ========== */
+    .search-container {
+      margin-bottom: 24px;
+    }
+
+    .search-box {
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
     .search-input {
       flex: 1;
-      min-width: 180px;
-      border-radius: 999px;
-      border: 1px solid var(--border-soft);
-      padding: 8px 12px;
-      font-size: 14px;
-      outline: none;
-      background: #fbfcff;
+      padding: 12px 20px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 16px;
+      transition: all 0.3s;
     }
 
     .search-input:focus {
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 2px rgba(93, 138, 255, 0.25);
-      background: #ffffff;
+      outline: none;
+      border-color: var(--primary);
     }
 
-    .btn-soft {
-      border-radius: 999px;
+    .search-btn {
+      background: var(--primary);
+      color: white;
       border: none;
-      padding: 8px 13px;
-      font-size: 13px;
+      padding: 12px 30px;
+      border-radius: var(--radius-sm);
+      font-size: 16px;
       cursor: pointer;
-      background: #f4f6ff;
-      color: var(--accent-blue);
-      border: 1px solid #dfe7ff;
+      transition: all 0.3s;
     }
 
-    .btn-soft:hover {
-      background: #e7ecff;
+    .search-btn:hover {
+      background: var(--primary-dark);
     }
 
-    .chip-row {
+    .quick-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .food-chip {
-      border-radius: 999px;
-      border: 1px solid var(--border-soft);
-      padding: 4px 10px;
-      font-size: 12px;
-      color: var(--text-sub);
-      background: #fafbff;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .food-chip:hover {
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
-      background: #f1f4ff;
-    }
-
-    .food-summary {
-      font-size: 14px;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    .result-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 10px;
-      margin-top: 6px;
+      margin-bottom: 24px;
     }
 
-    .stat-box {
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: #f9fbff;
-      border: 1px solid #e2e8ff;
-      font-size: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+    .tag {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .tag:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    /* 食物详情 */
+    .food-detail {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .nutrient-card {
+      text-align: center;
+      padding: 20px;
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+    }
+
+    .nutrient-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 10px 0;
+    }
+
+    .nutrient-label {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    /* ========== 统计页 ========== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 24px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    .stat-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
     }
 
     .stat-label {
-      color: var(--text-sub);
-      font-size: 11px;
-    }
-
-    .stat-value {
-      font-weight: 600;
+      color: var(--text-secondary);
       font-size: 14px;
     }
 
-    .small-badge {
-      font-size: 11px;
-      padding: 1px 6px;
-      border-radius: 999px;
-      background: #eef1ff;
-      color: var(--accent-blue);
-      margin-left: 4px;
+    /* ========== 排行榜页 ========== */
+    .leaderboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
     }
 
-    .tips {
+    .leaderboard-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .leaderboard-title {
+      padding: 20px;
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .leaderboard-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .leaderboard-item {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .leaderboard-item:last-child {
+      border-bottom: none;
+    }
+
+    .rank-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+    }
+
+    .rank-1 { background: gold; }
+    .rank-2 { background: silver; }
+    .rank-3 { background: #cd7f32; }
+    .rank-other { background: var(--text-light); }
+
+    .item-content {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .item-stats {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-light);
+    }
+
+    /* ========== 连连看游戏页 ========== */
+    .game-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .game-info {
+      display: flex;
+      gap: 16px;
+    }
+
+    .info-card {
+      background: var(--bg);
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .info-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .info-label {
       font-size: 12px;
-      line-height: 1.5;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .recipes {
-      margin-top: 8px;
-      font-size: 12px;
+    .game-controls {
+      display: flex;
+      gap: 12px;
     }
 
-    .recipes h4 {
-      margin: 0 0 4px;
-      font-size: 12px;
+    .control-btn {
+      padding: 10px 20px;
+      border: 2px solid var(--primary);
+      background: white;
+      color: var(--primary);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
     }
 
-    .recipes ul {
-      margin: 2px 0 0;
-      padding-left: 18px;
+    .control-btn:hover {
+      background: var(--primary);
+      color: white;
     }
 
-    .empty-hint {
-      font-size: 13px;
-      color: var(--text-sub);
-      margin-top: 6px;
+    .control-btn.primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .control-btn.primary:hover {
+      background: var(--primary-dark);
+    }
+
+    /* 游戏棋盘 */
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 8px;
+      margin: 0 auto;
+      max-width: 600px;
+    }
+
+    .game-tile {
+      aspect-ratio: 1;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .game-tile:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .game-tile.selected {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      transform: scale(1.05);
+    }
+
+    .game-tile.matched {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* 游戏结束弹窗 */
+    .game-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .game-overlay.show {
+      display: flex;
+    }
+
+    .result-modal {
+      background: white;
+      border-radius: var(--radius);
+      padding: 40px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .result-title {
+      font-size: 32px;
+      margin-bottom: 16px;
+      color: var(--primary-dark);
+    }
+
+    .result-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    /* ========== 响应式设计 ========== */
+    @media (max-width: 768px) {
+      .layout {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+      }
+      
+      .game-board {
+        grid-template-columns: repeat(6, 1fr);
+      }
+      
+      .game-header {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+      
+      .game-info {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .leaderboard-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .game-board {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .welcome-card {
+        padding: 24px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <!-- 欢迎页内容 -->
-    <div class="welcome-overlay" id="welcomeOverlay">
-      <div class="welcome-card">
-        <div class="welcome-tag">mini web</div>
-        <div class="welcome-header">
-          <div class="welcome-icon">🥗</div>
-          <div class="welcome-title-block">
-            <h1 id="welcomeTitle">健康饮食选择助手</h1>
-            <p class="welcome-subtitle" id="welcomeSubtitle">
-              简单记录你的食物查询，获得更健康的饮食建议，还可以通过小游戏学习一点营养知识。
-            </p>
-          </div>
-        </div>
-
-        <div class="welcome-form">
-          <div>
-            <div class="field-label" id="labelLang">语言 / Language</div>
-            <div class="lang-pill-row">
-              <button type="button" class="lang-pill active" data-lang="zh" id="langBtnZh">CN 中文</button>
-              <button type="button" class="lang-pill" data-lang="kr" id="langBtnKo">KR 한국어</button>
-            </div>
-          </div>
-
-          <div>
-            <div class="field-label" id="labelName">
-              昵称 / 学号 <span id="labelNameHint">例如：小番茄同学、2025xxx</span>
-            </div>
-            <input id="welcomeNameInput" class="welcome-input" placeholder="请输入你的昵称或学号" />
-          </div>
-
-          <div class="welcome-btn-row">
-            <button class="btn-primary" id="welcomeStartBtn">
-              <span>✨</span><span id="btnStartText">进入小助手</span>
-            </button>
-          </div>
-
-          <div class="welcome-tip" id="welcomeTip">
-            提示：系统会用你填写的昵称记录查询行为和小游戏成绩，仅用于课堂展示。
-          </div>
-        </div>
-      </div>
+  <!-- 欢迎页 -->
+  <div class="welcome-overlay" id="welcomeOverlay">
+    <div class="welcome-card">
+      <div class="welcome-icon">🥗</div>
+      <h1 class="welcome-title">健康饮食选择助手</h1>
+      <p class="welcome-subtitle">查询食物营养信息，学习健康知识，还能玩连连看小游戏！</p>
+      <input type="text" class="welcome-input" id="userNameInput" placeholder="请输入您的昵称或学号">
+      <button class="welcome-btn" id="startBtn">开始使用</button>
     </div>
+  </div>
 
-    <!-- 主布局：左侧导航 + 右侧内容 -->
-    <div class="layout" id="mainLayout" style="opacity:0.25;pointer-events:none;">
+  <!-- 主应用 -->
+  <div class="app" id="mainApp">
+    <div class="layout">
+      <!-- 侧边导航 -->
       <aside class="sidebar">
-        <div class="sidebar-header">
-          <div class="sidebar-logo">🥗</div>
+        <div class="user-info">
+          <div class="user-avatar">🥗</div>
           <div>
-                      <div class="sidebar-title" id="sideTitle">健康饮食助手</div>
-          <div class="sidebar-sub">轻松选择健康食物，获得个性化建议</div>
+            <div class="user-name" id="userNameDisplay">用户</div>
+            <div class="user-role">健康饮食助手</div>
+          </div>
         </div>
-
-        <div class="sidebar-user">
-          <strong id="sidebarUserName">欢迎，小番茄同学</strong>
-          <div class="sidebar-lang-indicator" id="sidebarLang">语言: 中文</div>
-        </div>
-
-        <div class="nav-section-label">导航</div>
-        <div class="nav-btns">
-          <button class="nav-btn active" id="btnHome">
-            <span class="icon">🏠</span>主页
+        
+        <nav class="nav-menu">
+          <button class="nav-btn active" data-section="search">
+            <i>🔍</i> 食物查询
           </button>
-          <button class="nav-btn" id="btnSearch">
-            <span class="icon">🔍</span>查询食物
+          <button class="nav-btn" data-section="stats">
+            <i>📊</i> 数据统计
           </button>
-          <button class="nav-btn" id="btnGame">
-            <span class="icon">🎮</span>小游戏
+          <button class="nav-btn" data-section="leaderboard">
+            <i>🏆</i> 排行榜
           </button>
-        </div>
-
-        <div class="nav-footer">
-          <div>© 2025 健康饮食助手</div>
-          <div class="nav-logout" id="logoutBtn">注销</div>
-        </div>
+          <button class="nav-btn" data-section="game">
+            <i>🎮</i> 连连看游戏
+          </button>
+          <button class="nav-btn logout" id="logoutBtn">
+            <i>🚪</i> 退出登录
+          </button>
+        </nav>
       </aside>
 
-      <div class="content">
-        <div class="content-header">
-          <div class="content-title-block">
-            <h2>健康饮食建议</h2>
-            <p>为你推荐更适合的饮食计划</p>
+      <!-- 主要内容区 -->
+      <main class="main-content">
+        <!-- 食物查询页 -->
+        <section class="section active" id="searchSection">
+          <div class="content-header">
+            <h2 class="content-title">食物查询</h2>
+            <p class="content-subtitle">输入食物名称，查看详细的营养信息和健康建议</p>
           </div>
-          <div class="chip-soft">健康饮食</div>
-        </div>
-
-        <div class="section active" id="homeSection">
-          <p>欢迎来到健康饮食助手！我们将帮助你选择健康的食物，跟踪饮食习惯并提供科学的饮食建议。</p>
-        </div>
-
-        <div class="section" id="searchSection">
-          <div class="search-row">
-            <input type="text" id="foodSearchInput" class="search-input" placeholder="搜索食物...">
-            <button class="btn-soft" id="searchBtn">搜索</button>
+          
+          <div class="search-container">
+            <div class="search-box">
+              <input type="text" class="search-input" id="foodSearchInput" placeholder="请输入食物名称，如：苹果、牛奶、鸡胸肉">
+              <button class="search-btn" id="searchBtn">搜索</button>
+            </div>
+            
+            <div class="quick-tags">
+              <span class="tag" data-food="苹果">🍎 苹果</span>
+              <span class="tag" data-food="牛奶">🥛 牛奶</span>
+              <span class="tag" data-food="米饭">🍚 米饭</span>
+              <span class="tag" data-food="鸡胸肉">🍗 鸡胸肉</span>
+              <span class="tag" data-food="胡萝卜">🥕 胡萝卜</span>
+              <span class="tag" data-food="可乐">🥤 可乐</span>
+              <span class="tag" data-food="鸡蛋">🥚 鸡蛋</span>
+              <span class="tag" data-food="西兰花">🥦 西兰花</span>
+            </div>
           </div>
-          <div class="chip-row" id="searchResults">
-            <!-- 动态显示搜索结果 -->
-          </div>
-        </div>
+          
+          <div id="foodResult"></div>
+        </section>
 
-        <div class="section" id="gameSection">
-          <p>小游戏内容：健康饮食知识挑战</p>
-          <button class="btn-primary" id="startGameBtn">开始挑战</button>
+        <!-- 数据统计页 -->
+        <section class="section" id="statsSection">
+          <div class="content-header">
+            <h2 class="content-title">数据统计</h2>
+            <p class="content-subtitle">您的食物查询统计信息</p>
+          </div>
+          
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">📈</div>
+              <div class="stat-number" id="totalSearches">0</div>
+              <div class="stat-label">累计查询次数</div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">🔥</div>
+              <div class="stat-number" id="avgCalories">0</div>
+              <div class="stat-label">平均热量(kcal)</div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">✅</div>
+              <div class="stat-number" id="healthyChoices">0</div>
+              <div class="stat-label">健康选择次数</div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">⚠️</div>
+              <div class="stat-number" id="warningFoods">0</div>
+              <div class="stat-label">需注意食物</div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <h3>查询频率排行榜</h3>
+            <div class="leaderboard-list" id="foodRankList">
+              <div class="no-data">暂无数据</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 排行榜页 -->
+        <section class="section" id="leaderboardSection">
+          <div class="content-header">
+            <h2 class="content-title">排行榜</h2>
+            <p class="content-subtitle">查看各种排名信息</p>
+          </div>
+          
+          <div class="leaderboard-grid">
+            <div class="card leaderboard-card">
+              <div class="leaderboard-title">🔍 食物查询排行榜</div>
+              <div class="leaderboard-list" id="searchLeaderboard">
+                <div class="no-data">暂无数据</div>
+              </div>
+            </div>
+            
+            <div class="card leaderboard-card">
+              <div class="leaderboard-title">🏆 游戏记录排行榜</div>
+              <div class="leaderboard-list" id="gameLeaderboard">
+                <div class="no-data">暂无数据</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 连连看游戏页 -->
+        <section class="section" id="gameSection">
+          <div class="content-header">
+            <h2 class="content-title">连连看小游戏</h2>
+            <p class="content-subtitle">消除相同食物图案，学习营养知识</p>
+          </div>
+          
+          <div class="game-header">
+            <div class="game-info">
+              <div class="info-card">
+                <div class="info-value" id="timer">60</div>
+                <div class="info-label">剩余时间</div>
+              </div>
+              <div class="info-card">
+                <div class="info-value" id="score">0</div>
+                <div class="info-label">得分</div>
+              </div>
+              <div class="info-card">
+                <div class="info-value" id="level">1</div>
+                <div class="info-label">关卡</div>
+              </div>
+            </div>
+            
+            <div class="game-controls">
+              <button class="control-btn" id="helpBtn">游戏说明</button>
+              <button class="control-btn primary" id="startGameBtn">开始游戏</button>
+              <button class="control-btn" id="restartBtn">重新开始</button>
+            </div>
+          </div>
+          
+          <div class="game-board" id="gameBoard"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- 游戏结束弹窗 -->
+  <div class="game-overlay" id="gameOverlay">
+    <div class="result-modal">
+      <div class="result-icon" style="font-size: 64px; margin-bottom: 20px;">🎉</div>
+      <h2 class="result-title" id="resultTitle">游戏完成！</h2>
+      <p id="resultMessage">恭喜您成功完成游戏！</p>
+      
+      <div class="result-stats">
+        <div>
+          <div class="info-value" id="finalTime">0</div>
+          <div class="info-label">用时(秒)</div>
+        </div>
+        <div>
+          <div class="info-value" id="finalScore">0</div>
+          <div class="info-label">得分</div>
         </div>
       </div>
+      
+      <div class="game-controls">
+        <button class="control-btn" id="closeResultBtn">关闭</button>
+        <button class="control-btn primary" id="playAgainBtn">再玩一次</button>
+      </div>
     </div>
-
   </div>
 
   <script>
-    // 简单的交互逻辑
-    document.getElementById("btnHome").addEventListener("click", () => {
-      document.getElementById("homeSection").classList.add("active");
-      document.getElementById("searchSection").classList.remove("active");
-      document.getElementById("gameSection").classList.remove("active");
-    });
+    // ==================== 全局数据 ====================
+    const user = {
+      name: '',
+      searches: [],
+      gameRecords: []
+    };
 
-    document.getElementById("btnSearch").addEventListener("click", () => {
-      document.getElementById("searchSection").classList.add("active");
-      document.getElementById("homeSection").classList.remove("active");
-      document.getElementById("gameSection").classList.remove("active");
-    });
+    // 食物数据库
+    const foodDatabase = {
+      '苹果': { 
+        icon: '🍎', calories: 52, protein: 0.3, fat: 0.2, carbs: 14, 
+        level: 'healthy', tip: '富含维生素C和膳食纤维，是健康的零食选择。',
+        recipes: ['苹果+酸奶', '苹果+坚果']
+      },
+      '牛奶': { 
+        icon: '🥛', calories: 60, protein: 3.2, fat: 3.3, carbs: 4.8, 
+        level: 'healthy', tip: '优质蛋白质和钙的来源，建议选择低脂牛奶。',
+        recipes: ['牛奶+燕麦', '牛奶+全麦面包']
+      },
+      '米饭': { 
+        icon: '🍚', calories: 130, protein: 2.4, fat: 0.3, carbs: 28, 
+        level: 'moderate', tip: '控制份量，搭配蔬菜和蛋白质更健康。',
+        recipes: ['米饭+蔬菜+瘦肉', '米饭+豆腐+青菜']
+      },
+      '鸡胸肉': { 
+        icon: '🍗', calories: 120, protein: 22, fat: 3, carbs: 0, 
+        level: 'healthy', tip: '高蛋白低脂肪，是健身餐的好选择。',
+        recipes: ['鸡胸肉+蔬菜沙拉', '鸡胸肉+糙米饭']
+      },
+      '胡萝卜': { 
+        icon: '🥕', calories: 41, protein: 0.9, fat: 0.2, carbs: 10, 
+        level: 'healthy', tip: '富含β-胡萝卜素，有助于视力健康。',
+        recipes: ['胡萝卜+西兰花', '胡萝卜+鸡蛋']
+      },
+      '可乐': { 
+        icon: '🥤', calories: 42, protein: 0, fat: 0, carbs: 11, 
+        level: 'warning', tip: '高糖分，建议少喝或不喝。',
+        recipes: ['建议替换为水或茶', '无糖饮料']
+      },
+      '鸡蛋': { 
+        icon: '🥚', calories: 155, protein: 13, fat: 11, carbs: 1.1, 
+        level: 'healthy', tip: '优质蛋白质来源，建议水煮或蒸煮。',
+        recipes: ['水煮蛋', '蒸蛋羹']
+      },
+      '西兰花': { 
+        icon: '🥦', calories: 34, protein: 2.8, fat: 0.4, carbs: 7, 
+        level: 'healthy', tip: '富含维生素和矿物质，建议蒸煮食用。',
+        recipes: ['西兰花+蒜蓉', '西兰花+鸡胸肉']
+      },
+      '香蕉': { 
+        icon: '🍌', calories: 89, protein: 1.1, fat: 0.3, carbs: 23, 
+        level: 'healthy', tip: '富含钾元素，适合运动后补充能量。',
+        recipes: ['香蕉+牛奶', '香蕉+全麦面包']
+      },
+      '猪肉': { 
+        icon: '🐷', calories: 242, protein: 27, fat: 14, carbs: 0, 
+        level: 'moderate', tip: '选择瘦肉部分，适量食用。',
+        recipes: ['瘦肉炒菜', '清炖排骨']
+      },
+      '面包': { 
+        icon: '🍞', calories: 265, protein: 9, fat: 3.2, carbs: 49, 
+        level: 'moderate', tip: '选择全麦面包，营养价值更高。',
+        recipes: ['全麦面包+鸡蛋', '面包+蔬菜沙拉']
+      },
+      '鱼肉': { 
+        icon: '🐟', calories: 206, protein: 22, fat: 12, carbs: 0, 
+        level: 'healthy', tip: '富含Omega-3脂肪酸，有益心脏健康。',
+        recipes: ['清蒸鱼', '烤鱼+蔬菜']
+      }
+    };
 
-    document.getElementById("btnGame").addEventListener("click", () => {
-      document.getElementById("gameSection").classList.add("active");
-      document.getElementById("homeSection").classList.remove("active");
-      document.getElementById("searchSection").classList.remove("active");
-    });
+    // ==================== 连连看游戏类 ====================
+    class MatchingGame {
+      constructor() {
+        this.boardSize = 8;
+        this.levels = [
+          { time: 60, pairs: 10 },
+          { time: 45, pairs: 15 },
+          { time: 30, pairs: 20 }
+        ];
+        this.currentLevel = 0;
+        this.timeLeft = 60;
+        this.score = 0;
+        this.selectedTiles = [];
+        this.matchedPairs = 0;
+        this.totalPairs = 10;
+        this.gameActive = false;
+        this.timer = null;
+        this.board = [];
+        
+        this.foodIcons = ['🍎', '🥛', '🍚', '🍗', '🥕', '🥤', '🥚', '🥦', '🍌', '🐷', '🍞', '🐟'];
+      }
+      
+      initGame(level = 0) {
+        this.currentLevel = level;
+        this.timeLeft = this.levels[level].time;
+        this.score = 0;
+        this.matchedPairs = 0;
+        this.totalPairs = this.levels[level].pairs;
+        this.selectedTiles = [];
+        this.gameActive = true;
+        
+        this.createBoard();
+        this.updateDisplay();
+        this.startTimer();
+      }
+      
+      createBoard() {
+        this.board = [];
+        const icons = [];
+        
+        const selectedIcons = [...this.foodIcons].sort(() => Math.random() - 0.5)
+          .slice(0, this.totalPairs);
+        
+        selectedIcons.forEach(icon => {
+          icons.push(icon, icon);
+        });
+        
+        for (let i = icons.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [icons[i], icons[j]] = [icons[j], icons[i]];
+        }
+        
+        for (let i = 0; i < this.boardSize * this.boardSize; i++) {
+          this.board.push(i < icons.length ? icons[i] : null);
+        }
+        
+        this.renderBoard();
+      }
+      
+      renderBoard() {
+        const boardEl = document.getElementById('gameBoard');
+        if (!boardEl) return;
+        
+        boardEl.innerHTML = '';
+        boardEl.style.gridTemplateColumns = `repeat(${this.boardSize}, 1fr)`;
+        
+        this.board.forEach((icon, index) => {
+          const tile = document.createElement('div');
+          tile.className = 'game-tile';
+          tile.dataset.index = index;
+          
+          if (icon) {
+            tile.textContent = icon;
+            tile.addEventListener('click', () => this.selectTile(index));
+          } else {
+            tile.style.visibility = 'hidden';
+          }
+          
+          boardEl.appendChild(tile);
+        });
+      }
+      
+      selectTile(index) {
+        if (!this.gameActive || !this.board[index]) return;
+        
+        const tile = document.querySelector(`.game-tile[data-index="${index}"]`);
+        if (!tile || tile.classList.contains('matched')) return;
+        
+        if (this.selectedTiles.some(t => t.index === index)) return;
+        
+        this.selectedTiles.push({ index, icon: this.board[index] });
+        tile.classList.add('selected');
+        
+        if (this.selectedTiles.length === 2) {
+          this.checkMatch();
+        }
+      }
+      
+      checkMatch() {
+        const [tile1, tile2] = this.selectedTiles;
+        
+        if (tile1.icon === tile2.icon && this.canConnect(tile1.index, tile2.index)) {
+          this.matchedPairs++;
+          this.score += 10 * (this.currentLevel + 1);
+          
+          document.querySelectorAll('.game-tile.selected').forEach(tile => {
+            tile.classList.remove('selected');
+            tile.classList.add('matched');
+          });
+          
+          this.board[tile1.index] = null;
+          this.board[tile2.index] = null;
+          
+          if (this.matchedPairs >= this.totalPairs) {
+            this.levelComplete();
+          }
+        } else {
+          setTimeout(() => {
+            document.querySelectorAll('.game-tile.selected').forEach(tile => {
+              tile.classList.remove('selected');
+            });
+          }, 500);
+        }
+        
+        this.selectedTiles = [];
+        this.updateDisplay();
+      }
+      
+      canConnect(index1, index2) {
+        const pos1 = this.getPosition(index1);
+        const pos2 = this.getPosition(index2);
+        
+        if (this.checkStraightLine(pos1, pos2)) return true;
+        if (this.checkOneTurn(pos1, pos2)) return true;
+        if (this.checkTwoTurns(pos1, pos2)) return true;
+        
+        return false;
+      }
+      
+      getPosition(index) {
+        return {
+          row: Math.floor(index / this.boardSize),
+          col: index % this.boardSize
+        };
+      }
+      
+      checkStraightLine(pos1, pos2) {
+        if (pos1.row === pos2.row) {
+          const minCol = Math.min(pos1.col, pos2.col);
+          const maxCol = Math.max(pos1.col, pos2.col);
+          for (let col = minCol + 1; col < maxCol; col++) {
+            const idx = pos1.row * this.boardSize + col;
+            if (this.board[idx] !== null) return false;
+          }
+          return true;
+        }
+        
+        if (pos1.col === pos2.col) {
+          const minRow = Math.min(pos1.row, pos2.row);
+          const maxRow = Math.max(pos1.row, pos2.row);
+          for (let row = minRow + 1; row < maxRow; row++) {
+            const idx = row * this.boardSize + pos1.col;
+            if (this.board[idx] !== null) return false;
+          }
+          return true;
+        }
+        
+        return false;
+      }
+      
+      checkOneTurn(pos1, pos2) {
+        const turnPoints = [
+          { row: pos1.row, col: pos2.col },
+          { row: pos2.row, col: pos1.col }
+        ];
+        
+        for (const turn of turnPoints) {
+          const idx1 = pos1.row * this.boardSize + turn.col;
+          const idx2 = turn.row * this.boardSize + pos2.col;
+          
+          if (this.board[idx1] === null && this.board[idx2] === null) {
+            const firstLeg = this.checkStraightLine(pos1, turn);
+            const secondLeg = this.checkStraightLine(turn, pos2);
+            if (firstLeg && secondLeg) return true;
+          }
+        }
+        
+        return false;
+      }
+      
+      checkTwoTurns(pos1, pos2) {
+        for (let row = 0; row < this.boardSize; row++) {
+          for (let col = 0; col < this.boardSize; col++) {
+            const turn1 = { row, col };
+            const turn2 = { row: pos2.row, col };
+            
+            const idx1 = turn1.row * this.boardSize + turn1.col;
+            const idx2 = turn2.row * this.boardSize + turn2.col;
+            
+            if (this.board[idx1] === null && this.board[idx2] === null) {
+              const path1 = this.checkStraightLine(pos1, turn1);
+              const path2 = this.checkStraightLine(turn1, turn2);
+              const path3 = this.checkStraightLine(turn2, pos2);
+              
+              if (path1 && path2 && path3) return true;
+            }
+          }
+        }
+        
+        return false;
+      }
+      
+      startTimer() {
+        if (this.timer) clearInterval(this.timer);
+        
+        this.timer = setInterval(() => {
+          this.timeLeft--;
+          this.updateDisplay();
+          
+          if (this.timeLeft <= 0) {
+            this.gameOver();
+          }
+        }, 1000);
+      }
+      
+      updateDisplay() {
+        document.getElementById('timer').textContent = this.timeLeft;
+        document.getElementById('score').textContent = this.score;
+        document.getElementById('level').textContent = this.currentLevel + 1;
+      }
+      
+      levelComplete() {
+        clearInterval(this.timer);
+        this.gameActive = false;
+        
+        user.gameRecords.push({
+          level: this.currentLevel + 1,
+          time: this.levels[this.currentLevel].time - this.timeLeft,
+          score: this.score,
+          date: new Date().toLocaleDateString()
+        });
+        
+        saveUserData();
+        
+        const modal = document.getElementById('gameOverlay');
+        const title = document.getElementById('resultTitle');
+        const message = document.getElementById('resultMessage');
+        const time = document.getElementById('finalTime');
+        const score = document.getElementById('finalScore');
+        
+        if (this.currentLevel < this.levels.length - 1) {
+          title.textContent = `第${this.currentLevel + 1}关完成！`;
+          message.textContent = `用时${this.levels[this.currentLevel].time - this.timeLeft}秒，得分${this.score}`;
+        } else {
+          title.textContent = '恭喜通关！';
+          message.textContent = '您已成功完成所有关卡！';
+        }
+        
+        time.textContent = this.levels[this.currentLevel].time - this.timeLeft;
+        score.textContent = this.score;
+        
+        modal.classList.add('show');
+      }
+      
+      gameOver() {
+        clearInterval(this.timer);
+        this.gameActive = false;
+        
+        const modal = document.getElementById('gameOverlay');
+        const title = document.getElementById('resultTitle');
+        const message = document.getElementById('resultMessage');
+        const time = document.getElementById('finalTime');
+        const score = document.getElementById('finalScore');
+        
+        title.textContent = '时间到！';
+        message.textContent = '很遗憾，时间用完了，再试一次吧！';
+        time.textContent = 0;
+        score.textContent = this.score;
+        
+        modal.classList.add('show');
+      }
+    }
 
-    // 搜索功能
-    document.getElementById("searchBtn").addEventListener("click", () => {
-      let query = document.getElementById("foodSearchInput").value;
-      let results = ["苹果", "香蕉", "胡萝卜", "西红柿", "菠菜"]; // 假设搜索结果
-      let filteredResults = results.filter(food => food.includes(query));
-      let resultsContainer = document.getElementById("searchResults");
-      resultsContainer.innerHTML = "";
-      filteredResults.forEach(food => {
-        let chip = document.createElement("div");
-        chip.classList.add("food-chip");
-        chip.textContent = food;
-        resultsContainer.appendChild(chip);
+    // ==================== 数据管理 ====================
+    function saveUserData() {
+      localStorage.setItem('healthFoodHelper_user', JSON.stringify(user));
+    }
+
+    function loadUserData() {
+      const saved = localStorage.getItem('healthFoodHelper_user');
+      if (saved) {
+        Object.assign(user, JSON.parse(saved));
+      }
+    }
+
+    // ==================== 页面切换 ====================
+    function switchSection(sectionId) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      const targetSection = document.getElementById(`${sectionId}Section`);
+      if (targetSection) {
+        targetSection.classList.add('active');
+      }
+      
+      const targetBtn = document.querySelector(`.nav-btn[data-section="${sectionId}"]`);
+      if (targetBtn) {
+        targetBtn.classList.add('active');
+      }
+      
+      if (sectionId === 'stats') {
+        updateStats();
+      } else if (sectionId === 'leaderboard') {
+        updateLeaderboards();
+      }
+    }
+
+    // ==================== 食物查询 ====================
+    function searchFood(foodName) {
+      const food = foodDatabase[foodName];
+      const resultEl = document.getElementById('foodResult');
+      
+      if (!food) {
+        resultEl.innerHTML = `
+          <div class="card">
+            <h3>未找到食物</h3>
+            <p>未找到"${foodName}"的相关信息，请尝试其他食物名称。</p>
+          </div>
+        `;
+        return;
+      }
+      
+      user.searches.push({
+        food: foodName,
+        time: new Date().toLocaleString(),
+        calories: food.calories,
+        level: food.level
+      });
+      
+      saveUserData();
+      
+      const levelText = food.level === 'healthy' ? '健康' : 
+                       food.level === 'moderate' ? '适中' : '需注意';
+      const levelClass = food.level === 'healthy' ? 'success' : 
+                        food.level === 'moderate' ? 'warning' : 'danger';
+      
+      resultEl.innerHTML = `
+        <div class="card">
+          <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 24px;">
+            <div style="font-size: 48px;">${food.icon}</div>
+            <div>
+              <h2 style="margin: 0 0 8px 0;">${foodName}</h2>
+              <span style="padding: 4px 12px; background: ${food.level === 'healthy' ? '#d4edda' : food.level === 'warning' ? '#fff3cd' : '#f8d7da'}; 
+                    color: ${food.level === 'healthy' ? '#155724' : food.level === 'warning' ? '#856404' : '#721c24'}; 
+                    border-radius: 20px; font-size: 14px;">
+                ${levelText}
+              </span>
+            </div>
+          </div>
+          
+          <div class="food-detail">
+            <div class="nutrient-card">
+              <div class="nutrient-value">${food.calories}</div>
+              <div class="nutrient-label">热量(kcal)</div>
+            </div>
+            <div class="nutrient-card">
+              <div class="nutrient-value">${food.protein}</div>
+              <div class="nutrient-label">蛋白质(g)</div>
+            </div>
+            <div class="nutrient-card">
+              <div class="nutrient-value">${food.fat}</div>
+              <div class="nutrient-label">脂肪(g)</div>
+            </div>
+            <div class="nutrient-card">
+              <div class="nutrient-value">${food.carbs}</div>
+              <div class="nutrient-label">碳水化合物(g)</div>
+            </div>
+          </div>
+          
+          <div style="margin-top: 24px; padding: 16px; background: #e8f4f8; border-radius: var(--radius-sm);">
+            <h4 style="margin: 0 0 8px 0;">健康建议：</h4>
+            <p style="margin: 0;">${food.tip}</p>
+          </div>
+          
+          <div style="margin-top: 16px;">
+            <h4 style="margin: 0 0 8px 0;">推荐搭配：</h4>
+            <ul style="padding-left: 20px;">
+              ${food.recipes.map(recipe => `<li>${recipe}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `;
+      
+      updateStats();
+    }
+
+    // ==================== 统计数据更新 ====================
+    function updateStats() {
+      const totalSearches = user.searches.length;
+      const healthyChoices = user.searches.filter(s => s.level === 'healthy').length;
+      const warningFoods = user.searches.filter(s => s.level === 'warning').length;
+      
+      let avgCalories = 0;
+      if (totalSearches > 0) {
+        const totalCalories = user.searches.reduce((sum, search) => sum + search.calories, 0);
+        avgCalories = Math.round(totalCalories / totalSearches);
+      }
+      
+      document.getElementById('totalSearches').textContent = totalSearches;
+      document.getElementById('avgCalories').textContent = avgCalories;
+      document.getElementById('healthyChoices').textContent = healthyChoices;
+      document.getElementById('warningFoods').textContent = warningFoods;
+      
+      updateFoodRankList();
+    }
+
+    function updateFoodRankList() {
+      const rankList = document.getElementById('foodRankList');
+      const foodCounts = {};
+      
+      user.searches.forEach(search => {
+        foodCounts[search.food] = (foodCounts[search.food] || 0) + 1;
+      });
+      
+      const sortedFoods = Object.entries(foodCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5);
+      
+      if (sortedFoods.length === 0) {
+        rankList.innerHTML = '<div class="no-data">暂无数据</div>';
+        return;
+      }
+      
+      rankList.innerHTML = sortedFoods.map(([food, count], index) => `
+        <div class="leaderboard-item">
+          <div class="rank-badge rank-${index + 1}">${index + 1}</div>
+          <div class="item-content">
+            <div class="item-name">${foodDatabase[food]?.icon || ''} ${food}</div>
+            <div class="item-stats">查询次数: ${count}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ==================== 排行榜更新 ====================
+    function updateLeaderboards() {
+      const searchRankList = document.getElementById('searchLeaderboard');
+      const foodCounts = {};
+      
+      user.searches.forEach(search => {
+        foodCounts[search.food] = (foodCounts[search.food] || 0) + 1;
+      });
+      
+      const sortedFoods = Object.entries(foodCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10);
+      
+      if (sortedFoods.length === 0) {
+        searchRankList.innerHTML = '<div class="no-data">暂无查询记录</div>';
+      } else {
+        searchRankList.innerHTML = sortedFoods.map(([food, count], index) => `
+          <div class="leaderboard-item">
+            <div class="rank-badge ${index < 3 ? `rank-${index + 1}` : 'rank-other'}">
+              ${index + 1}
+            </div>
+            <div class="item-content">
+              <div class="item-name">${foodDatabase[food]?.icon || ''} ${food}</div>
+              <div class="item-stats">查询次数: ${count}次</div>
+            </div>
+          </div>
+        `).join('');
+      }
+      
+      const gameRankList = document.getElementById('gameLeaderboard');
+      const sortedGames = [...user.gameRecords]
+        .sort((a, b) => a.time - b.time)
+        .slice(0, 10);
+      
+      if (sortedGames.length === 0) {
+        gameRankList.innerHTML = '<div class="no-data">暂无游戏记录</div>';
+      } else {
+        gameRankList.innerHTML = sortedGames.map((record, index) => `
+          <div class="leaderboard-item">
+            <div class="rank-badge ${index < 3 ? `rank-${index + 1}` : 'rank-other'}">
+              ${index + 1}
+            </div>
+            <div class="item-content">
+              <div class="item-name">第${record.level}关</div>
+              <div class="item-stats">
+                <div>用时: ${record.time}秒</div>
+                <div>得分: ${record.score}分</div>
+                <div style="font-size: 12px; color: var(--text-light);">${record.date}</div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // ==================== 初始化游戏实例 ====================
+    const game = new MatchingGame();
+
+    // ==================== 事件监听器 ====================
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUserData();
+      
+      document.getElementById('startBtn').addEventListener('click', () => {
+        const userName = document.getElementById('userNameInput').value.trim();
+        if (!userName) {
+          alert('请输入昵称或学号');
+          return;
+        }
+        
+        user.name = userName;
+        document.getElementById('userNameDisplay').textContent = userName;
+        
+        document.getElementById('welcomeOverlay').style.display = 'none';
+        document.getElementById('mainApp').classList.add('show');
+        
+        saveUserData();
+      });
+      
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        document.getElementById('welcomeOverlay').style.display = 'flex';
+        document.getElementById('mainApp').classList.remove('show');
+      });
+      
+      document.querySelectorAll('.nav-btn:not(.logout)').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const section = btn.dataset.section;
+          switchSection(section);
+        });
+      });
+      
+      document.getElementById('searchBtn').addEventListener('click', () => {
+        const input = document.getElementById('foodSearchInput');
+        searchFood(input.value);
+      });
+      
+      document.querySelectorAll('.tag').forEach(tag => {
+        tag.addEventListener('click', () => {
+          const foodName = tag.dataset.food;
+          document.getElementById('foodSearchInput').value = foodName;
+          searchFood(foodName);
+        });
+      });
+      
+      document.getElementById('startGameBtn').addEventListener('click', () => {
+        game.initGame(0);
+        switchSection('game');
+      });
+      
+      document.getElementById('restartBtn').addEventListener('click', () => {
+        game.initGame(0);
+      });
+      
+      document.getElementById('helpBtn').addEventListener('click', () => {
+        alert(`连连看游戏规则：
+1. 点击两个相同的食物图标
+2. 两个图标之间可以用≤3条直线连接
+3. 连接线不能穿过其他图标
+4. 在规定时间内消除所有图标
+5. 每个关卡难度不同，时间更短
+6. 匹配成功得分，超时游戏结束`);
+      });
+      
+      document.getElementById('closeResultBtn').addEventListener('click', () => {
+        document.getElementById('gameOverlay').classList.remove('show');
+      });
+      
+      document.getElementById('playAgainBtn').addEventListener('click', () => {
+        document.getElementById('gameOverlay').classList.remove('show');
+        game.initGame(0);
+      });
+      
+      document.getElementById('foodSearchInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          searchFood(e.target.value);
+        }
       });
     });
 
-    // 注销功能
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      alert("您已注销！");
+    // ==================== 初始化页面 ====================
+    window.addEventListener('load', () => {
+      loadUserData();
+      if (user.name) {
+        document.getElementById('userNameDisplay').textContent = user.name;
+        document.getElementById('welcomeOverlay').style.display = 'none';
+        document.getElementById('mainApp').classList.add('show');
+      }
+      
+      updateStats();
+      updateLeaderboards();
     });
   </script>
-
 </body>
 </html>
-
