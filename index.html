@@ -1059,7 +1059,7 @@
           
           <!-- 食品搜索排行榜 -->
           <div class="ranking-content active" id="foodRanking">
-            <h4 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-main);">最常搜索的食物 TOP 10</h4>
+            <h4 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-main);" id="foodRankingTitle">最常搜索的食物 TOP 10</h4>
             <ul class="ranking-list" id="foodRankingList">
               <li class="empty-hint">还没有搜索数据</li>
             </ul>
@@ -1067,7 +1067,7 @@
           
           <!-- 小游戏排行榜 -->
           <div class="ranking-content" id="gameRanking">
-            <h4 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-main);">小游戏最高分 TOP 10</h4>
+            <h4 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-main);" id="gameRankingTitle">小游戏最高分 TOP 10</h4>
             <ul class="ranking-list" id="gameRankingList">
               <li class="empty-hint">还没有游戏数据</li>
             </ul>
@@ -1075,13 +1075,13 @@
           
           <!-- 我的排名 -->
           <div class="my-rank-box">
-            <h4>我的排名</h4>
+            <h4 id="myRankingTitle">我的排名</h4>
             <div class="my-rank-item">
-              <span>食品搜索排名：</span>
+              <span id="foodRankingText">食品搜索排名：</span>
               <span id="myFoodRank" style="color: var(--accent-blue); font-weight: 600;">暂无</span>
             </div>
             <div class="my-rank-item">
-              <span>小游戏排名：</span>
+              <span id="gameRankingText">小游戏排名：</span>
               <span id="myGameRank" style="color: var(--accent-blue); font-weight: 600;">暂无</span>
             </div>
           </div>
@@ -1153,11 +1153,27 @@
 
       /* 查询页 */
       searchPlaceholder: '输入食物，如：苹果 / 牛奶 / 鸡胸肉 / 泡菜 / 김치',
+      searchBtn: '搜索',
+      calorieLabel: '热量',
+      proteinLabel: '蛋白质',
+      fatLabel: '脂肪',
+      carbLabel: '碳水化合物',
       statSearchLabel: '累计查询次数',
       statAvgCalLabel: '平均热量（查询食物）',
       statHealthyLabel: '健康食物查询',
       statWarningLabel: '高热量食物查询',
       
+      /* 排行榜相关 */
+      foodRankingTitle: '最常搜索的食物 TOP 10',
+      gameRankingTitle: '小游戏最高分 TOP 10',
+      myRankingTitle: '我的排名',
+      foodRankingText: '食品搜索排名：',
+      gameRankingText: '小游戏排名：',
+      noRankingData: '暂无数据',
+      
+      recipeTitle: '推荐搭配：',
+      emptyHint: '未查询到该食物，请尝试其他关键词。',
+
       /* 游戏页 */
       gameLevel1: '第 1 关 · 初阶',
       gameLevel2: '第 2 关 · 进阶',
@@ -1193,9 +1209,12 @@
       allClearPrimary: '好的',
       allClearSecondary: '关闭',
 
-      /* 其他 */
-      recipeTitle: '推荐搭配：',
-      emptyHint: '未查询到该食物，请尝试其他关键词。'
+      /* 单位 */
+      kcal: 'kcal',
+      grams: 'g',
+      points: '分',
+      times: '次',
+      loading: '加载中...'
     },
     kr: {
       /* 欢迎页 */
@@ -1230,11 +1249,27 @@
 
       /* 查询页 */
       searchPlaceholder: '사과 / 우유 / 닭가슴살 / 김치 등 식품을 입력하세요',
+      searchBtn: '검색',
+      calorieLabel: '칼로리',
+      proteinLabel: '단백질',
+      fatLabel: '지방',
+      carbLabel: '탄수화물',
       statSearchLabel: '총 조회 횟수',
       statAvgCalLabel: '조회한 식품의 평균 칼로리',
       statHealthyLabel: '건강한 식품 조회',
       statWarningLabel: '고칼로리 식품 조회',
       
+      /* 排行榜相关 */
+      foodRankingTitle: '가장 자주 조회된 식품 TOP 10',
+      gameRankingTitle: '미니 게임 최고점 TOP 10',
+      myRankingTitle: '나의 순위',
+      foodRankingText: '식품 조회 순위:',
+      gameRankingText: '게임 순위:',
+      noRankingData: '데이터 없음',
+      
+      recipeTitle: '추천 조합:',
+      emptyHint: '해당 식품을 찾지 못했습니다. 다른 이름으로 시도해 보세요.',
+
       /* 游戏页 */
       gameLevel1: '1단계 · 기초',
       gameLevel2: '2단계 · 응용',
@@ -1270,9 +1305,12 @@
       allClearPrimary: '확인',
       allClearSecondary: '닫기',
 
-      /* 其他 */
-      recipeTitle: '추천 조합:',
-      emptyHint: '해당 식품을 찾지 못했습니다. 다른 이름으로 시도해 보세요.'
+      /* 单位 */
+      kcal: 'kcal',
+      grams: 'g',
+      points: '점',
+      times: '회',
+      loading: '로딩 중...'
     }
   };
 
@@ -1349,6 +1387,12 @@
   const gameRankingList = document.getElementById('gameRankingList');
   const myFoodRankEl = document.getElementById('myFoodRank');
   const myGameRankEl = document.getElementById('myGameRank');
+  const foodRankingTitle = document.getElementById('foodRankingTitle');
+  const gameRankingTitle = document.getElementById('gameRankingTitle');
+  const myRankingTitle = document.getElementById('myRankingTitle');
+  const foodRankingText = document.getElementById('foodRankingText');
+  const gameRankingText = document.getElementById('gameRankingText');
+  
   const rankingTabs = document.querySelectorAll('.ranking-tab');
   const rankingContents = document.querySelectorAll('.ranking-content');
 
@@ -1382,7 +1426,7 @@
     }, 2200);
   }
 
-  /* ===================== 完整食物数据库 (36种) ===================== */
+  /* ===================== 完整食物数据库 (36种) - 修改游戏提示为营养价值 ===================== */
   const FOOD_ITEMS = [
     // 原有的6种常见食物
     {
@@ -1394,8 +1438,18 @@
       fat: 0.2,
       carb: 14,
       level: 'good',
-      zh: { name: '苹果', tip: '富含维生素 C 和膳食纤维，可作为加餐或早餐配餐。', recipes: [], gameTip: '水果替代含糖零食。' },
-      kr: { name: '사과', tip: '비타민 C와 식이섬유가 풍부합니다.', recipes: [], gameTip: '과일을 달콤한 과자 대신 먹습니다.' }
+      zh: { 
+        name: '苹果', 
+        tip: '富含维生素 C 和膳食纤维，可作为加餐或早餐配餐。', 
+        recipes: [], 
+        gameTip: '富含维生素C和纤维，有助于增强免疫力。' 
+      },
+      kr: { 
+        name: '사과', 
+        tip: '비타민 C와 식이섬유가 풍부합니다.', 
+        recipes: [], 
+        gameTip: '비타민C와 섬유질이 풍부하여 면역력 강화에 도움을 줍니다.' 
+      }
     },
     {
       id: 'rice',
@@ -1406,8 +1460,18 @@
       fat: 0.3,
       carb: 28,
       level: 'mid',
-      zh: { name: '白米饭', tip: '控制份量，并搭配足够蔬菜与蛋白质。', recipes: [], gameTip: '白米饭本身不等于「不健康」。' },
-      kr: { name: '밥', tip: '양을 조절하고 채소와 단백질을 함께 먹습니다.', recipes: [], gameTip: '밥 자체가 나쁜 것은 아닙니다.' }
+      zh: { 
+        name: '白米饭', 
+        tip: '控制份量，并搭配足够蔬菜与蛋白质。', 
+        recipes: [], 
+        gameTip: '主要提供碳水化合物，是身体的主要能量来源。' 
+      },
+      kr: { 
+        name: '밥', 
+        tip: '양을 조절하고 채소와 단백질을 함께 먹습니다.', 
+        recipes: [], 
+        gameTip: '주로 탄수화물을 제공하여 신체의 주요 에너지원입니다.' 
+      }
     },
     {
       id: 'milk',
@@ -1418,8 +1482,18 @@
       fat: 3.3,
       carb: 4.8,
       level: 'good',
-      zh: { name: '牛奶', tip: '提供优质蛋白和钙。', recipes: [], gameTip: '钙和蛋白质有助于骨骼健康。' },
-      kr: { name: '우유', tip: '양질의 단백질과 칼슘을 제공합니다.', recipes: [], gameTip: '칼슘과 단백질은 뼈 건강에 도움을 줍니다.' }
+      zh: { 
+        name: '牛奶', 
+        tip: '提供优质蛋白和钙。', 
+        recipes: [], 
+        gameTip: '富含钙质和蛋白质，有助于骨骼健康。' 
+      },
+      kr: { 
+        name: '우유', 
+        tip: '양질의 단백질과 칼슘을 제공합니다.', 
+        recipes: [], 
+        gameTip: '칼슘과 단백질이 풍부하여 뼈 건강에 도움을 줍니다.' 
+      }
     },
     {
       id: 'chicken',
@@ -1430,8 +1504,18 @@
       fat: 3,
       carb: 0,
       level: 'good',
-      zh: { name: '鸡胸肉', tip: '高蛋白、低脂肪。', recipes: [], gameTip: '优先选择少油的烹饪方式。' },
-      kr: { name: '닭가슴살', tip: '단백질이 높고 지방이 적습니다.', recipes: [], gameTip: '튀기지 않고 굽거나 삶는 방식이 좋습니다.' }
+      zh: { 
+        name: '鸡胸肉', 
+        tip: '高蛋白、低脂肪。', 
+        recipes: [], 
+        gameTip: '优质蛋白质来源，脂肪含量低，适合健身饮食。' 
+      },
+      kr: { 
+        name: '닭가슴살', 
+        tip: '단백질이 높고 지방이 적습니다.', 
+        recipes: [], 
+        gameTip: '양질의 단백질 공급원으로 지방 함량이 낮아 피트니스 식단에 적합합니다.' 
+      }
     },
     {
       id: 'carrot',
@@ -1442,8 +1526,18 @@
       fat: 0.2,
       carb: 10,
       level: 'good',
-      zh: { name: '胡萝卜', tip: '含有β-胡萝卜素。', recipes: [], gameTip: '橙色蔬菜富含维生素 A。' },
-      kr: { name: '당근', tip: '베타카로틴이 풍부합니다.', recipes: [], gameTip: '주황색 채소는 비타민 A가 풍부합니다.' }
+      zh: { 
+        name: '胡萝卜', 
+        tip: '含有β-胡萝卜素。', 
+        recipes: [], 
+        gameTip: '富含β-胡萝卜素，有助于维持良好视力。' 
+      },
+      kr: { 
+        name: '당근', 
+        tip: '베타카로틴이 풍부합니다.', 
+        recipes: [], 
+        gameTip: '베타카로틴이 풍부하여 좋은 시력 유지에 도움을 줍니다.' 
+      }
     },
     {
       id: 'cola',
@@ -1454,11 +1548,21 @@
       fat: 0,
       carb: 11,
       level: 'warn',
-      zh: { name: '含糖饮料（可乐）', tip: '几乎只提供糖与热量。', recipes: [], gameTip: '含糖饮料容易抬高热量。' },
-      kr: { name: '당분 음료(콜라)', tip: '거의 당과 열량만 제공합니다.', recipes: [], gameTip: '당분 음료는 열량을 크게 올립니다.' }
+      zh: { 
+        name: '含糖饮料（可乐）', 
+        tip: '几乎只提供糖与热量。', 
+        recipes: [], 
+        gameTip: '高糖分饮料，建议适量饮用或选择无糖替代品。' 
+      },
+      kr: { 
+        name: '당분 음료(콜라)', 
+        tip: '거의 당과 열량만 제공합니다.', 
+        recipes: [], 
+        gameTip: '당분 함량이 높은 음료로 적당히 마시거나 무가당 대체품을 선택하는 것이 좋습니다.' 
+      }
     },
     
-    // ========== 30种韩国食物 ==========
+    // ========== 30种韩国食物 - 修改游戏提示为营养价值 ==========
     {
       id: 'kimchi',
       icon: '🥬',
@@ -1468,8 +1572,18 @@
       fat: 0.2,
       carb: 3,
       level: 'good',
-      zh: { name: '泡菜', tip: '发酵食品，富含益生菌和维生素C，有益肠道健康。', recipes: [], gameTip: '泡菜是韩国的代表性发酵食品。' },
-      kr: { name: '김치', tip: '발효식품으로 유산균과 비타민 C가 풍부하여 장 건강에 좋습니다.', recipes: [], gameTip: '김치는 한국의 대표적인 발효식품입니다.' }
+      zh: { 
+        name: '泡菜', 
+        tip: '发酵食品，富含益生菌和维生素C，有益肠道健康。', 
+        recipes: [], 
+        gameTip: '富含益生菌和维生素C，有助于肠道健康和消化。' 
+      },
+      kr: { 
+        name: '김치', 
+        tip: '발효식품으로 유산균과 비타민 C가 풍부하여 장 건강에 좋습니다.', 
+        recipes: [], 
+        gameTip: '프로바이오틱스와 비타민C가 풍부하여 장 건강과 소화에 도움을 줍니다.' 
+      }
     },
     {
       id: 'bibimbap',
@@ -1480,8 +1594,18 @@
       fat: 15,
       carb: 65,
       level: 'mid',
-      zh: { name: '石锅拌饭', tip: '多种蔬菜和肉与米饭拌食，营养均衡但热量较高。', recipes: [], gameTip: '石锅拌饭是韩国的代表性混合饭。' },
-      kr: { name: '비빔밥', tip: '다양한 채소와 고기를 밥과 비벼먹는 영양균형 식사지만 칼로리가 높습니다.', recipes: [], gameTip: '비빔밥은 한국의 대표적인 혼합밥입니다.' }
+      zh: { 
+        name: '石锅拌饭', 
+        tip: '多种蔬菜和肉与米饭拌食，营养均衡但热量较高。', 
+        recipes: [], 
+        gameTip: '多种蔬菜提供维生素和矿物质，注意控制米饭分量。' 
+      },
+      kr: { 
+        name: '비빔밥', 
+        tip: '다양한 채소와 고기를 밥과 비벼먹는 영양균형 식사지만 칼로리가 높습니다.', 
+        recipes: [], 
+        gameTip: '다양한 채소가 비타민과 미네랄을 제공하지만 밥 양을 조절하는 것이 좋습니다.' 
+      }
     },
     {
       id: 'gimbap',
@@ -1492,8 +1616,18 @@
       fat: 3,
       carb: 35,
       level: 'mid',
-      zh: { name: '紫菜包饭', tip: '用紫菜包裹的饭卷，便携但碳水化合物含量较高。', recipes: [], gameTip: '紫菜包饭是韩国流行的便携食物。' },
-      kr: { name: '김밥', tip: '김에 밥과 다양한 재료를 말아낸 휴대용 음식입니다.', recipes: [], gameTip: '김밥은 한국에서 인기 있는 휴대용 음식입니다.' }
+      zh: { 
+        name: '紫菜包饭', 
+        tip: '用紫菜包裹的饭卷，便携但碳水化合物含量较高。', 
+        recipes: [], 
+        gameTip: '海苔富含碘和矿物质，但米饭分量需要注意。' 
+      },
+      kr: { 
+        name: '김밥', 
+        tip: '김에 밥과 다양한 재료를 말아낸 휴대용 음식입니다.', 
+        recipes: [], 
+        gameTip: '김은 요오드와 미네랄이 풍부하지만 밥 양을 주의해야 합니다.' 
+      }
     },
     {
       id: 'tteokbokki',
@@ -1504,8 +1638,18 @@
       fat: 2,
       carb: 60,
       level: 'warn',
-      zh: { name: '炒年糕', tip: '辣味年糕小吃，高碳水化合物和钠含量。', recipes: [], gameTip: '炒年糕是韩国流行的街头小吃。' },
-      kr: { name: '떡볶이', tip: '매콤한 떡 요리로 탄수화물과 나트륨 함량이 높습니다.', recipes: [], gameTip: '떡볶이는 한국의 인기 있는 길거리 음식입니다.' }
+      zh: { 
+        name: '炒年糕', 
+        tip: '辣味年糕小吃，高碳水化合物和钠含量。', 
+        recipes: [], 
+        gameTip: '高碳水化合物食品，建议搭配蔬菜食用以平衡营养。' 
+      },
+      kr: { 
+        name: '떡볶이', 
+        tip: '매콤한 떡 요리로 탄수화물과 나트륨 함량이 높습니다.', 
+        recipes: [], 
+        gameTip: '탄수화물 함량이 높은 음식으로 채소와 함께 먹어 영양 균형을 맞추는 것이 좋습니다.' 
+      }
     },
     {
       id: 'samgyeopsal',
@@ -1516,8 +1660,18 @@
       fat: 25,
       carb: 0,
       level: 'warn',
-      zh: { name: '烤五花肉', tip: '高脂肪肉类，适量食用并搭配大量蔬菜。', recipes: [], gameTip: '五花肉是韩国烤肉的代表。' },
-      kr: { name: '삼겹살', tip: '지방 함량이 높은 고기로 적당량을 먹고 채소와 함께 먹는 것이 좋습니다.', recipes: [], gameTip: '삼겹살은 한국 구이의 대표입니다.' }
+      zh: { 
+        name: '烤五花肉', 
+        tip: '高脂肪肉类，适量食用并搭配大量蔬菜。', 
+        recipes: [], 
+        gameTip: '饱和脂肪含量较高，建议适量食用并搭配蔬菜。' 
+      },
+      kr: { 
+        name: '삼겹살', 
+        tip: '지방 함량이 높은 고기로 적당량을 먹고 채소와 함께 먹는 것이 좋습니다.', 
+        recipes: [], 
+        gameTip: '포화 지방 함량이 높으므로 적당히 먹고 채소와 함께 섭취하는 것이 좋습니다.' 
+      }
     },
     {
       id: 'doenjang',
@@ -1528,8 +1682,18 @@
       fat: 2,
       carb: 6,
       level: 'good',
-      zh: { name: '大酱', tip: '发酵大豆酱，富含蛋白质和益生菌。', recipes: [], gameTip: '大酱是韩国传统调味料。' },
-      kr: { name: '된장', tip: '발효된 콩장으로 단백질과 유산균이 풍부합니다.', recipes: [], gameTip: '된장은 한국 전통 양념입니다.' }
+      zh: { 
+        name: '大酱', 
+        tip: '发酵大豆酱，富含蛋白质和益生菌。', 
+        recipes: [], 
+        gameTip: '发酵食品，富含益生菌和植物蛋白。' 
+      },
+      kr: { 
+        name: '된장', 
+        tip: '발효된 콩장으로 단백질과 유산균이 풍부합니다.', 
+        recipes: [], 
+        gameTip: '발효식품으로 프로바이오틱스와 식물성 단백질이 풍부합니다.' 
+      }
     },
     {
       id: 'miyeokguk',
@@ -1540,8 +1704,18 @@
       fat: 1,
       carb: 6,
       level: 'good',
-      zh: { name: '海带汤', tip: '富含碘和矿物质，传统上在生日时食用。', recipes: [], gameTip: '海带汤是韩国生日传统食物。' },
-      kr: { name: '미역국', tip: '요오드와 미네랄이 풍부하며 생일 때 먹는 전통 음식입니다.', recipes: [], gameTip: '미역국은 한국 생일 전통 음식입니다.' }
+      zh: { 
+        name: '海带汤', 
+        tip: '富含碘和矿物质，传统上在生日时食用。', 
+        recipes: [], 
+        gameTip: '富含碘，有助于甲状腺健康。' 
+      },
+      kr: { 
+        name: '미역국', 
+        tip: '요오드와 미네랄이 풍부하며 생일 때 먹는 전통 음식입니다.', 
+        recipes: [], 
+        gameTip: '요오드가 풍부하여 갑상선 건강에 도움을 줍니다.' 
+      }
     },
     {
       id: 'bossam',
@@ -1552,8 +1726,18 @@
       fat: 22,
       carb: 8,
       level: 'mid',
-      zh: { name: '包肉', tip: '煮猪肉用蔬菜包裹食用，脂肪含量较高。', recipes: [], gameTip: '包肉是韩国的传统猪肉料理。' },
-      kr: { name: '보쌈', tip: '삶은 돼지고기를 채소에 싸서 먹는 지방 함량이 높은 음식입니다.', recipes: [], gameTip: '보쌈은 한국 전통 돼지고기 요리입니다.' }
+      zh: { 
+        name: '包肉', 
+        tip: '煮猪肉用蔬菜包裹食用，脂肪含量较高。', 
+        recipes: [], 
+        gameTip: '蛋白质丰富，但脂肪含量也较高，建议用生菜代替部分猪肉。' 
+      },
+      kr: { 
+        name: '보쌈', 
+        tip: '삶은 돼지고기를 채소에 싸서 먹는 지방 함량이 높은 음식입니다.', 
+        recipes: [], 
+        gameTip: '단백질이 풍부하지만 지방 함량도 높으므로 상추로 일부 돼지고기를 대체하는 것이 좋습니다.' 
+      }
     },
     {
       id: 'sundubu',
@@ -1564,8 +1748,18 @@
       fat: 5,
       carb: 10,
       level: 'good',
-      zh: { name: '嫩豆腐汤', tip: '辣味豆腐汤，富含蛋白质，热量适中。', recipes: [], gameTip: '嫩豆腐汤是韩国常见的汤品。' },
-      kr: { name: '순두부찌개', tip: '매콤한 두부 찌개로 단백질이 풍부하고 칼로리가 적당합니다.', recipes: [], gameTip: '순두부찌개는 한국에서 흔한 찌개입니다.' }
+      zh: { 
+        name: '嫩豆腐汤', 
+        tip: '辣味豆腐汤，富含蛋白质，热量适中。', 
+        recipes: [], 
+        gameTip: '豆腐提供优质植物蛋白，热量相对较低。' 
+      },
+      kr: { 
+        name: '순두부찌개', 
+        tip: '매콤한 두부 찌개로 단백질이 풍부하고 칼로리가 적당합니다.', 
+        recipes: [], 
+        gameTip: '두부는 양질의 식물성 단백질을 제공하며 상대적으로 칼로리가 낮습니다.' 
+      }
     },
     {
       id: 'bulgogi',
@@ -1576,8 +1770,18 @@
       fat: 15,
       carb: 8,
       level: 'mid',
-      zh: { name: '韩式烤肉', tip: '腌制牛肉烤制，蛋白质丰富但含糖酱料增加热量。', recipes: [], gameTip: '烤肉是韩国代表性的肉类料理。' },
-      kr: { name: '불고기', tip: '양념한 소고기를 구운 것으로 단백질이 풍부하지만 당이 많은 양념으로 칼로리가 올라갑니다.', recipes: [], gameTip: '불고기는 한국의 대표적인 고기 요리입니다.' }
+      zh: { 
+        name: '韩式烤肉', 
+        tip: '腌制牛肉烤制，蛋白质丰富但含糖酱料增加热量。', 
+        recipes: [], 
+        gameTip: '牛肉是优质蛋白质和铁的来源，注意酱料中的糖分。' 
+      },
+      kr: { 
+        name: '불고기', 
+        tip: '양념한 소고기를 구운 것으로 단백질이 풍부하지만 당이 많은 양념으로 칼로리가 올라갑니다.', 
+        recipes: [], 
+        gameTip: '소고기는 양질의 단백질과 철분 공급원이지만 양념의 당분을 주의해야 합니다.' 
+      }
     },
     {
       id: 'japchae',
@@ -1588,8 +1792,18 @@
       fat: 7,
       carb: 25,
       level: 'mid',
-      zh: { name: '韩式杂菜', tip: '粉丝炒蔬菜，口感好但碳水化合物含量较高。', recipes: [], gameTip: '杂菜是韩国宴席常见菜。' },
-      kr: { name: '잡채', tip: '당면과 채소를 볶은 것으로 탄수화물 함량이 높습니다.', recipes: [], gameTip: '잡채는 한국 잔치상에 자주 나오는 음식입니다.' }
+      zh: { 
+        name: '韩式杂菜', 
+        tip: '粉丝炒蔬菜，口感好但碳水化合物含量较高。', 
+        recipes: [], 
+        gameTip: '多种蔬菜提供维生素，但粉丝是主要碳水化合物来源。' 
+      },
+      kr: { 
+        name: '잡채', 
+        tip: '당면과 채소를 볶은 것으로 탄수화물 함량이 높습니다.', 
+        recipes: [], 
+        gameTip: '다양한 채소가 비타민을 제공하지만 당면이 주요 탄수화물 공급원입니다.' 
+      }
     },
     {
       id: 'kimchi-jjigae',
@@ -1600,8 +1814,18 @@
       fat: 8,
       carb: 12,
       level: 'good',
-      zh: { name: '泡菜汤', tip: '发酵泡菜制作的汤，富含益生菌，辛辣开胃。', recipes: [], gameTip: '泡菜汤是韩国家常汤品。' },
-      kr: { name: '김치찌개', tip: '발효 김치로 만든 찌개로 유산균이 풍부하고 매콤합니다.', recipes: [], gameTip: '김치찌개는 한국 가정식 찌개입니다.' }
+      zh: { 
+        name: '泡菜汤', 
+        tip: '发酵泡菜制作的汤，富含益生菌，辛辣开胃。', 
+        recipes: [], 
+        gameTip: '泡菜的益生菌有助于肠道健康，蛋白质来自豆腐或肉类。' 
+      },
+      kr: { 
+        name: '김치찌개', 
+        tip: '발효 김치로 만든 찌개로 유산균이 풍부하고 매콤합니다.', 
+        recipes: [], 
+        gameTip: '김치의 프로바이오틱스가 장 건강에 도움이 되며 단백질은 두부나 고기에서 얻습니다.' 
+      }
     },
     {
       id: 'pajeon',
@@ -1612,8 +1836,18 @@
       fat: 10,
       carb: 25,
       level: 'mid',
-      zh: { name: '韩式葱饼', tip: '葱和面糊煎制，油炸食品热量较高。', recipes: [], gameTip: '葱饼是韩国传统煎饼。' },
-      kr: { name: '파전', tip: '파와 반죽을 부쳐 만든 것으로 기름에 튀겨 칼로리가 높습니다.', recipes: [], gameTip: '파전은 한국 전통 전입니다.' }
+      zh: { 
+        name: '韩式葱饼', 
+        tip: '葱和面糊煎制，油炸食品热量较高。', 
+        recipes: [], 
+        gameTip: '葱含有抗氧化物质，但煎炸方式增加了脂肪含量。' 
+      },
+      kr: { 
+        name: '파전', 
+        tip: '파와 반죽을 부쳐 만든 것으로 기름에 튀겨 칼로리가 높습니다.', 
+        recipes: [], 
+        gameTip: '파에는 항산화 물질이 있지만 튀기는 방식으로 지방 함량이 증가합니다.' 
+      }
     },
     {
       id: 'samgyetang',
@@ -1624,8 +1858,18 @@
       fat: 12,
       carb: 30,
       level: 'mid',
-      zh: { name: '参鸡汤', tip: '整只鸡炖煮，营养丰富但热量较高。', recipes: [], gameTip: '参鸡汤是韩国夏季滋补食品。' },
-      kr: { name: '삼계탕', tip: '통닭을 푹 고아 만든 것으로 영양이 풍부하지만 칼로리가 높습니다.', recipes: [], gameTip: '삼계탕은 한국 여름 보양식입니다.' }
+      zh: { 
+        name: '参鸡汤', 
+        tip: '整只鸡炖煮，营养丰富但热量较高。', 
+        recipes: [], 
+        gameTip: '鸡肉提供优质蛋白质，糯米增加碳水化合物。' 
+      },
+      kr: { 
+        name: '삼계탕', 
+        tip: '통닭을 푹 고아 만든 것으로 영양이 풍부하지만 칼로리가 높습니다.', 
+        recipes: [], 
+        gameTip: '닭고기는 양질의 단백질을 제공하고 찹쌀은 탄수화물을 증가시킵니다.' 
+      }
     },
     {
       id: 'tteokguk',
@@ -1636,8 +1880,18 @@
       fat: 3,
       carb: 38,
       level: 'mid',
-      zh: { name: '年糕汤', tip: '新年传统食物，年糕为主要成分，碳水化合物高。', recipes: [], gameTip: '年糕汤是韩国新年必吃食物。' },
-      kr: { name: '떡국', tip: '설날 전통 음식으로 떡이 주성분이어서 탄수화물이 높습니다.', recipes: [], gameTip: '떡국은 한국 설날 필수 음식입니다.' }
+      zh: { 
+        name: '年糕汤', 
+        tip: '新年传统食物，年糕为主要成分，碳水化合物高。', 
+        recipes: [], 
+        gameTip: '年糕是碳水化合物来源，汤底通常比较清淡。' 
+      },
+      kr: { 
+        name: '떡국', 
+        tip: '설날 전통 음식으로 떡이 주성분이어서 탄수화물이 높습니다.', 
+        recipes: [], 
+        gameTip: '떡은 탄수화물 공급원이며 국물은 일반적으로 담백합니다.' 
+      }
     },
     {
       id: 'haemul-pajeon',
@@ -1648,8 +1902,18 @@
       fat: 15,
       carb: 22,
       level: 'mid',
-      zh: { name: '海鲜葱饼', tip: '含海鲜的煎饼，蛋白质较高但油炸制作。', recipes: [], gameTip: '海鲜葱饼是韩式海鲜煎饼。' },
-      kr: { name: '해물파전', tip: '해물이 들어간 전으로 단백질이 높지만 기름에 튀깁니다.', recipes: [], gameTip: '해물파전은 한국식 해물 전입니다.' }
+      zh: { 
+        name: '海鲜葱饼', 
+        tip: '含海鲜的煎饼，蛋白质较高但油炸制作。', 
+        recipes: [], 
+        gameTip: '海鲜提供蛋白质和Omega-3脂肪酸，但煎炸增加了脂肪。' 
+      },
+      kr: { 
+        name: '해물파전', 
+        tip: '해물이 들어간 전으로 단백질이 높지만 기름에 튀깁니다.', 
+        recipes: [], 
+        gameTip: '해산물은 단백질과 오메가-3 지방산을 제공하지만 튀기면 지방이 증가합니다.' 
+      }
     },
     {
       id: 'odeng',
@@ -1660,8 +1924,18 @@
       fat: 3,
       carb: 8,
       level: 'mid',
-      zh: { name: '韩式鱼饼', tip: '鱼浆制品，蛋白质来源但含钠量较高。', recipes: [], gameTip: '鱼饼是韩国街头小吃。' },
-      kr: { name: '오뎅', tip: '어묵으로 단백질 공급원이지만 나트륨 함량이 높습니다.', recipes: [], gameTip: '오뎅은 한국 길거리 음식입니다.' }
+      zh: { 
+        name: '韩式鱼饼', 
+        tip: '鱼浆制品，蛋白质来源但含钠量较高。', 
+        recipes: [], 
+        gameTip: '鱼浆制品提供蛋白质，但加工食品通常钠含量较高。' 
+      },
+      kr: { 
+        name: '오뎅', 
+        tip: '어묵으로 단백질 공급원이지만 나트륨 함량이 높습니다.', 
+        recipes: [], 
+        gameTip: '어묵은 단백질을 제공하지만 가공식품은 일반적으로 나트륨 함량이 높습니다.' 
+      }
     },
     {
       id: 'yukgaejang',
@@ -1672,8 +1946,18 @@
       fat: 8,
       carb: 10,
       level: 'mid',
-      zh: { name: '辣牛肉汤', tip: '辣味牛肉蔬菜汤，蛋白质丰富，辛辣开胃。', recipes: [], gameTip: '辣牛肉汤是韩式辣汤代表。' },
-      kr: { name: '육개장', tip: '매콤한 소고기 채소 국으로 단백질이 풍부합니다.', recipes: [], gameTip: '육개장은 한국식 매운 국의 대표입니다.' }
+      zh: { 
+        name: '辣牛肉汤', 
+        tip: '辣味牛肉蔬菜汤，蛋白质丰富，辛辣开胃。', 
+        recipes: [], 
+        gameTip: '牛肉提供铁和蛋白质，辣味可能促进新陈代谢。' 
+      },
+      kr: { 
+        name: '육개장', 
+        tip: '매콤한 소고기 채소 국으로 단백질이 풍부합니다.', 
+        recipes: [], 
+        gameTip: '소고기는 철분과 단백질을 제공하며 매운맛은 신진대사를 촉진할 수 있습니다.' 
+      }
     },
     {
       id: 'galbi',
@@ -1684,8 +1968,18 @@
       fat: 28,
       carb: 12,
       level: 'warn',
-      zh: { name: '韩式烤排骨', tip: '腌制牛排骨，美味但高脂肪高热量。', recipes: [], gameTip: '烤排骨是韩国高级烤肉。' },
-      kr: { name: '갈비', tip: '양념한 소갈비로 맛있지만 지방과 칼로리가 높습니다.', recipes: [], gameTip: '갈비는 한국 고급 구이입니다.' }
+      zh: { 
+        name: '韩式烤排骨', 
+        tip: '腌制牛排骨，美味但高脂肪高热量。', 
+        recipes: [], 
+        gameTip: '牛肉富含蛋白质和铁，但肋骨部分脂肪含量较高。' 
+      },
+      kr: { 
+        name: '갈비', 
+        tip: '양념한 소갈비로 맛있지만 지방과 칼로리가 높습니다.', 
+        recipes: [], 
+        gameTip: '소고기는 단백질과 철분이 풍부하지만 갈비 부위는 지방 함량이 높습니다.' 
+      }
     },
     {
       id: 'kongnamul',
@@ -1696,8 +1990,18 @@
       fat: 0.5,
       carb: 5,
       level: 'good',
-      zh: { name: '凉拌豆芽', tip: '低热量高纤维，富含维生素C和蛋白质。', recipes: [], gameTip: '豆芽是韩国常见小菜。' },
-      kr: { name: '콩나물', tip: '칼로리가 낮고 섬유질이 많으며 비타민 C와 단백질이 풍부합니다.', recipes: [], gameTip: '콩나물은 한국 흔한 반찬입니다.' }
+      zh: { 
+        name: '凉拌豆芽', 
+        tip: '低热量高纤维，富含维生素C和蛋白质。', 
+        recipes: [], 
+        gameTip: '低热量、高纤维，富含维生素C和植物蛋白。' 
+      },
+      kr: { 
+        name: '콩나물', 
+        tip: '칼로리가 낮고 섬유질이 많으며 비타민 C와 단백질이 풍부합니다.', 
+        recipes: [], 
+        gameTip: '칼로리가 낮고 섬유질이 많으며 비타민 C와 식물성 단백질이 풍부합니다.' 
+      }
     },
     {
       id: 'gamjatang',
@@ -1708,8 +2012,18 @@
       fat: 20,
       carb: 15,
       level: 'warn',
-      zh: { name: '土豆脊骨汤', tip: '猪脊骨和土豆炖煮，高脂肪高热量。', recipes: [], gameTip: '土豆汤是韩式炖汤。' },
-      kr: { name: '감자탕', tip: '돼지 등뼈와 감자를 푹 고아 만든 것으로 지방과 칼로리가 높습니다.', recipes: [], gameTip: '감자탕은 한국식 찜 요리입니다.' }
+      zh: { 
+        name: '土豆脊骨汤', 
+        tip: '猪脊骨和土豆炖煮，高脂肪高热量。', 
+        recipes: [], 
+        gameTip: '猪肉提供蛋白质和B族维生素，但脂肪含量较高。' 
+      },
+      kr: { 
+        name: '감자탕', 
+        tip: '돼지 등뼈와 감자를 푹 고아 만든 것으로 지방과 칼로리가 높습니다.', 
+        recipes: [], 
+        gameTip: '돼지고기는 단백질과 B비타민을 제공하지만 지방 함량이 높습니다.' 
+      }
     },
     {
       id: 'bibim-naengmyeon',
@@ -1720,8 +2034,18 @@
       fat: 3,
       carb: 40,
       level: 'mid',
-      zh: { name: '韩式拌冷面', tip: '冷面拌辣酱，夏季清爽但碳水化合物高。', recipes: [], gameTip: '拌冷面是韩国夏季美食。' },
-      kr: { name: '비빔냉면', tip: '냉면에 매운 양념을 비벼먹는 여름 음식으로 탄수화물이 높습니다.', recipes: [], gameTip: '비빔냉면은 한국 여름 별미입니다.' }
+      zh: { 
+        name: '韩式拌冷面', 
+        tip: '冷面拌辣酱，夏季清爽但碳水化合物高。', 
+        recipes: [], 
+        gameTip: '荞麦面富含纤维和植物蛋白，注意酱料的糖分。' 
+      },
+      kr: { 
+        name: '비빔냉면', 
+        tip: '냉면에 매운 양념을 비벼먹는 여름 음식으로 탄수화물이 높습니다.', 
+        recipes: [], 
+        gameTip: '메밀면은 섬유질과 식물성 단백질이 풍부하지만 양념의 당분을 주의해야 합니다.' 
+      }
     },
     {
       id: 'sikhye',
@@ -1732,8 +2056,18 @@
       fat: 0.2,
       carb: 20,
       level: 'warn',
-      zh: { name: '传统甜米饮', tip: '发酵米饮料，含糖量较高。', recipes: [], gameTip: '甜米露是韩国传统饮品。' },
-      kr: { name: '식혜', tip: '발효 쌀 음료로 당 함량이 높습니다.', recipes: [], gameTip: '식혜는 한국 전통 음료입니다.' }
+      zh: { 
+        name: '传统甜米饮', 
+        tip: '发酵米饮料，含糖量较高。', 
+        recipes: [], 
+        gameTip: '发酵食品有助于消化，但含糖量较高需适量饮用。' 
+      },
+      kr: { 
+        name: '식혜', 
+        tip: '발효 쌀 음료로 당 함량이 높습니다.', 
+        recipes: [], 
+        gameTip: '발효식품은 소화에 도움이 되지만 당분 함량이 높으므로 적당히 마셔야 합니다.' 
+      }
     },
     {
       id: 'bingsu',
@@ -1744,8 +2078,18 @@
       fat: 8,
       carb: 65,
       level: 'warn',
-      zh: { name: '韩式刨冰', tip: '夏季甜品，高糖高热量。', recipes: [], gameTip: '刨冰是韩国夏季甜品。' },
-      kr: { name: '빙수', tip: '여름 디저트로 당과 칼로리가 높습니다.', recipes: [], gameTip: '빙수는 한국 여름 디저트입니다.' }
+      zh: { 
+        name: '韩式刨冰', 
+        tip: '夏季甜品，高糖高热量。', 
+        recipes: [], 
+        gameTip: '高糖分甜品，建议作为偶尔的享受而非日常食品。' 
+      },
+      kr: { 
+        name: '빙수', 
+        tip: '여름 디저트로 당과 칼로리가 높습니다.', 
+        recipes: [], 
+        gameTip: '당분 함량이 높은 디저트로 가끔 즐기는 음식으로 권장합니다.' 
+      }
     },
     {
       id: 'goguma',
@@ -1756,8 +2100,18 @@
       fat: 0.3,
       carb: 20,
       level: 'good',
-      zh: { name: '烤红薯', tip: '富含膳食纤维和维生素，健康的碳水化合物来源。', recipes: [], gameTip: '烤红薯是韩国冬季小吃。' },
-      kr: { name: '고구마', tip: '식이섬유와 비타민이 풍부한 건강한 탄수화물 공급원입니다.', recipes: [], gameTip: '고구마는 한국 겨울 간식입니다.' }
+      zh: { 
+        name: '烤红薯', 
+        tip: '富含膳食纤维和维生素，健康的碳水化合物来源。', 
+        recipes: [], 
+        gameTip: '富含膳食纤维和维生素A，是健康的碳水化合物选择。' 
+      },
+      kr: { 
+        name: '고구마', 
+        tip: '식이섬유와 비타민이 풍부한 건강한 탄수화물 공급원입니다.', 
+        recipes: [], 
+        gameTip: '식이섬유와 비타민 A가 풍부하여 건강한 탄수화물 선택입니다.' 
+      }
     },
     {
       id: 'soju',
@@ -1768,8 +2122,18 @@
       fat: 0,
       carb: 0,
       level: 'warn',
-      zh: { name: '韩国烧酒', tip: '蒸馏酒，高热量无营养，需适量饮用。', recipes: [], gameTip: '烧酒是韩国代表性酒类。' },
-      kr: { name: '소주', tip: '증류주로 칼로리가 높고 영양가가 없습니다. 적당히 마셔야 합니다.', recipes: [], gameTip: '소주는 한국 대표 술입니다.' }
+      zh: { 
+        name: '韩国烧酒', 
+        tip: '蒸馏酒，高热量无营养，需适量饮用。', 
+        recipes: [], 
+        gameTip: '酒精饮料，高热量无营养，建议适量饮用。' 
+      },
+      kr: { 
+        name: '소주', 
+        tip: '증류주로 칼로리가 높고 영양가가 없습니다. 적당히 마셔야 합니다.', 
+        recipes: [], 
+        gameTip: '알코올 음료로 칼로리가 높고 영양가가 없으므로 적당히 마셔야 합니다.' 
+      }
     },
     {
       id: 'makgeolli',
@@ -1780,8 +2144,18 @@
       fat: 0.5,
       carb: 15,
       level: 'mid',
-      zh: { name: '韩国米酒', tip: '发酵米酒，含益生菌但含酒精。', recipes: [], gameTip: '米酒是韩国传统发酵酒。' },
-      kr: { name: '막걸리', tip: '발효 쌀술로 유산균이 있지만 알코올이 들어 있습니다.', recipes: [], gameTip: '막걸리는 한국 전통 발효주입니다.' }
+      zh: { 
+        name: '韩国米酒', 
+        tip: '发酵米酒，含益生菌但含酒精。', 
+        recipes: [], 
+        gameTip: '发酵酒类，含益生菌但酒精含量需注意。' 
+      },
+      kr: { 
+        name: '막걸리', 
+        tip: '발효 쌀술로 유산균이 있지만 알코올이 들어 있습니다.', 
+        recipes: [], 
+        gameTip: '발효주로 프로바이오틱스가 있지만 알코올 함량을 주의해야 합니다.' 
+      }
     },
     {
       id: 'yangnyeom-chicken',
@@ -1792,8 +2166,18 @@
       fat: 25,
       carb: 30,
       level: 'warn',
-      zh: { name: '韩式炸鸡', tip: '油炸鸡肉裹甜辣酱，高脂肪高热量。', recipes: [], gameTip: '炸鸡是韩国流行食品。' },
-      kr: { name: '양념치킨', tip: '튀긴 닭에 달콤매콤한 양념을 바른 것으로 지방과 칼로리가 높습니다.', recipes: [], gameTip: '치킨은 한국 인기 음식입니다.' }
+      zh: { 
+        name: '韩式炸鸡', 
+        tip: '油炸鸡肉裹甜辣酱，高脂肪高热量。', 
+        recipes: [], 
+        gameTip: '鸡肉是蛋白质来源，但油炸和甜酱大大增加了热量。' 
+      },
+      kr: { 
+        name: '양념치킨', 
+        tip: '튀긴 닭에 달콤매콤한 양념을 바른 것으로 지방과 칼로리가 높습니다.', 
+        recipes: [], 
+        gameTip: '닭고기는 단백질 공급원이지만 튀김과 단맛 양념으로 칼로리가 크게 증가합니다.' 
+      }
     },
     {
       id: 'kkaennip',
@@ -1804,8 +2188,18 @@
       fat: 0.5,
       carb: 4,
       level: 'good',
-      zh: { name: '紫苏叶', tip: '富含维生素和矿物质，常用作包肉蔬菜。', recipes: [], gameTip: '紫苏叶是韩国包肉蔬菜。' },
-      kr: { name: '깻잎', tip: '비타민과 미네랄이 풍부하며 고기 싸먹는 채소로 사용됩니다.', recipes: [], gameTip: '깻잎은 한국 고기 싸먹는 채소입니다.' }
+      zh: { 
+        name: '紫苏叶', 
+        tip: '富含维生素和矿物质，常用作包肉蔬菜。', 
+        recipes: [], 
+        gameTip: '富含维生素和矿物质，低热量高营养的绿叶蔬菜。' 
+      },
+      kr: { 
+        name: '깻잎', 
+        tip: '비타민과 미네랄이 풍부하며 고기 싸먹는 채소로 사용됩니다.', 
+        recipes: [], 
+        gameTip: '비타민과 미네랄이 풍부하고 칼로리가 낮은 녹색 잎채소입니다.' 
+      }
     },
     {
       id: 'myeolchi',
@@ -1816,8 +2210,18 @@
       fat: 1.5,
       carb: 0,
       level: 'good',
-      zh: { name: '小鱼干', tip: '高钙高蛋白，常用作小菜或汤底。', recipes: [], gameTip: '小鱼干是韩国常见食材。' },
-      kr: { name: '멸치', tip: '칼슘과 단백질이 풍부하며 반찬이나 국물 재료로 사용됩니다.', recipes: [], gameTip: '멸치는 한국 흔한 식재료입니다.' }
+      zh: { 
+        name: '小鱼干', 
+        tip: '高钙高蛋白，常用作小菜或汤底。', 
+        recipes: [], 
+        gameTip: '富含钙质和蛋白质，是良好的矿物质来源。' 
+      },
+      kr: { 
+        name: '멸치', 
+        tip: '칼슘과 단백질이 풍부하며 반찬이나 국물 재료로 사용됩니다.', 
+        recipes: [], 
+        gameTip: '칼슘과 단백질이 풍부하여 좋은 미네랄 공급원입니다.' 
+      }
     },
     {
       id: 'dakbal',
@@ -1828,8 +2232,18 @@
       fat: 12,
       carb: 5,
       level: 'mid',
-      zh: { name: '辣鸡爪', tip: '辣味鸡爪，蛋白质丰富但钠含量高。', recipes: [], gameTip: '辣鸡爪是韩国下酒菜。' },
-      kr: { name: '닭발', tip: '매콤한 닭발 요리로 단백질이 풍부하지만 나트륨 함량이 높습니다.', recipes: [], gameTip: '닭발은 한국 안주입니다.' }
+      zh: { 
+        name: '辣鸡爪', 
+        tip: '辣味鸡爪，蛋白质丰富但钠含量高。', 
+        recipes: [], 
+        gameTip: '鸡爪富含胶原蛋白，但通常调味较重钠含量高。' 
+      },
+      kr: { 
+        name: '닭발', 
+        tip: '매콤한 닭발 요리로 단백질이 풍부하지만 나트륨 함량이 높습니다.', 
+        recipes: [], 
+        gameTip: '닭발은 콜라겐이 풍부하지만 일반적으로 양념이 강해 나트륨 함량이 높습니다.' 
+      }
     },
     {
       id: 'gujeolpan',
@@ -1840,8 +2254,18 @@
       fat: 10,
       carb: 35,
       level: 'mid',
-      zh: { name: '九折板', tip: '传统宫廷菜，多种食材分开摆放，营养均衡。', recipes: [], gameTip: '九折板是韩国宫廷料理。' },
-      kr: { name: '구절판', tip: '전통 궁중 음식으로 다양한 재료를 따로 담아 영양 균형이 좋습니다.', recipes: [], gameTip: '구절판은 한국 궁중 요리입니다.' }
+      zh: { 
+        name: '九折板', 
+        tip: '传统宫廷菜，多种食材分开摆放，营养均衡。', 
+        recipes: [], 
+        gameTip: '多种食材提供均衡营养，但分量需控制。' 
+      },
+      kr: { 
+        name: '구절판', 
+        tip: '전통 궁중 음식으로 다양한 재료를 따로 담아 영양 균형이 좋습니다.', 
+        recipes: [], 
+        gameTip: '다양한 재료가 균형 잡힌 영양을 제공하지만 양을 조절해야 합니다.' 
+      }
     },
     {
       id: 'hobak',
@@ -1852,8 +2276,18 @@
       fat: 2,
       carb: 22,
       level: 'good',
-      zh: { name: '南瓜粥', tip: '南瓜制作的粥，富含β-胡萝卜素，易消化。', recipes: [], gameTip: '南瓜粥是韩国传统粥品。' },
-      kr: { name: '호박죽', tip: '호박으로 만든 죽으로 베타카로틴이 풍부하고 소화가 잘 됩니다.', recipes: [], gameTip: '호박죽은 한국 전통 죽입니다.' }
+      zh: { 
+        name: '南瓜粥', 
+        tip: '南瓜制作的粥，富含β-胡萝卜素，易消化。', 
+        recipes: [], 
+        gameTip: '南瓜富含β-胡萝卜素，对眼睛和皮肤健康有益。' 
+      },
+      kr: { 
+        name: '호박죽', 
+        tip: '호박으로 만든 죽으로 베타카로틴이 풍부하고 소화가 잘 됩니다.', 
+        recipes: [], 
+        gameTip: '호박은 베타카로틴이 풍부하여 눈과 피부 건강에 좋습니다.' 
+      }
     }
   ];
 
@@ -1951,8 +2385,10 @@
     renderFoodRanking() {
       if (!foodRankingList) return;
       
+      const t = TEXTS[currentLang];
+      
       if (this.foodRanking.length === 0) {
-        foodRankingList.innerHTML = '<li class="empty-hint">还没有搜索数据</li>';
+        foodRankingList.innerHTML = `<li class="empty-hint">${t.noRankingData || '데이터 없음'}</li>`;
         return;
       }
       
@@ -1962,7 +2398,7 @@
             <span class="rank-number">${index + 1}</span>
             <span>${item.name}</span>
           </span>
-          <span style="color: var(--accent-blue); font-weight: bold;">${item.count}次</span>
+          <span style="color: var(--accent-blue); font-weight: bold;">${item.count}${t.times || '회'}</span>
         </li>
       `).join('');
     }
@@ -1970,8 +2406,10 @@
     renderGameRanking() {
       if (!gameRankingList) return;
       
+      const t = TEXTS[currentLang];
+      
       if (this.gameRanking.length === 0) {
-        gameRankingList.innerHTML = '<li class="empty-hint">还没有游戏数据</li>';
+        gameRankingList.innerHTML = `<li class="empty-hint">${t.noRankingData || '데이터 없음'}</li>`;
         return;
       }
       
@@ -1982,7 +2420,7 @@
             <span>${item.user}</span>
           </span>
           <span>
-            <span style="color: var(--accent-blue); font-weight: bold; margin-right: 8px;">${item.score}分</span>
+            <span style="color: var(--accent-blue); font-weight: bold; margin-right: 8px;">${item.score}${t.points || '점'}</span>
             <span style="font-size: 11px; color: var(--text-sub);">Lv.${item.level}</span>
           </span>
         </li>
@@ -1990,12 +2428,13 @@
     }
     
     getMyRanks(userName) {
-      let myFoodRank = '暂无';
-      let myGameRank = '暂无';
+      const t = TEXTS[currentLang];
+      let myFoodRank = t.noRankingData || '데이터 없음';
+      let myGameRank = t.noRankingData || '데이터 없음';
       
       const gameIndex = this.gameRanking.findIndex(item => item.user === userName);
       if (gameIndex !== -1) {
-        myGameRank = `第${gameIndex + 1}名`;
+        myGameRank = `${gameIndex + 1}위`;
       }
       
       return { myFoodRank, myGameRank };
@@ -2076,6 +2515,18 @@
 
     // 查询页 & 统计页文本
     if (foodInput) foodInput.placeholder = t.searchPlaceholder;
+    if (searchBtn) searchBtn.textContent = t.searchBtn;
+
+    // 营养标签
+    const calorieLabelEl = document.getElementById('calorieLabel');
+    const proteinLabelEl = document.getElementById('proteinLabel');
+    const fatLabelEl = document.getElementById('fatLabel');
+    const carbLabelEl = document.getElementById('carbLabel');
+    
+    if (calorieLabelEl) calorieLabelEl.textContent = t.calorieLabel;
+    if (proteinLabelEl) proteinLabelEl.textContent = t.proteinLabel;
+    if (fatLabelEl)     fatLabelEl.textContent     = t.fatLabel;
+    if (carbLabelEl)    carbLabelEl.textContent    = t.carbLabel;
 
     if (statsTitleEl)  statsTitleEl.textContent  = t.statsTitle;
     if (statsDescEl)   statsDescEl.textContent   = t.statsDesc;
@@ -2084,6 +2535,17 @@
     if (statHealthyLabelEl) statHealthyLabelEl.textContent = t.statHealthyLabel;
     if (statWarningLabelEl) statWarningLabelEl.textContent = t.statWarningLabel;
 
+    // 排行榜标题
+    if (foodRankingTitle) foodRankingTitle.textContent = t.foodRankingTitle;
+    if (gameRankingTitle) gameRankingTitle.textContent = t.gameRankingTitle;
+    if (myRankingTitle)   myRankingTitle.textContent   = t.myRankingTitle;
+    if (foodRankingText)  foodRankingText.textContent  = t.foodRankingText;
+    if (gameRankingText)  gameRankingText.textContent  = t.gameRankingText;
+
+    // 其他
+    if (recipeTitle)    recipeTitle.textContent   = t.recipeTitle;
+    if (emptyHintEl)    emptyHintEl.textContent   = t.emptyHint;
+
     // 游戏页文本
     if (gameInfoText)   gameInfoText.textContent  = t.gameInfo;
     if (gameLevelText) {
@@ -2091,10 +2553,10 @@
     }
     if (gameStartBtn)   gameStartBtn.textContent  = t.gameStart;
     if (gameHelpBtn)    gameHelpBtn.textContent   = t.gameHelp;
-    if (timerTextEl) {
+    if (timerTextEl && timeLeft !== undefined) {
       timerTextEl.textContent = t.timerPrefix + timeLeft + t.timerSuffix;
     }
-    if (matchCountText) {
+    if (matchCountText && matchedPairs !== undefined) {
       matchCountText.textContent = t.matchPrefix + matchedPairs + t.matchSuffix;
     }
 
@@ -2102,10 +2564,6 @@
     if (modalState && gameModal && gameModal.style.display !== 'none') {
       setModalContent(modalState);
     }
-
-    // 其他
-    if (recipeTitle)    recipeTitle.textContent   = t.recipeTitle;
-    if (emptyHintEl)    emptyHintEl.textContent   = t.emptyHint;
   }
 
   function setLanguage (lang) {
@@ -2113,6 +2571,8 @@
     if (langZhBtn) langZhBtn.classList.toggle('active', currentLang === 'zh');
     if (langKrBtn) langKrBtn.classList.toggle('active', currentLang === 'kr');
     applyLanguage();
+    // 更新我的排名显示
+    updateMyRankDisplay();
   }
 
   if (langZhBtn && langKrBtn) {
@@ -2140,6 +2600,8 @@
       if (sideUserLine) {
         sideUserLine.innerHTML = '<strong>' + name + '</strong>';
       }
+      // 更新我的排名显示
+      updateMyRankDisplay();
     });
   }
 
@@ -2163,6 +2625,14 @@
         sec.classList.remove('active');
       }
     });
+    navItems.forEach(item => {
+      if (item.getAttribute('data-target') === id) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+    
     currentSection = id;
     updateContentHeader(id);
 
@@ -2182,8 +2652,6 @@
 
   navItems.forEach(item => {
     item.addEventListener('click', () => {
-      navItems.forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
       const target = item.getAttribute('data-target');
       if (target) showSection(target);
     });
@@ -2232,10 +2700,12 @@
       `;
     }
 
-    if (calorieValue) calorieValue.textContent = food.kcal + ' kcal';
-    if (proteinValue) proteinValue.textContent = food.protein + ' g';
-    if (fatValue)     fatValue.textContent     = food.fat + ' g';
-    if (carbValue)    carbValue.textContent    = food.carb + ' g';
+    const t = TEXTS[currentLang];
+    
+    if (calorieValue) calorieValue.textContent = food.kcal + ' ' + t.kcal;
+    if (proteinValue) proteinValue.textContent = food.protein + ' ' + t.grams;
+    if (fatValue)     fatValue.textContent     = food.fat + ' ' + t.grams;
+    if (carbValue)    carbValue.textContent    = food.carb + ' ' + t.grams;
     if (healthTipEl)  healthTipEl.textContent  = lang.tip;
 
     if (recipeList) {
@@ -2259,10 +2729,12 @@
     if (food.level === 'good') healthyCount += 1;
     if (food.level === 'warn') warningCount += 1;
 
+    const t = TEXTS[currentLang];
+    
     if (statSearchCountEl) statSearchCountEl.textContent = String(searchCount);
     if (statAvgCalEl) {
       const avg = searchCount ? (sumCal / searchCount).toFixed(1) : 0;
-      statAvgCalEl.textContent = avg + ' kcal';
+      statAvgCalEl.textContent = avg + ' ' + t.kcal;
     }
     if (statHealthyCountEl) statHealthyCountEl.textContent = String(healthyCount);
     if (statWarningCountEl) statWarningCountEl.textContent = String(warningCount);
@@ -2295,6 +2767,7 @@
     }
     renderFood(food);
     updateStats(food);
+    updateMyRankDisplay();
   }
 
   if (searchBtn && foodInput) {
@@ -2312,6 +2785,7 @@
       if (food) {
         renderFood(food);
         updateStats(food);
+        updateMyRankDisplay();
       } else {
         handleSearch();
       }
@@ -2400,6 +2874,8 @@
       gameBoard.appendChild(div);
       grid[r][c] = { id, el: div };
     });
+    
+    totalPairs = 12; // 24张卡片 = 12对
   }
 
   function startTimer () {
@@ -2512,7 +2988,7 @@
           matchCountText.textContent = t.matchPrefix + matchedPairs + t.matchSuffix;
         }
 
-        if (matchedPairs >= 12) { // 12对 = 24张卡片
+        if (matchedPairs >= totalPairs) {
           gameRunning = false;
           if (timerId) clearInterval(timerId);
           
